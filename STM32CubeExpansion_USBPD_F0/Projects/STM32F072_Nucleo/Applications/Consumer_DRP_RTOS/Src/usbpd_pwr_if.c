@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_pwr_if.c
   * @author  System Lab
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   This file contains power interface control functions.
   ******************************************************************************
   * @attention

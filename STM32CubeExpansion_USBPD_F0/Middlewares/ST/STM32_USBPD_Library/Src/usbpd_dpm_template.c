@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_dpm_template.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   USBPD provider demo template file.
   *		     This file should be copied to the application folder and modified 
   *          as follows:

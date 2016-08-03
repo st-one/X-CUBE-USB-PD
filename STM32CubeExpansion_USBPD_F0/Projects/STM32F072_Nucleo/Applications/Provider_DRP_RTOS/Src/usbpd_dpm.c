@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -102,7 +102,7 @@ USBPD_StatusTypeDef USBPD_DPM_Init(void)
   
   for (index = 0; index<USBPD_PORT_COUNT; index++)
   {
-    DPM_Ports[index].PortPowerRole = USBPD_PORTPOWERROLE_DRP_SRC;
+    DPM_Ports[index].DPM_PortPowerRole = USBPD_PORTPOWERROLE_DRP_SRC;
   }
   
   /* Led management initialization */
@@ -115,12 +115,15 @@ USBPD_StatusTypeDef USBPD_DPM_Init(void)
 #endif /* USBPD_LED_SERVER */
   
   /* PWR SET UP */
-  USBPD_PWR_IF_Init(DPM_Ports[0].ListOfPDO,&DPM_Ports[0].NumberOfPDO);
+  USBPD_PWR_IF_Init(DPM_Ports[0].DPM_ListOfPDO, &DPM_Ports[0].DPM_NumberOfPDO);
   USBPD_PWR_IF_PowerResetGlobal();
   
   /* PE SET UP */
-  USBPD_PE_Init(0, DPM_Ports[0].PortPowerRole, dpmCallbacks);
-  USBPD_PE_AddPowerProfile(0, DPM_Ports[0].ListOfPDO, DPM_Ports[0].NumberOfPDO);
+  USBPD_PE_Init(0, DPM_Ports[0].DPM_PortPowerRole, dpmCallbacks);
+  
+  /* Add port profiles */
+  USBPD_PE_SetPowerProfile(0, DPM_Ports[0].DPM_ListOfPDO, DPM_Ports[0].DPM_NumberOfPDO);
+  USBPD_PE_SetSNKRequiredPower(0, USBPD_BOARD_MAX_CURRENT_MA, USBPD_BOARD_REQUESTED_VOLTAGE_MV, USBPD_BOARD_MAX_VOLTAGE_MV, USBPD_BOARD_MIN_VOLTAGE_MV);
   
   /* CAD SET UP */
   USBPD_CAD_Init(0, USBPD_PORTPOWERROLE_SRC, CAD_cbs);
@@ -128,7 +131,7 @@ USBPD_StatusTypeDef USBPD_DPM_Init(void)
   /* Enable CAD on both port */
   USBPD_CAD_PortEnable(0, USBPD_CAD_ENABLE);
   
-  osThreadDef(CADTask, USBPD_CAD_Task, osPriorityLow, 0, configMINIMAL_STACK_SIZE);
+  osThreadDef(CADTask, USBPD_CAD_Task, osPriorityLow, 0, configMINIMAL_STACK_SIZE * 2);
   CADTaskHandle = osThreadCreate(osThread(CADTask), NULL);
   
   osThreadDef(PETask, USBPD_PE_Task, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
@@ -201,7 +204,7 @@ void USBPD_CAD_Callback(uint8_t hport, USBPD_CAD_STATE State, CCxPin_TypeDef Cc)
       /* Enable VCONN*/
       USBPD_PWR_IF_Enable_VConn(hport, Cc);
       
-      DPM_Ports[hport].IsConnected = 1;
+      DPM_Ports[hport].DPM_IsConnected = 1;
       
       /* Led feedback */
 #ifdef USBPD_LED_SERVER
@@ -213,7 +216,7 @@ void USBPD_CAD_Callback(uint8_t hport, USBPD_CAD_STATE State, CCxPin_TypeDef Cc)
       
     case USBPD_CAD_STATE_EMC:
       /* If this is coming from a previous connection*/
-      if (DPM_Ports[hport].IsConnected)
+      if (DPM_Ports[hport].DPM_IsConnected)
       {
         /* Disable VBUS */
         USBPD_PWR_IF_Enable(hport, DISABLE);
@@ -230,7 +233,7 @@ void USBPD_CAD_Callback(uint8_t hport, USBPD_CAD_STATE State, CCxPin_TypeDef Cc)
         /* The ufp is detached */
         USBPD_PE_IsCableConnected(hport, 0);
         osThreadSuspend(PETaskHandle);
-        DPM_Ports[hport].IsConnected = 0;
+        DPM_Ports[hport].DPM_IsConnected = 0;
       }
       
       /* Led feedback */
@@ -250,7 +253,7 @@ void USBPD_CAD_Callback(uint8_t hport, USBPD_CAD_STATE State, CCxPin_TypeDef Cc)
       /* The ufp is detached */
       USBPD_PE_IsCableConnected(hport, 0);
       osThreadSuspend(PETaskHandle);
-      DPM_Ports[hport].IsConnected = 0;
+      DPM_Ports[hport].DPM_IsConnected = 0;
       
       /* Led feedback */
 #ifdef USBPD_LED_SERVER      
@@ -360,7 +363,7 @@ static void USBPD_DPM_AssertRp(uint8_t hport)
 #endif /* USBPD_LED_SERVER */
   
   /* Set the new power role */
-  DPM_Ports[hport].PortPowerRole = USBPD_PORTPOWERROLE_DRP_SRC;
+  DPM_Ports[hport].DPM_PortPowerRole = USBPD_PORTPOWERROLE_DRP_SRC;
 }
 
 
@@ -378,7 +381,7 @@ static void USBPD_DPM_AssertRd(uint8_t hport)
 #endif /* USBPD_LED_SERVER */
   
   /* Set the new power role */
-  DPM_Ports[hport].PortPowerRole = USBPD_PORTPOWERROLE_DRP_SNK;
+  DPM_Ports[hport].DPM_PortPowerRole = USBPD_PORTPOWERROLE_DRP_SNK;
 }
 
 

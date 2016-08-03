@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_dpm.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   Header file for usbpd_dpm.c file
   ******************************************************************************
   * @attention
@@ -66,14 +66,15 @@
   */
 typedef struct
 {
-  uint32_t                      ListOfPDO[USBPD_MAX_NB_PDO];              /*!< The list of Power Data Objects depending on the current port power role, Source or Sink:
-                                                                               Acting as a Source: The list of supported Power Data Objects
-                                                                               Acting as a Sink: The list of received power data objects from the Source                  */
-  uint8_t                       NumberOfPDO;                              /*!< The number of Power Data Objects
-                                                                               This parameter must be set to a value lower than USBPD_MAX_NB_PDO                          */
-  __IO uint32_t                 ErrorCode;                                /*!< USB PD Error code                                                                          */
-  __IO uint8_t                  IsConnected;                              /*!< USB PD connection state                                                                    */
-  USBPD_PortPowerRole_TypeDef   PortPowerRole;                            /*!< USB PD current port power role, Sink or Source                                             */
+  uint32_t                      DPM_ListOfPDO[USBPD_MAX_NB_PDO];         /*!< The list of supported Power Data Objects by the current port         */
+  uint8_t                       DPM_NumberOfPDO;                         /*!< The number of supported Power Data Objects
+                                                                              This parameter must be set to a value lower than USBPD_MAX_NB_PDO    */
+  uint32_t                      DPM_ListOfRcvPDO[USBPD_MAX_NB_PDO];      /*!< The list of received Power Data Objects from the port Partner        */
+  uint32_t                      DPM_NumberOfRcvPDO;                      /*!< The number of received Power Data Objects from the port Partner
+                                                                              This parameter must be set to a value lower than USBPD_MAX_NB_PDO    */
+  __IO uint32_t                 DPM_ErrorCode;                           /*!< USB PD Error code                                                    */
+  __IO uint8_t                  DPM_IsConnected;                         /*!< USB PD connection state                                              */
+  USBPD_PortPowerRole_TypeDef   DPM_PortPowerRole;                       /*!< USB PD current port power role, Sink or Source                       */
 }USBPD_HandleTypeDef;
 
 /* Exported define -----------------------------------------------------------*/

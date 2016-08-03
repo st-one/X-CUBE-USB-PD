@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_pwr_if.c
   * @author  System Lab
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   This file contains power interface control functions.
   ******************************************************************************
   * @attention
@@ -71,7 +71,7 @@ uint32_t _PWR_BatteryPDO(float _MAXV_,float _MINV_,float _PWR_);
 /* Private functions ---------------------------------------------------------*/
 
 /**
-  * @brief  Initialize the power supply board
+* @brief  Initialize the power board profiles, used by Sink and Source
   * @param  SrcPDO: Pointer to Power Data Objects provided by the Power Board
   * @param  nPDO: Number of supported Power Data Objects
   * @retval USBPD status
@@ -85,7 +85,7 @@ USBPD_StatusTypeDef USBPD_PWR_IF_Init(uint32_t* SrcPDO, uint8_t* nPDO)
    * USER should add here profiles provided by the
    * External Power Supply Board 
    * */
-  PWR_SrcPDO[0] = _PWR_FixexPDO(5, 3, PeakEqual, ExtPowerOn);
+  PWR_SrcPDO[0] = _PWR_FixexPDO(USBPD_BOARD_REQUESTED_VOLTAGE_MV, USBPD_BOARD_MAX_CURRENT_MA, PeakEqual, ExtPowerOn);
   
   /* Copy the PDO to DPM */
   for(index=0;index<SOURCEPDO;index++)

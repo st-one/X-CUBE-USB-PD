@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_conf.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   This file contains general configuration
   ******************************************************************************
   * @attention
@@ -94,10 +94,7 @@
 #define USBPD_LED_SERVER
 
 /* Define board operating power and max power */
-/* Request 5V and 500mA */
-#define USBPD_BOARD_OPERATING_POWER_MW         2500
-#define USBPD_BOARD_MAX_POWER_MW               2500
-
+/* Request 5V and 500mA in sink mode */
 #define USBPD_BOARD_REQUESTED_VOLTAGE_MV       5000
 #define USBPD_BOARD_MIN_VOLTAGE_MV             5000
 #define USBPD_BOARD_MAX_VOLTAGE_MV             5000

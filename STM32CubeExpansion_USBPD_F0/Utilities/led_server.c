@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    led_server.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   LED server file provides services to control the LEDs in order to 
   *          show current status and error messages.
   ******************************************************************************
@@ -50,9 +50,9 @@
 #include "led_server.h"
 #include "stm32f0xx_nucleo.h"
 #include "p-nucleo-usb001.h"
-#include "cmsis_os.h"
 
 #ifdef USBPD_LED_SERVER
+#include "cmsis_os.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_hw_if.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   This file contains the headers of usbpd_hw_if.h for USB-PD Hardwer 
              Interface layer. This file is specific for each device.
   ******************************************************************************
@@ -210,18 +210,32 @@
 #define CC2_INDEX(__PORT__)		    ((__PORT__ == 0) ? 5 : 4 )
 #endif
 
+/* NEW CAD DEFS */
+#ifdef USBPD_SOURCE_ADV_Def_USB
+#define threshold_vRa    200           /**< SRC vRa port 1 threshold = 0.2V  Default USB */
+#define threshold_vRd    1600          /**< SRC vRd port 1 threshold = 1.6V  Default USB */
+#else
+#ifdef USBPD_SOURCE_ADV_1_5A_5V
+#define threshold_vRa    400           /**< SRC vRa port 1 threshold = 0.4V  1.5 A @ 5 V */
+#define threshold_vRd    1600          /**< SRC vRd port 1 threshold = 1.6V  1.5 A @ 5 V */
+#else
+#define threshold_vRa    800           /**< SRC vRa port 1 threshold = 0.8V  3.0 A @ 5 V */
+#define threshold_vRd    2600          /**< SRC vRd port 1 threshold = 2.6V  3.0 A @ 5 V */
+#endif
+#endif
 
 #define CAD_threshold_SNK_vRd_USB               MV2ADC(200)     /**< SNK vRd threshold = 0.2V  - USB default */
 #define CAD_threshold_SNK_vRd_1_5A              MV2ADC(660)     /**< SNK vRd threshold = 0.66V  - 5V 1.5A */ 
 #define CAD_threshold_SNK_vRd_3_0A              MV2ADC(1230)    /**< SNK vRd threshold = 1.23V  - 5V 3.0A */ 
 
-#define CAD_threshold_SRC_vRa_5V_3A             MV2ADC(800)     /**< SRC vRa threshold = 0.8V  - 5V 3.0A */
-#define CAD_threshold_SRC_vRd_5V_3A             MV2ADC(2600)    /**< SRC vRd threshold = 2.6V  - 5V 3.0A */
+#define CAD_threshold_SRC_vRa                   MV2ADC(threshold_vRa)   /**< SRC vRa threshold */
+#define CAD_threshold_SRC_vRd                   MV2ADC(threshold_vRd)   /**< SRC vRd threshold */
    
 #define CAD_tPDDebounce_threshold               20              /**< tPDDebounce threshold = 20ms  */   
 #define CAD_tCCDebounce_threshold               100             /**< tCCDebounce threshold = 100ms  */
    
 #define CAD_threshold_VBus                      MV2ADC(500)     /**< Vbus Threshold **/
+/* END OF NEW CAD DEFS */
 
 #define BIST_MAX_LENGTH                        (BIST_CARRIER_MODE_MS*600)/(TX_BUFFER_LEN*32)
 

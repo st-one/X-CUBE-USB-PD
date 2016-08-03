@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_hal_msp_template.c
   * @author  System Lab
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   This file contains HW interface MSP functions template file.
   *          This file should be copied to the application folder and modified 
   *          as follows:

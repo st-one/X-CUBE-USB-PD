@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_conf.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   This file contains general configuration
   ******************************************************************************
   * @attention
@@ -85,23 +85,13 @@
 #define USBPD_USED_PORT         0  /* uncomment this define to use Port0 */
 
 /* Uncomment this define to allow sending Ping message when an Explicit Contract is established */
-//#define USBPD_SEND_PING_MSG
+/* #define USBPD_SEND_PING_MSG */
 
 /* Uncomment this define to allow Hard Reset if SRC_Capabilities are sent PE_NCAPSCOUNT times without answer */
-//#define USBPD_PE_NCAPSCOUNT_HR
+/* #define USBPD_PE_NCAPSCOUNT_HR */
 
 /* Uncomment this define to use the led server functionalities */
 #define USBPD_LED_SERVER
-
-/* Define board operating power and max power: this is needed for DRP mode */
-#define USBPD_BOARD_OPERATING_POWER_MW         2500
-#define USBPD_BOARD_MAX_POWER_MW               2900
-
-#define USBPD_BOARD_REQUESTED_VOLTAGE_MV       5000
-#define USBPD_BOARD_MIN_VOLTAGE_MV             5000
-#define USBPD_BOARD_MAX_VOLTAGE_MV             5800
-
-#define USBPD_BOARD_MAX_CURRENT_MA             500
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported variables --------------------------------------------------------*/

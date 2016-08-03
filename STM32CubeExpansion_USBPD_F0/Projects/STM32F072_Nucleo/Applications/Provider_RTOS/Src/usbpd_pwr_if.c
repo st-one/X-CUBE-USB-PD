@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_pwr_if.c
   * @author  System Lab
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   This file contains power interface control functions.
   ******************************************************************************
   * @attention
@@ -50,7 +50,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define SOURCEPDO       1   /* Number of Surce PDO */
+#define SOURCEPDO       4   /* Number of Surce PDO */
 #define SINKPDO         0   /* Number of Sink PDO  */
 
 /* Private macro -------------------------------------------------------------*/
@@ -81,12 +81,15 @@ USBPD_StatusTypeDef USBPD_PWR_IF_Init(uint32_t* SrcPDO, uint8_t* nPDO)
 {
   uint8_t index = 0;
   
-  /* Create the PDO. 
-   *
+  /* Create the PDO:
    * USER should add here profiles provided by the
-   * External Power Supply Board 
-   * */
+   * External Power Supply Board
+   * !!!! These profiles are dummy and used only for demo purpose !!!!!
+   */
   PWR_SrcPDO[0] = _PWR_FixexPDO(5, 3, PeakEqual, ExtPowerOn);
+  PWR_SrcPDO[1] = _PWR_FixexPDO(9, 3, PeakEqual, ExtPowerOff);
+  PWR_SrcPDO[2] = _PWR_FixexPDO(12, 3, PeakEqual, ExtPowerOff);
+  PWR_SrcPDO[3] = _PWR_FixexPDO(20, 3, PeakEqual, ExtPowerOff);
   
   /* Copy the PDO to DPM */
   for(index=0;index<SOURCEPDO;index++)

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_pe.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.1.0
+  * @date    22-June-2016
   * @brief   Header file of Policy Engine module.
   ******************************************************************************
   * @attention
@@ -333,15 +333,19 @@ typedef struct
   */
 
 
-/** @defgroup USBPD_VoltgeReq_TypeDef USB PD Voltage Request Type structure definition
-  * @brief  USB PD Voltage Request Type structure definition
+/** @defgroup USBPD_SNKFixedRaquest_TypeDef PE Sink requested power profile Structure definition
+  * @brief  PE Sink requested power profile Structure definition
   * @{
   */
-typedef enum
+typedef struct
 {
-  USBPD_REQUEST_VSAFE5V                  = 0x01,  /*!< Request vSafe5V voltage         */
-  USBPD_REQUEST_MAX_VOLTAGE              = 0x02   /*!< Request the maximum voltage     */
-}USBPD_VoltgeReq_TypeDef;
+  uint32_t MaxOperatingCurrentInmAunits;           /*!< Sink board Max operating current in mA units   */
+  uint32_t OperatingVoltageInmVunits;              /*!< Sink board operating voltage in mV units       */
+  uint32_t MaxOperatingVoltageInmVunits;           /*!< Sink board Max operating voltage in mV units   */
+  uint32_t MinOperatingVoltageInmVunits;           /*!< Sink board Min operating voltage in mV units   */
+  uint32_t OperatingPowerInmWunits;                /*!< Sink board operating power in mW units         */
+  uint32_t MaxOperatingPowerInmWunits;             /*!< Sink board Max operating power in mW units     */
+}USBPD_SNKPowerRequest_TypeDef;
 /** 
   * @}
   */
@@ -382,6 +386,7 @@ typedef struct
   uint32_t                        PE_NumberOfPDO;                         /*!< The number of supported Power Data Objects                                           
                                                                                This parameter must be set to a value lower than USBPD_MAX_NB_PDO                    */
   uint32_t                        PE_RequestDOMsg;                        /*!< Request Power Data Object message to be sent                                         */
+  USBPD_SNKPowerRequest_TypeDef   PE_SNKRequestedPower;                   /*!< Request Power by the sink board                                                      */
   
   uint32_t                        PE_ListOfRcvPDO[USBPD_MAX_NB_PDO];      /*!< The list of received Power Data Objects from the port Partner                        */
   uint32_t                        PE_NumberOfRcvPDO;                      /*!< The number of received Power Data Objects from the port Partner                      
@@ -410,7 +415,6 @@ typedef struct
   
   __IO uint8_t                    PE_SNKRDOPosition;                      /*!< The position of the requested power data object by sink port                         */
   
-  USBPD_VoltgeReq_TypeDef         PE_VoltgeReqType;                       /*!< Requested voltage Type                                                               */
   __IO uint32_t                   PE_ErrorCode;                           /*!< USB PD Error code                                                                    */
   USBPD_PortPowerRole_TypeDef     PE_PortPowerRole;                       /*!< USB PD current port power role, Sink or Source                                       */
   USBPD_PortDataRole_TypeDef      PE_PortDataRole;                        /*!< USB PD current port Data role, DFP or UFP                                            */
@@ -425,6 +429,7 @@ typedef struct
   uint8_t                         PE_TxBuffer[USBPD_MAX_RX_BUFFER_SIZE];  /*!< USB PD buffer used for transmission                                                  */
   uint8_t                         PE_TxXferSize;                          /*!< Tx transfer size, must be lower than USBPD_MAX_TX_BUFFER_SIZE                        */
   USBPD_PE_Callbacks              PE_Callbacks;                           /*!< CallBacks exposed by the PE to the  DMP                                              */
+  uint8_t                         PE_CurrentPortNumber;                   /*!< The current used port number                                                         */
 }USBPD_PE_HandleTypeDef;
 /** 
   * @}
@@ -445,7 +450,9 @@ void USBPD_PE_SRCProcess(uint8_t portnum);
 void USBPD_PE_SNKProcess(uint8_t portnum);
 void USBPD_PE_DRPProcess(uint8_t portnum);
 void USBPD_PE_RxProcess(uint8_t portnum, USBPD_MsgType_TypeDef msgtype);
-USBPD_StatusTypeDef USBPD_PE_AddPowerProfile(uint8_t portnum, uint32_t *pPDO, uint32_t nbpdo);
+USBPD_StatusTypeDef USBPD_PE_SetPowerProfile(uint8_t portnum, uint32_t *pPDO, uint32_t nbpdo);
+USBPD_StatusTypeDef USBPD_PE_SetSNKRequiredPower(uint8_t portnum, uint32_t current, uint32_t voltage, uint32_t maxvoltage, uint32_t minvoltage);
+USBPD_StatusTypeDef USBPD_PE_GetReceivedPowerProfile(uint8_t portnum, uint32_t *pPDO, uint32_t *nbpdo);
 USBPD_PortPowerRole_TypeDef USBPD_PE_GetPowerRole(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_PortPowerRole_TypeDef USBPD_PE_DefaultPortPowerRolee(USBPD_PE_HandleTypeDef *pdhandle);
 void USBPD_PE_ChangePowerRole(USBPD_PE_HandleTypeDef *pdhandle, USBPD_PortPowerRole_TypeDef newrole);
@@ -458,6 +465,9 @@ void USBPD_PE_TimerProcess(uint8_t portnum);
 /*******************************************************************************
                               Power Negotiation
 *******************************************************************************/
+/* Send Control messages */
+USBPD_StatusTypeDef USBPD_PE_SendControlMsg(USBPD_PE_HandleTypeDef *pdhandle, USBPD_ControlMsg_TypeDef msgtype);
+
 /* Capabilities Message */
 USBPD_StatusTypeDef USBPD_PE_SendCapabilities(USBPD_PE_HandleTypeDef *pdhandle, uint32_t *pPDO, uint32_t nbpdo);
 USBPD_StatusTypeDef USBPD_PE_CapabilitiesReceived(USBPD_PE_HandleTypeDef *pdhandle);
@@ -468,35 +478,23 @@ USBPD_StatusTypeDef USBPD_PE_EvaluateCapabilities(USBPD_PE_HandleTypeDef *pdhand
 USBPD_StatusTypeDef USBPD_PE_SendRequest(USBPD_PE_HandleTypeDef *pdhandle, uint32_t *pRDO);
 USBPD_StatusTypeDef USBPD_PE_RequestReceived(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_EvaluateRequest(USBPD_PE_HandleTypeDef *pdhandle);
+USBPD_StatusTypeDef USBPD_PE_RequestNewPowerProfile(uint8_t portnum, uint8_t pdoindex);
 
 /* Accept Message */
-USBPD_StatusTypeDef USBPD_PE_SendAccept(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_AcceptReceived(USBPD_PE_HandleTypeDef *pdhandle);
 
 /* Reject Message */
-USBPD_StatusTypeDef USBPD_PE_SendReject(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_RejectReceived(USBPD_PE_HandleTypeDef *pdhandle);
 
 /* PS_RDY Message */
-USBPD_StatusTypeDef USBPD_PE_SendPSRDY(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_PSRDYReceived(USBPD_PE_HandleTypeDef *pdhandle);
 
 /* Wait Message */
-USBPD_StatusTypeDef USBPD_PE_SendWait(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_WaitReceived(USBPD_PE_HandleTypeDef *pdhandle);
 
-/* Ping Message */
-USBPD_StatusTypeDef USBPD_PE_SendPing(USBPD_PE_HandleTypeDef *pdhandle);
-
-/* GoToMin Message */
-USBPD_StatusTypeDef USBPD_PE_SendGoToMin(USBPD_PE_HandleTypeDef *pdhandle);
-
 /* DRP Message */
-USBPD_StatusTypeDef USBPD_PE_SendGetSnkCap(USBPD_PE_HandleTypeDef *pdhandle);
-USBPD_StatusTypeDef USBPD_PE_SendGetSrcCap(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_SrcSnkPRSwapProcess(uint8_t portnum);
 USBPD_StatusTypeDef USBPD_PE_SnkSrcPRSwapProcess(uint8_t portnum);
-USBPD_StatusTypeDef USBPD_PE_SendPR_SWP(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_RequestPowerRoleSwap(uint8_t portnum);
 
 /* BIST */
@@ -505,7 +503,6 @@ USBPD_StatusTypeDef USBPD_PE_BistReceived(USBPD_PE_HandleTypeDef *pdhandle);
 /*******************************************************************************
                               Soft Reset
 *******************************************************************************/
-USBPD_StatusTypeDef USBPD_PE_SendSoftReset(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_SoftResetReceived(USBPD_PE_HandleTypeDef *pdhandle);
 USBPD_StatusTypeDef USBPD_PE_PerformSoftReset(USBPD_PE_HandleTypeDef *pdhandle);
 
