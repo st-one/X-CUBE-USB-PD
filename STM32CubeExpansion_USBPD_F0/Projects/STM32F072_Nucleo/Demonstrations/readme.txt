@@ -5,8 +5,8 @@
   ******************** (C) COPYRIGHT 2016 STMicroelectronics *******************
   * @file    Provider/readme.txt 
   * @author  MCD Application Team
-  * @version V1.1.0
-  * @date    22-June-2016
+  * @version V1.1.1
+  * @date    29-June-2016
   * @brief   Description of the USB-C Power Delivery Demonstration.
   ******************************************************************************
   *

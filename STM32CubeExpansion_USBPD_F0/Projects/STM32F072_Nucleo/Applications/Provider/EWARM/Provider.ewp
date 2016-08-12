@@ -322,8 +322,7 @@
           <state>$PROJ_DIR$\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32F0xx\Include</state>
           <state>$PROJ_DIR$\..\..\..\..\..\Utilities</state>
           <state>$PROJ_DIR$\..\..\..\..\..\Utilities\CLI\inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Inc</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
