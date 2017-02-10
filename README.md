@@ -21,3 +21,7 @@ Hardware:
 Development board: P-NUCLEO-USB001  
 Device: STM32F072  
 Provider: STMicroelectronics
+
+--------
+X Cube USB PD
+Discrete or STUSB1602
