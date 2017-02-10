@@ -23,5 +23,5 @@ Device: STM32F072
 Provider: STMicroelectronics
 
 --------
-X Cube USB PD
+X Cube USB PD  
 Discrete or STUSB1602
