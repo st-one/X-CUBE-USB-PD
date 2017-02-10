@@ -1,23 +1,97 @@
-/**
+/* ----------------------------------------------------------------------
+ * $Date:        5. February 2013
+ * $Revision:    V1.02
+ *
+ * Project:      CMSIS-RTOS API
+ * Title:        cmsis_os.c
+ *
+ * Version 0.02
+ *    Initial Proposal Phase
+ * Version 0.03
+ *    osKernelStart added, optional feature: main started as thread
+ *    osSemaphores have standard behavior
+ *    osTimerCreate does not start the timer, added osTimerStart
+ *    osThreadPass is renamed to osThreadYield
+ * Version 1.01
+ *    Support for C++ interface
+ *     - const attribute removed from the osXxxxDef_t typedef's
+ *     - const attribute added to the osXxxxDef macros
+ *    Added: osTimerDelete, osMutexDelete, osSemaphoreDelete
+ *    Added: osKernelInitialize
+ * Version 1.02
+ *    Control functions for short timeouts in microsecond resolution:
+ *    Added: osKernelSysTick, osKernelSysTickFrequency, osKernelSysTickMicroSec
+ *    Removed: osSignalGet 
+ *    
+ *  
+ *----------------------------------------------------------------------------
+ *
+ * Portions Copyright © 2016 STMicroelectronics International N.V. All rights reserved.
+ * Portions Copyright (c) 2013 ARM LIMITED
+ * All rights reserved.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *  - Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  - Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *  - Neither the name of ARM  nor the names of its contributors may be used
+ *    to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *---------------------------------------------------------------------------*/
+
+ /**
   ******************************************************************************
-  * @file    cmsis_os.c 
+  * @file    cmsis_os.c
   * @author  MCD Application Team
-  * @date    04-December-2014
-  * @brief   CMSIS-RTOS API implementation for FreeRTOS V8.1.2
+  * @date    22-January-2016
+  * @brief   CMSIS-RTOS API implementation for FreeRTOS V8.2.3
   ******************************************************************************
   * @attention
   *
-  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
-  * You may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at:
+  * Redistribution and use in source and binary forms, with or without 
+  * modification, are permitted, provided that the following conditions are met:
   *
-  *        http://www.st.com/software_license_agreement_liberty_v2
+  * 1. Redistribution of source code must retain the above copyright notice, 
+  *    this list of conditions and the following disclaimer.
+  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  *    this list of conditions and the following disclaimer in the documentation
+  *    and/or other materials provided with the distribution.
+  * 3. Neither the name of STMicroelectronics nor the names of other 
+  *    contributors to this software may be used to endorse or promote products 
+  *    derived from this software without specific written permission.
+  * 4. This software, including modifications and/or derivative works of this 
+  *    software, must execute solely and exclusively on microcontroller or
+  *    microprocessor devices manufactured by or for STMicroelectronics.
+  * 5. Redistribution and use of this software other than as permitted under 
+  *    this license is void and will automatically terminate your rights under 
+  *    this license. 
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
+  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
   */ 
@@ -39,7 +113,7 @@ static unsigned portBASE_TYPE makeFreeRtosPriority (osPriority priority)
   return fpriority;
 }
 
-#if (INCLUDE_vTaskPriorityGet == 1)
+#if (INCLUDE_uxTaskPriorityGet == 1)
 /* Convert from FreeRTOS priority number to CMSIS type osPriority */
 static osPriority makeCmsisPriority (unsigned portBASE_TYPE fpriority)
 {
@@ -208,8 +282,15 @@ osStatus osThreadSetPriority (osThreadId thread_id, osPriority priority)
 */
 osPriority osThreadGetPriority (osThreadId thread_id)
 {
-#if (INCLUDE_vTaskPriorityGet == 1)
-  return makeCmsisPriority(uxTaskPriorityGet(thread_id));
+#if (INCLUDE_uxTaskPriorityGet == 1)
+  if (inHandlerMode())
+  {
+    return makeCmsisPriority(uxTaskPriorityGetFromISR(thread_id));  
+  }
+  else
+  {  
+    return makeCmsisPriority(uxTaskPriorityGet(thread_id));
+  }
 #else
   return osPriorityError;
 #endif
@@ -280,58 +361,29 @@ osStatus osTimerStart (osTimerId timer_id, uint32_t millisec)
 {
   osStatus result = osOK;
 #if (configUSE_TIMERS == 1)  
-	portBASE_TYPE taskWoken = pdFALSE;
+  portBASE_TYPE taskWoken = pdFALSE;
   TickType_t ticks = millisec / portTICK_PERIOD_MS;
-  
-  if (xTimerIsTimerActive(timer_id) != pdFALSE)
+
+  if (ticks == 0)
+    ticks = 1;
+    
+  if (inHandlerMode()) 
   {
-    if (inHandlerMode()) 
+    if (xTimerChangePeriodFromISR(timer_id, ticks, &taskWoken) != pdPASS)
     {
-      if(xTimerResetFromISR(timer_id, &taskWoken) != pdPASS)
-      {
-        result = osErrorOS;
-      }
-      else
-      {
-        portEND_SWITCHING_ISR(taskWoken);
-        result = osOK;
-      }
+      result = osErrorOS;
     }
     else
     {
-      if (xTimerReset(timer_id, 0) != pdPASS)
-        result = osErrorOS;
-      else   
-        result = osOK;
+      portEND_SWITCHING_ISR(taskWoken);     
     }
   }
-  else
+  else 
   {
-    if (ticks == 0)
-      ticks = 1;
-    
-    if (inHandlerMode()) 
-    {
-      if (xTimerChangePeriodFromISR(timer_id, ticks, &taskWoken) != pdPASS) 
-        result = osErrorOS;
-      else
-      {
-        xTimerStartFromISR(timer_id, &taskWoken);
-        portEND_SWITCHING_ISR(taskWoken);
-        result = osOK; 
-      }
-    }
-    else 
-    {
-      if (xTimerChangePeriod(timer_id, ticks, 0) != pdPASS)
-        result = osErrorOS;
-      else
-      {
-        if (xTimerStart(timer_id, 0) != pdPASS)
-          result = osErrorOS;
-      }
-    }
+    if (xTimerChangePeriod(timer_id, ticks, 0) != pdPASS)
+      result = osErrorOS;
   }
+
 #else 
   result = osErrorOS;
 #endif
@@ -400,10 +452,34 @@ osStatus result = osOK;
 * @brief  Set the specified Signal Flags of an active thread.
 * @param  thread_id     thread ID obtained by \ref osThreadCreate or \ref osThreadGetId.
 * @param  signals       specifies the signal flags of the thread that should be set.
-* @retval  previous signal flags of the specified thread or 0x80000000 in case of incorrect parameters.
+* @retval  osOK if successful, osErrorOS if failed .
 * @note   MUST REMAIN UNCHANGED: \b osSignalSet shall be consistent in every CMSIS-RTOS.
 */
-int32_t osSignalSet (osThreadId thread_id, int32_t signal);
+int32_t osSignalSet (osThreadId thread_id, int32_t signal)
+{
+#if( configUSE_TASK_NOTIFICATIONS == 1 )	
+  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+  
+  if (inHandlerMode())
+  {
+    if(xTaskNotifyFromISR( thread_id, (uint32_t)signal, eSetBits, &xHigherPriorityTaskWoken ) != pdPASS )
+      return osErrorOS;
+
+    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+  }  
+  else if(xTaskNotify( thread_id, (uint32_t)signal, eSetBits) != pdPASS )
+  {
+    return osErrorOS;
+  }
+  
+  return osOK;
+#else
+  (void) thread_id;
+  (void) signal;
+
+  return osErrorOS; /* Task Notification not supported */ 	
+#endif
+}
 
 /**
 * @brief  Clear the specified Signal Flags of an active thread.
@@ -421,7 +497,52 @@ int32_t osSignalClear (osThreadId thread_id, int32_t signal);
 * @retval  event flag information or error code.
 * @note   MUST REMAIN UNCHANGED: \b osSignalWait shall be consistent in every CMSIS-RTOS.
 */
-osEvent osSignalWait (int32_t signals, uint32_t millisec);
+osEvent osSignalWait (int32_t signals, uint32_t millisec)
+{
+  osEvent ret;
+
+#if( configUSE_TASK_NOTIFICATIONS == 1 )
+	
+  TickType_t ticks;
+
+  ret.value.signals = 0;  
+  ticks = 0;
+  if (millisec == osWaitForever) {
+    ticks = portMAX_DELAY;
+  }
+  else if (millisec != 0) {
+    ticks = millisec / portTICK_PERIOD_MS;
+    if (ticks == 0) {
+      ticks = 1;
+    }
+  }  
+  
+  if (inHandlerMode())
+  {
+    ret.status = osErrorISR;  /*Not allowed in ISR*/
+  }
+  else
+  {
+    if(xTaskNotifyWait( 0,(uint32_t) signals, (uint32_t *)&ret.value.signals, ticks) != pdTRUE)
+    {
+      if(ticks == 0)  ret.status = osOK;
+      else  ret.status = osEventTimeout;
+    }
+    else if(ret.value.signals < 0)
+    {
+      ret.status =  osErrorValue;     
+    }
+    else  ret.status =  osEventSignal;
+  }
+#else
+  (void) signals;
+  (void) millisec;
+	
+  ret.status =  osErrorOS;	/* Task Notification not supported */
+#endif
+  
+  return ret;
+}
 
 /****************************  Mutex Management ********************************/
 /**
@@ -449,6 +570,7 @@ osMutexId osMutexCreate (const osMutexDef_t *mutex_def)
 osStatus osMutexWait (osMutexId mutex_id, uint32_t millisec)
 {
   TickType_t ticks;
+  portBASE_TYPE taskWoken = pdFALSE;  
   
   
   if (mutex_id == NULL) {
@@ -467,10 +589,12 @@ osStatus osMutexWait (osMutexId mutex_id, uint32_t millisec)
   }
   
   if (inHandlerMode()) {
-    return osErrorISR;
-  }
-  
-  if (xSemaphoreTake(mutex_id, ticks) != pdTRUE) {
+    if (xSemaphoreTakeFromISR(mutex_id, &taskWoken) != pdTRUE) {
+      return osErrorOS;
+    }
+	portEND_SWITCHING_ISR(taskWoken);
+  } 
+  else if (xSemaphoreTake(mutex_id, ticks) != pdTRUE) {
     return osErrorOS;
   }
   
@@ -486,12 +610,15 @@ osStatus osMutexWait (osMutexId mutex_id, uint32_t millisec)
 osStatus osMutexRelease (osMutexId mutex_id)
 {
   osStatus result = osOK;
+  portBASE_TYPE taskWoken = pdFALSE;
   
   if (inHandlerMode()) {
-    return osErrorISR;
+    if (xSemaphoreGiveFromISR(mutex_id, &taskWoken) != pdTRUE) {
+      return osErrorOS;
+    }
+    portEND_SWITCHING_ISR(taskWoken);
   }
-  
-  if (xSemaphoreGive(mutex_id) != pdTRUE) 
+  else if (xSemaphoreGive(mutex_id) != pdTRUE) 
   {
     result = osErrorOS;
   }
@@ -553,6 +680,7 @@ osSemaphoreId osSemaphoreCreate (const osSemaphoreDef_t *semaphore_def, int32_t 
 int32_t osSemaphoreWait (osSemaphoreId semaphore_id, uint32_t millisec)
 {
   TickType_t ticks;
+  portBASE_TYPE taskWoken = pdFALSE;  
   
   
   if (semaphore_id == NULL) {
@@ -571,10 +699,12 @@ int32_t osSemaphoreWait (osSemaphoreId semaphore_id, uint32_t millisec)
   }
   
   if (inHandlerMode()) {
-    return osErrorISR;
-  }
-  
-  if (xSemaphoreTake(semaphore_id, ticks) != pdTRUE) {
+    if (xSemaphoreTakeFromISR(semaphore_id, &taskWoken) != pdTRUE) {
+      return osErrorOS;
+    }
+	portEND_SWITCHING_ISR(taskWoken);
+  }  
+  else if (xSemaphoreTake(semaphore_id, ticks) != pdTRUE) {
     return osErrorOS;
   }
   
@@ -807,7 +937,7 @@ osMessageQId osMessageCreate (const osMessageQDef_t *queue_def, osThreadId threa
 {
   (void) thread_id;
   
-  return xQueueCreate(queue_def->queue_sz, (uint32_t) sizeof(queue_def->item_sz));
+  return xQueueCreate(queue_def->queue_sz, queue_def->item_sz);
 }
 
 /**
@@ -857,6 +987,7 @@ osEvent osMessageGet (osMessageQId queue_id, uint32_t millisec)
   osEvent event;
   
   event.def.message_id = queue_id;
+  event.value.v = 0;
   
   if (queue_id == NULL) {
     event.status = osErrorParameter;
@@ -902,7 +1033,6 @@ osEvent osMessageGet (osMessageQId queue_id, uint32_t millisec)
 #endif     /* Use Message Queues */
 
 /********************   Mail Queue Management Functions  ***********************/
-
 #if (defined (osFeature_MailQ)  &&  (osFeature_MailQ != 0))  /* Use Mail Queues */
 
 
@@ -923,7 +1053,7 @@ osMailQId osMailCreate (const osMailQDef_t *queue_def, osThreadId thread_id)
 {
   (void) thread_id;
   
-  osPoolDef_t pool_def = {queue_def->queue_sz, queue_def->item_sz};
+  osPoolDef_t pool_def = {queue_def->queue_sz, queue_def->item_sz, NULL};
   
   
   /* Create a mail queue control block */
@@ -1096,9 +1226,7 @@ osStatus osMailFree (osMailQId queue_id, void *mail)
     return osErrorParameter;
   }
   
-  osPoolFree(queue_id->pool, mail);
-  
-  return osOK;
+  return osPoolFree(queue_id->pool, mail);
 }
 #endif  /* Use Mail Queues */
 
@@ -1159,6 +1287,20 @@ osThreadState osThreadGetState(osThreadId thread_id)
 }
 #endif /* INCLUDE_eTaskGetState */
 
+#if (INCLUDE_eTaskGetState == 1)
+/**
+* @brief Check if a thread is already suspended or not.
+* @param thread_id thread ID obtained by \ref osThreadCreate or \ref osThreadGetId.
+* @retval status code that indicates the execution status of the function.
+*/
+osStatus osThreadIsSuspended(osThreadId thread_id)
+{
+  if (eTaskGetState(thread_id) == eSuspended)
+    return osOK;
+  else
+    return osErrorOS;
+}
+#endif /* INCLUDE_eTaskGetState */
 /**
 * @brief  Suspend execution of a thread.
 * @param   thread_id   thread ID obtained by \ref osThreadCreate or \ref osThreadGetId.
@@ -1227,16 +1369,16 @@ osStatus osThreadResumeAll (void)
 /**
 * @brief  Delay a task until a specified time
 * @param   PreviousWakeTime   Pointer to a variable that holds the time at which the 
-*          task was last unblocked.
+*          task was last unblocked. PreviousWakeTime must be initialised with the current time
+*          prior to its first use (PreviousWakeTime = osKernelSysTick() )
 * @param   millisec    time delay value
 * @retval  status code that indicates the execution status of the function.
 */
-osStatus osDelayUntil (uint32_t PreviousWakeTime, uint32_t millisec)
+osStatus osDelayUntil (uint32_t *PreviousWakeTime, uint32_t millisec)
 {
 #if INCLUDE_vTaskDelayUntil
   TickType_t ticks = (millisec / portTICK_PERIOD_MS);
-  TickType_t previouswake = (TickType_t) PreviousWakeTime; 
-  vTaskDelayUntil(&previouswake, ticks ? ticks : 1);
+  vTaskDelayUntil((TickType_t *) PreviousWakeTime, ticks ? ticks : 1);
   
   return osOK;
 #else
@@ -1254,10 +1396,10 @@ osStatus osDelayUntil (uint32_t PreviousWakeTime, uint32_t millisec)
 *          will be written
 * @retval  status code that indicates the execution status of the function.
 */
-osStatus osThreadList (int8_t *buffer)
+osStatus osThreadList (uint8_t *buffer)
 {
 #if ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS == 1 ) )
-  vTaskList(buffer);
+  vTaskList((char *)buffer);
 #endif
   return osOK;
 }
@@ -1309,7 +1451,7 @@ osEvent osMessagePeek (osMessageQId queue_id, uint32_t millisec)
 * @param  mutex_def     mutex definition referenced with \ref osMutex.
 * @retval  mutex ID for reference by other functions or NULL in case of error..
 */
-osMutexId osRecursiveMutexCreate (osMutexDef_t *mutex_def)
+osMutexId osRecursiveMutexCreate (const osMutexDef_t *mutex_def)
 {
   (void) mutex_def;
 #if (configUSE_RECURSIVE_MUTEXES == 1)

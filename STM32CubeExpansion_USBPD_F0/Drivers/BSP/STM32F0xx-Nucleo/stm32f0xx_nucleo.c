@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_nucleo.c
   * @author  MCD Application Team
-  * @version V1.1.3
-  * @date    29-January-2016
+  * @version V1.1.3_USBPD
+  * @date    17-Jan-2017
   * @brief   This file provides set of firmware functions to manage:
   *          - LEDs and push-button available on STM32F0XX-Nucleo Kit 
   *            from STMicroelectronics
@@ -12,7 +12,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -100,6 +100,14 @@ static ADC_HandleTypeDef hnucleo_Adc;
 /* ADC channel configuration structure declaration */
 static ADC_ChannelConfTypeDef sConfig;
 #endif /* HAL_ADC_MODULE_ENABLED */
+
+#ifdef HAL_UART_MODULE_ENABLED
+/**
+  * @brief huart handle for P-NUCLEO-USB001
+  */
+UART_HandleTypeDef huart_handle;
+#endif /* HAL_UART_MODULE_ENABLED */
+
 /**
   * @}
   */ 
@@ -139,6 +147,12 @@ static void               ADCx_DeInit(void);
 static void               ADCx_MspInit(ADC_HandleTypeDef *hadc);
 static void               ADCx_MspDeInit(ADC_HandleTypeDef *hadc);
 #endif /* HAL_ADC_MODULE_ENABLED */
+
+/******************************* USB PD UART ********************************/
+#ifdef HAL_UART_MODULE_ENABLED
+void              USBPD_UART_IO_Init(void);
+static void UARTx_MspInit(UART_HandleTypeDef* huart);
+#endif /* HAL_UART_MODULE_ENABLED */
 /**
   * @}
   */ 
@@ -326,6 +340,7 @@ uint32_t BSP_PB_GetState(Button_TypeDef Button)
 /** @addtogroup STM32F0XX_NUCLEO_Private_Functions
   * @{
   */ 
+
 
 #ifdef HAL_SPI_MODULE_ENABLED
 /******************************************************************************
@@ -914,6 +929,80 @@ JOYState_TypeDef BSP_JOY_GetState(void)
   return state;
 }
 #endif /* HAL_ADC_MODULE_ENABLED */
+
+/******************************* USB PD UART ********************************/
+#ifdef HAL_UART_MODULE_ENABLED
+/**
+  * @brief  Initializes the LCD
+  * @retval None
+  */
+void USBPD_UART_IO_Init(void)
+{
+  huart_handle.Instance                        = BSP_USART;
+  huart_handle.Init.BaudRate                   = BSP_USART_BAUDRATE;
+  huart_handle.Init.WordLength                 = UART_WORDLENGTH_8B;
+  huart_handle.Init.StopBits                   = UART_STOPBITS_1;
+  huart_handle.Init.Parity                     = UART_PARITY_NONE;
+  huart_handle.Init.Mode                       = UART_MODE_TX_RX;
+  huart_handle.Init.HwFlowCtl                  = UART_HWCONTROL_NONE;
+  huart_handle.Init.OverSampling               = UART_OVERSAMPLING_16;
+  huart_handle.Init.OneBitSampling             = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart_handle.AdvancedInit.AdvFeatureInit     = UART_ADVFEATURE_NO_INIT;
+  
+  /* Init of the peripheral */
+  UARTx_MspInit(&huart_handle);
+  HAL_UART_Init(&huart_handle);
+}
+
+/**
+  * @brief  Configures the UART low level hardware : GPIO, CLOCK.
+  * @param  huart: UAART handle
+  * @retval None
+  */
+static void UARTx_MspInit(UART_HandleTypeDef* huart)
+{
+  GPIO_InitTypeDef GPIO_InitStruct;
+  
+  /* Peripheral clock enable */
+  BSP_USARTCLK_ENABLE();
+  
+  /* USART GPIO Configuration */
+  GPIO_InitStruct.Pin = USART_TX_PIN | USART_RX_PIN;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Alternate = USART_PIN_GPIOAF;
+  HAL_GPIO_Init(USART_TX_PORT, &GPIO_InitStruct);
+  
+  /* Peripheral interrupt init*/
+  HAL_NVIC_SetPriority(USART_IRQ, 3, 0);
+  HAL_NVIC_EnableIRQ(USART_IRQ);
+}
+
+/**
+  * @brief  Get the uart handle
+  * @retval the uart habdle
+  */
+UART_HandleTypeDef * BSP_USART_GetHandle()
+{
+  return &huart_handle;
+}
+
+/**
+  * @brief  Retargets the C library printf function to the USARTx.
+  * @param  ch: character to send
+  * @param  f: pointer to file (not used)
+  * @retval The character transmitted
+  */
+int fputc(int ch, FILE *f)
+{
+  /* Place your implementation of fputc here */
+  /* e.g. write a character to the EVAL_COM1 and Loop until the end of transmission */
+  HAL_UART_Transmit(&huart_handle, (uint8_t *)&ch, 1, 1000); 
+
+  return ch;
+}
+#endif /* HAL_UART_MODULE_ENABLED */
 
 /**
   * @}

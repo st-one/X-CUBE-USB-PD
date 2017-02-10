@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html><head>
+    
+    <title>Projects Overview</title><style>
+      .descriptionColumn { min-width:550px;}
+      em{color:red;font-weight: bold;}
+      importantLink {font-size:10pt; font-family: "Verdana","sans-serif" color:black;}
+      article{border: 1px solid #828282;margin: 20px 0px 20px 9px;}
+      body{font-family: Verdana;font-size: 10pt; color: black;margin-left: 40px;}
+      .picture{text-align: center}
+      .copyright{text-align: center}
+      h1{text-align: center;font-size: 20pt; font-family: Verdana; color: rgb(51, 102, 255);}
+    </style></head>
+<body>
+
+    <h1>STM32CubeF0 Firmware Examples for STM32F0xx Series</h1>
+
+    <p class="copyright">Copyright 2017 STMicroelectronics</p>
+
+    <div class="picture">
+      <img alt="" id="_x0000_i1025" src="../_htmresc/st_logo.png" style="border: 0px solid ; width: 104px; height: 77px;">
+    </div>
+
+    <p>The
+STM32CubeF0 Firmware package comes with a rich set of examples running
+on STMicroelectronics boards, organized by board and provided with
+preconfigured projects for the main supported toolchains.</p>
+
+    <div class="picture">
+      <img alt="" src="../_htmresc/STM32Cube.bmp" style="width: 727px; height: 382px;">
+    </div>
+
+    <p>The examples are classified depending on the STM32Cube level they apply to, and are named as follows:</p>
+
+    <ul>
+      <li id="Applications"><b>Applications</b>
+intends to demonstrate the product performance and how to use the
+different Middleware stacks available. The Applications are organized
+per Middleware (a folder for each Middleware, ex. USB Host) or product
+feature that need high level firmware bricks (ex. Audio). Integration
+Applications that use several Middleware stacks are provided as well.</li>
+      <li>A Template project is provided to allow user to quickly build any firmware application on a given board.</li>
+    </ul>
+
+    <p>The examples are located under STM32Cube_FW_STM32CubeF0_VX.Y.Z\Projects\, and all of them have the same structure:</p>
+
+    <ul>
+      <li>\Inc folder that contains all header files.</li>
+      <li>\Src folder for the sources code.</li>
+      <li>\EWARM, \MDK-ARM, \SW4STM32 folders contain the preconfigured project for each toolchain.</li>
+      <li>readme.txt describing the example behavior and the environment required to run the example.</li>
+    </ul>
+
+    <p>To run the example, you have to do the following:</p>
+
+    <ul>
+      <li>Open the example using your preferred toolchain.</li>
+      <li>Rebuild all files and load the image into target memory.</li>
+      <li>Run the example by following the readme.txt instructions.</li>
+      <li>
+        <i><u>Note</u>:
+refer to section "Development Toolchains and Compilers" and "Supported
+Devices and EVAL boards" of the Firmware package release notes to know
+about the SW/HW environment used for the Firmware development and
+validation. The correct operation of the provided examples is not
+guaranteed on some environments, for example when using different
+compiler or board versions.</i>
+      </li>
+    </ul>
+
+    <p>The
+provided examples can be tailored to run on any compatible hardware;
+user simply need to update the BSP drivers for his board, if it has the
+same hardware functions (LED, LCD display, pushbuttons...etc.). The BSP
+is based on a modular architecture that allows it to be ported easily
+to any hardware by just implementing the low level routines.</p>
+
+    <p>The table below contains the list of examples provided within STM32CubeF0 Firmware package.</p>
+
+    <p id="STM32F0xxImportantLink">
+      </p><div>Reference materials available on <a href="http://www.st.com/stm32cubefw" target="_blank">www.st.com/stm32cubefw</a></div>
+      <ul>
+        <li><a href="http://www.st.com/stm32cubefw" target="_blank">Latest release</a> of STM32CubeF0 Firmware package.</li>
+        <li><a href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00119724.pdf" target="_blank">UM1779</a>: Getting started with the STM32CubeF0 firmware package for the STM32F0 series.</li>
+        <li><a href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00122015.pdf" target="_blank">UM1785</a>: Description of STM32F0xx HAL drivers.</li>
+        <li><a href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00105262.pdf" target="_blank">UM1722</a>: Developing Applications on STM32Cube with RTOS.</li>
+      </ul>
+    
+		<table bgcolor="#f0f0ff" border="1">
+			<tbody><tr style="background-repeat: no-repeat; background-position: right center; background-color: rgb(57, 169, 220); color: rgb(255, 255, 255);" align="center">
+				<td><b>Level</b></td>
+				<td><b>Module Name</b></td>
+				<td><b>Project Name</b></td>
+				<td class="descriptionColumn"><b>Description</b></td>
+				<td>STM32F072RB-Nucleo</td>
+			</tr>
+      <tr align="center">
+        <td style="background-repeat: no-repeat; background-position: right center; background-color: rgb(57, 169, 220); color: rgb(255, 255, 255);" rowspan="17"><p id="Applications">Applications</p></td>
+        
+        
+        
+        
+      </tr>
+      <tr align="center">
+        <td rowspan="15" align="left"><p id="USB_PD">USB_PD</p></td>
+        <td align="left"><p id="Consumer_DRP_RTOS">Consumer_DRP_RTOS</p></td>
+        <td align="left">This application is a part of the USB Power Delivery package using STM32Cube 
+firmware. It describes how to use USB Power Delivery (USBPD) Dual-Role Power (DRP) application
+based on the STM32F072 devices.
+</td>
+        <td><font color="green" size="5">X</font></td>
+      </tr>
+      <tr align="center">
+        
+        
+        
+      </tr>
+      <tr><td>Consumer_CLI_RTOS</td><td>This application is a part of the USB Power Delivery package using STM32Cube 
+firmware. It describes how to use USB Power Delivery (USBPD) consumer application
+based on the STM32F072 devices and embeds support of a Command Line Interface.</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr align="center">
+        <td align="left"><p id="Consumer_RTOS">Consumer_RTOS</p></td>
+        <td align="left">This application is a part of the USB Power Delivery package using STM32Cube 
+firmware. It describes how to use USB Power Delivery (USBPD) consumer only application
+based on the STM32F072 devices.
+</td>
+        <td><font color="green" size="5">X</font></td>
+      </tr>
+      <tr align="center">
+        
+        
+        
+      </tr>
+      <tr align="center">
+        <td align="left"><p id="Consumer_VDM_RTOS">Consumer_VDM_RTOS</p></td>
+        <td align="left">This application is a part of the USB Power Delivery package using STM32Cube 
+firmware. It describes how to use USB Power Delivery (USBPD) consumer application
+based on the STM32F072 devices, with support of Vendor Defined Messages.
+</td>
+        <td><font color="green" size="5">X</font></td>
+      </tr>
+      <tr align="center">
+        
+        
+        
+      </tr>
+      <tr align="center">
+        
+        
+        
+      </tr>
+      <tr align="center">
+        
+        
+        
+      </tr>
+      <tr><td>Provider_CLI_RTOS</td><td>This
+application is a part of the USB Power Delivery package using STM32Cube
+firmware. It describes how to use USB Power Delivery (USB-PD) provider
+application based on the STM32F072 devices&nbsp; and embeds support of a Command Line Interface.</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr align="center">
+        <td align="left"><p id="Provider_RTOS">Provider_RTOS</p></td>
+        <td align="left">This application is a part of the USB Power Delivery package using STM32Cube 
+firmware. It describes how to use USB Power Delivery (USB-PD) provider application
+based on the STM32F072 devices.
+</td>
+        <td><font color="green" size="5">X</font></td>
+      </tr>
+      <tr align="center">
+        
+        
+        
+      </tr>
+      <tr><td>Provider_VDM_RTOS</td><td>This application is a part of the USB Power Delivery package using STM32Cube 
+firmware. It describes how to use USB Power Delivery (USB-PD) provider application
+based on the STM32F072 devices.</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr align="center">
+        <td align="left"><p id="Provider_VDM_RTOS">DUAL_PORT_RTOS</p></td>
+        <td align="left">This
+application is a part of the USB Power Delivery package using STM32Cube
+firmware. It describes how to use USB Power Delivery (USB-PD) Dual Port
+application based on the STM32F072 devices.
+</td>
+        <td><font color="green" size="5">X</font></td>
+      </tr>
+      <tr align="center">
+        
+        
+        
+      </tr>
+      <tr style="background-repeat: no-repeat; background-position: right center; background-color: rgb(57, 169, 220); color: rgb(255, 255, 255);" align="center">
+        <td colspan="3"><b>Total number of applications: 8</b></td>
+        <td>8</td>
+      </tr>
+      <tr style="background-repeat: no-repeat; background-position: right center; background-color: rgb(57, 169, 220); color: rgb(255, 255, 255);" align="center">
+      	<td colspan="4"><b>Total number of projects: 8</b></td>
+      	<td>8</td>
+      </tr>
+    </tbody></table>
+  </body></html>

@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    p-nucleo-usb001.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.2.0
+  * @date    17-Jan-2017
   * @brief   This file provides set of functions to manage peripherals on
   *          P-NUCLEO-USB001 board.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics International N.V. 
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -62,31 +62,6 @@
   */
 
 /**
-  * @brief Usart BaudRate used by P-NUCLEO-USB001
-  */
-#define BAUDRATE                             115200
-
-/**
-  * @brief Usart used by P-NUCLEO-USB001
-  */
-#define P_NUCLEO_USB001_USART               USART1
-
-/**
-  * @brief Clock Enable Macro
-  */
-#define P_NUCLEO_USB001_USARTCLK_ENABLE     __USART1_CLK_ENABLE
-
-/**
-  * @brief Usart Pin
-  */
-#define USART_TX_PORT                        GPIOA
-#define USART_TX_PIN                         GPIO_PIN_9
-#define USART_RX_PORT                        GPIOA
-#define USART_RX_PIN                         GPIO_PIN_10
-#define USART_PIN_GPIOAF                     GPIO_AF1_USART1
-#define USART_IRQ                            USART1_IRQn
-
-/**
   * @}
   */
 
@@ -97,26 +72,21 @@
 /**
   * @brief Vector storing informations on pins controlling leds of P-NUCLEO-USB001
   */
-USBPDM1_GPIOPins_TypeDef USBPDM1_LEDs[USBPDM1_LEDn] =
+USBPD_BSP_GPIOPins_TypeDef USBPD_BSP_LEDs[USBPD_BSP_LEDn] =
 {
-  USBPDM1PIN(GPIOC,10),         /* Blue,   Port 1 - Role */
-  USBPDM1PIN(GPIOC,11),         /* Green,  Port 1 - Vbus */
+  USBPD_BSP_PIN(GPIOC,10),         /* Blue,   Port 1 - Role */
+  USBPD_BSP_PIN(GPIOC,11),         /* Green,  Port 1 - Vbus */
 #ifndef P_NUCLEO_USB001_USE_I2C
-  USBPDM1PIN(GPIOB,11),         /* Orange, Port 1 - CC */
-  USBPDM1PIN(GPIOB,10),         /* Blue,   Port 0 - Role */
+  USBPD_BSP_PIN(GPIOB,11),         /* Orange, Port 1 - CC */
+  USBPD_BSP_PIN(GPIOB,10),         /* Blue,   Port 0 - Role */
 #endif /*P_NUCLEO_USB001_USE_I2C*/
 #ifndef P_NUCLEO_USB001_GPIO13
-  USBPDM1PIN(GPIOC,15),         /* Green,  Port 0 - Vbus */
+  USBPD_BSP_PIN(GPIOC,15),         /* Green,  Port 0 - Vbus */
 #endif /*P_NUCLEO_USB001_GPIO13*/
 #ifndef P_NUCLEO_USB001_GPIO15
-  USBPDM1PIN(GPIOF,1),          /* Orange, Port 0 - CC */
+  USBPD_BSP_PIN(GPIOF,1),          /* Orange, Port 0 - CC */
 #endif /*P_NUCLEO_USB001_GPIO15*/
 };
-
-/**
-  * @brief huart handle for P-NUCLEO-USB001
-  */
-UART_HandleTypeDef huart_usbpdm1;
 
 /**
   * @}
@@ -130,7 +100,7 @@ UART_HandleTypeDef huart_usbpdm1;
   * @param  None
   * @retval None
   */
-void USBPDM1_LED_Init(void)
+void USBPD_BSP_LED_Init(void)
 {
   GPIO_InitTypeDef  GPIO_InitStruct;
   uint8_t led=0;
@@ -138,17 +108,17 @@ void USBPDM1_LED_Init(void)
   /* Common values for Leds GPIO */
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   
-  for(led=0;led<USBPDM1_LEDn;led++)
+  for(led=0;led<USBPD_BSP_LEDn;led++)
   {
     /* Configure the GPIO pin */
-    GPIO_InitStruct.Pin = USBPDM1_LEDs[led].GPIO_Pin;
+    GPIO_InitStruct.Pin = USBPD_BSP_LEDs[led].GPIO_Pin;
     
     /* Init the associated GPIO */
-    HAL_GPIO_Init(USBPDM1_LEDs[led].GPIOx, &GPIO_InitStruct);
+    HAL_GPIO_Init(USBPD_BSP_LEDs[led].GPIOx, &GPIO_InitStruct);
     /* Turn the led off */
-    USBPDM1_LED_Off((USBPDM1_Led_TypeDef)led);
+    USBPD_BSP_LED_Off((USBPD_BSP_Led_TypeDef)led);
   }
 }
 
@@ -158,9 +128,9 @@ void USBPDM1_LED_Init(void)
   * @param  Value: value to set the led on or off.
   * @retval None
   */
-void USBPDM1_LED_Set(USBPDM1_Led_TypeDef Led, uint8_t Value)
+void USBPD_BSP_LED_Set(USBPD_BSP_Led_TypeDef Led, uint8_t Value)
 {
-  HAL_GPIO_WritePin(USBPDM1_LEDs[Led].GPIOx, USBPDM1_LEDs[Led].GPIO_Pin, Value ? GPIO_PIN_RESET : GPIO_PIN_SET);
+  HAL_GPIO_WritePin(USBPD_BSP_LEDs[Led].GPIOx, USBPD_BSP_LEDs[Led].GPIO_Pin, Value ? GPIO_PIN_RESET : GPIO_PIN_SET);
 }
 
 /**
@@ -168,9 +138,9 @@ void USBPDM1_LED_Set(USBPDM1_Led_TypeDef Led, uint8_t Value)
   * @param  Led: Specifies the Led to be set on.
   * @retval None
   */
-void USBPDM1_LED_On(USBPDM1_Led_TypeDef Led)
+void USBPD_BSP_LED_On(USBPD_BSP_Led_TypeDef Led)
 {
-  HAL_GPIO_WritePin(USBPDM1_LEDs[Led].GPIOx, USBPDM1_LEDs[Led].GPIO_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(USBPD_BSP_LEDs[Led].GPIOx, USBPD_BSP_LEDs[Led].GPIO_Pin, GPIO_PIN_RESET);
 }
 
 /**
@@ -178,9 +148,9 @@ void USBPDM1_LED_On(USBPDM1_Led_TypeDef Led)
   * @param  Led: Specifies the Led to be set off.
   * @retval None
   */
-void USBPDM1_LED_Off(USBPDM1_Led_TypeDef Led)
+void USBPD_BSP_LED_Off(USBPD_BSP_Led_TypeDef Led)
 {
-  HAL_GPIO_WritePin(USBPDM1_LEDs[Led].GPIOx, USBPDM1_LEDs[Led].GPIO_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(USBPD_BSP_LEDs[Led].GPIOx, USBPD_BSP_LEDs[Led].GPIO_Pin, GPIO_PIN_SET);
 }
 
 /**
@@ -188,56 +158,19 @@ void USBPDM1_LED_Off(USBPDM1_Led_TypeDef Led)
   * @param  Led: Specifies the Led to be toggled.
   * @retval None
   */
-void USBPDM1_LED_Toggle(USBPDM1_Led_TypeDef Led)
+void USBPD_BSP_LED_Toggle(USBPD_BSP_Led_TypeDef Led)
 {
-  HAL_GPIO_TogglePin(USBPDM1_LEDs[Led].GPIOx, USBPDM1_LEDs[Led].GPIO_Pin);
+  HAL_GPIO_TogglePin(USBPD_BSP_LEDs[Led].GPIOx, USBPD_BSP_LEDs[Led].GPIO_Pin);
 }
 
 /**
   * @brief  Configures the UART used by the P-NUCLEO-USB001
   * @retval None
   */
-void USBPDM1_UART_Init(void)
+void USBPD_BSP_UART_Init(void)
 {
-  /* Init huart_usbpdm1 */
-  huart_usbpdm1.Instance = P_NUCLEO_USB001_USART;
-  huart_usbpdm1.Init.BaudRate = BAUDRATE;
-  huart_usbpdm1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart_usbpdm1.Init.StopBits = UART_STOPBITS_1;
-  huart_usbpdm1.Init.Parity = UART_PARITY_NONE;
-  huart_usbpdm1.Init.Mode = UART_MODE_TX_RX;
-  huart_usbpdm1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart_usbpdm1.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart_usbpdm1.Init.OneBitSampling = UART_ONEBIT_SAMPLING_DISABLED ;
-  huart_usbpdm1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  
-  /* Init of the peripheral */
-  HAL_UART_Init(&huart_usbpdm1);
-}
-
-/**
-  * @brief  Configures the UART low level hardware : GPIO, CLOCK.
-  * @param  huart: UAART handle
-  * @retval None
-  */
-void HAL_UART_MspInit(UART_HandleTypeDef* huart)
-{
-  GPIO_InitTypeDef GPIO_InitStruct;
-  
-  /* Peripheral clock enable */
-  P_NUCLEO_USB001_USARTCLK_ENABLE();
-  
-  /* USART GPIO Configuration */
-  GPIO_InitStruct.Pin = USART_TX_PIN | USART_RX_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-  GPIO_InitStruct.Alternate = USART_PIN_GPIOAF;
-  HAL_GPIO_Init(USART_TX_PORT, &GPIO_InitStruct);
-  
-  /* Peripheral interrupt init*/
-  HAL_NVIC_SetPriority(USART_IRQ, 3, 0);
-  HAL_NVIC_EnableIRQ(USART_IRQ);
+  /* Init huart_usbpd */
+  USBPD_UART_IO_Init();
 }
 
 

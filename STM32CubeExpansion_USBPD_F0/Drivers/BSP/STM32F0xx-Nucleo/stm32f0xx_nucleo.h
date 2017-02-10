@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_nucleo.h
   * @author  MCD Application Team
-  * @version V1.1.3
-  * @date    29-January-2016
+  * @version V1.1.3_USBPD
+  * @date    17-Jan-2017
   * @brief   This file contains definitions for:
   *          - LEDs and push-button available on STM32F0XX-Nucleo Kit 
   *            from STMicroelectronics
@@ -12,7 +12,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -100,7 +100,7 @@ typedef enum
   */ 
 
 /** 
-* @brief	Define for STM32F0XX_NUCLEO board  
+* @brief  Define for STM32F0XX_NUCLEO board  
   */ 
 #if !defined (USE_STM32F0XX_NUCLEO)
  #define USE_STM32F0XX_NUCLEO
@@ -216,6 +216,7 @@ typedef enum
 #define LCD_DC_GPIO_CLK_ENABLE()                 __HAL_RCC_GPIOA_CLK_ENABLE()
 #define LCD_DC_GPIO_CLK_DISABLE()                __HAL_RCC_GPIOA_CLK_DISABLE()
 
+#if defined(HAL_ADC_MODULE_ENABLED)
 /*##################### ADC1 ###################################*/
 /**
   * @brief  ADC Interface pins
@@ -229,6 +230,39 @@ typedef enum
 #define NUCLEO_ADCx_GPIO_PIN                        GPIO_PIN_0
 #define NUCLEO_ADCx_GPIO_CLK_ENABLE()             __HAL_RCC_GPIOB_CLK_ENABLE()
 #define NUCLEO_ADCx_GPIO_CLK_DISABLE()            __HAL_RCC_GPIOB_CLK_DISABLE()
+
+#endif /* HAL_ADC_MODULE_ENABLED */
+
+/******************************* USB PD UART ********************************/
+#ifdef HAL_UART_MODULE_ENABLED
+#define BSP_USART_IRQHandler USART1_IRQHandler
+
+#define BSP_USART_BAUDRATE  115200    /* BaudRate for the UART */
+
+/**
+ * @brief Usart used in the BSP
+ * */
+#define BSP_USART        USART1
+
+/**
+ * @brief Clock Enable Macro
+ * */
+#define BSP_USARTCLK_ENABLE  __HAL_RCC_USART1_CLK_ENABLE
+
+/**
+ * @brief PIN RELATED MACROS
+ * @{
+ * */
+#define USART_TX_PORT                        GPIOA
+#define USART_TX_PIN                         GPIO_PIN_9
+#define USART_RX_PORT                        GPIOA
+#define USART_RX_PIN                         GPIO_PIN_10
+#define USART_PIN_GPIOAF                     GPIO_AF1_USART1
+#define USART_IRQ                            USART1_IRQn
+
+UART_HandleTypeDef * BSP_USART_GetHandle(void);
+
+#endif /* HAL_UART_MODULE_ENABLED */
 
 /**
   * @}

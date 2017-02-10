@@ -11,9 +11,9 @@ microcontroller or compiler.
 
 
 
-For example, if you are interested in the GCC port for the ATMega323 
+For example, if you are interested in the GCC port for the STM32F4
 microcontroller then the port specific files are contained in
-FreeRTOS/Source/Portable/GCC/ATMega323 directory.  If this is the only
+FreeRTOS/Source/Portable/GCC/ARM_CM4F directory.  If this is the only
 port you are interested in then all the other directories can be
 ignored.
 

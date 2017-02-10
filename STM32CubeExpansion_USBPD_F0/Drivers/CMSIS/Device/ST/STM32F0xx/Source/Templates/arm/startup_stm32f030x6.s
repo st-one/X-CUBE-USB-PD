@@ -1,8 +1,8 @@
 ;******************** (C) COPYRIGHT 2016 STMicroelectronics ********************
 ;* File Name          : startup_stm32f030x6.s
 ;* Author             : MCD Application Team
-;* Version            : V2.2.3
-;* Date               : 29-January-2016
+;* Version            : V2.3.0
+;* Date               : 27-May-2016
 ;* Description        : STM32F030x4/STM32F030x6 devices vector table for MDK-ARM toolchain.
 ;*                      This module performs:
 ;*                      - Set the initial SP

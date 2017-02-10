@@ -497,7 +497,7 @@ ul
 <h1 style="margin-bottom: 0.25in; text-align: center;" align="center"><span style="font-size: 20pt; font-family: Verdana; color: rgb(51, 102, 255);">Release
 Notes for USB Type-C&#8482;Power Delivery (PD) on software
 expansion for STM32Cube&nbsp;</span><span style="font-size: 20pt; font-family: Verdana;"><o:p></o:p></span></h1>
-<p class="MsoNormal" style="text-align: center;" align="center"><span style="font-size: 10pt; font-family: Arial; color: black;">Copyright&nbsp;2016
+<p class="MsoNormal" style="text-align: center;" align="center"><span style="font-size: 10pt; font-family: Arial; color: black;">Copyright&nbsp;2017
 STMicroelectronics</span><span style="color: black;"><u1:p></u1:p><o:p></o:p></span></p>
 <p class="MsoNormal" style="text-align: center;" align="center"><span style="font-size: 10pt; font-family: Arial; color: black;"><img style="border: 0px solid ; width: 104px; height: 77px;" alt="" id="_x0000_i1025" src="_htmresc/st_logo.png"></span><span style="font-size: 10pt;"><o:p></o:p></span></p>
 </td>
@@ -528,7 +528,7 @@ Series in the future.</span></font><br style="font-family: Verdana;" class="MsoN
 examples covering most of
 applicative use cases and allowing to develop
 applications based on </span><span class="MsoNormal" style="font-weight: bold; font-family: Verdana;">USB-PD</span><span style="font-family: Verdana;" class="MsoNormal"> (Provider,
-Consumer, and Dual Role Port).
+Consumer,&nbsp;Dual Role Port, Dual Port management, VDM feature support).
 The library and associated examples can be used
 with STM32F0 devices and a dedicated
             </span><span class="MsoNormal" style="font-weight: bold; font-family: Verdana;">P-NUCLEO-USB001</span><span style="font-family: Verdana;" class="MsoNormal"> shield containing </span><span class="MsoNormal" style="font-weight: bold; font-family: Verdana;">analog
@@ -562,10 +562,47 @@ to different hardware platforms.</span></p>
 History</span></h2>
 <ul style="margin-top: 0cm;" type="square">
 </ul>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 500pt; width: 200px;"><span style="font-size: 10pt; font-family: Arial; color: white;">V1.1.1
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 500pt; width: 200px;"><span style="font-size: 10pt; font-family: Arial; color: white;">V1.2.0
+/ 17-Jan-2016</span></h3>
+<p class="MsoNormal" style="margin: 4.5pt 0cm 4.5pt 18pt;"><b style=""><u><span style="font-size: 10pt; font-family: Verdana; color: black;">Main
+Changes</span></u></b></p><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">USB PD library split into Core and Device parts</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Fix issues encountered in DRP certification in USB-IF Compliance Workshop #101, Taipei.</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Additional of several applications examples.</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Addition of VDM feature support.<br></span></li></ul>
+
+<p class="MsoNormal" style="margin: 4.5pt 0cm 4.5pt 18pt;"><b style=""><u><span style="font-size: 10pt; font-family: Verdana; color: black;">Contents<o:p></o:p></span></u></b></p>
+<span style="font-size: 10pt; font-family: Verdana;">
+</span>
+<ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Drivers</span></li><ul><li style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;" class="MsoNormal"><span style="font-family: Verdana; font-size: 10pt;">Cortex-M
+CMSIS </span><span style="font-family: Verdana; font-size: 10pt;">V4.5.0 (<a href="Drivers/CMSIS/index.html">release notes</a>)</span>
+</li><li style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;" class="MsoNormal"><span style="font-family: Verdana; font-size: 10pt;"><span style="font-weight: bold;">STM32F0xx CMSIS V2.3.0</span>
+(<a href="Drivers/CMSIS/Device/ST/STM32F0xx/Release_Notes.html">release
+notes</a>)</span><span style="font-family: Verdana; font-size: 10pt;"></span><span style="font-family: Verdana; font-size: 10pt;"></span>
+</li><li style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;" class="MsoNormal"><span style="font-family: Verdana; font-size: 10pt; font-weight: bold;">STM32F0</span><span style="font-family: Verdana; font-size: 10pt;"><span style="font-weight: bold;">xx HAL V1.4.0</span> (<a href="Drivers/STM32F0xx_HAL_Driver/Release_Notes.html">release
+notes</a>)</span></li><li style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;" class="MsoNormal"><span style="font-family: Verdana; font-size: 10pt;"><span style="font-weight: bold;">BSP STM32F0xx-Nucleo V1.1.3_USBPD</span>
+(<a href="Drivers/BSP/STM32F0xx-Nucleo/Release_Notes.html">release
+notes</a>)</span></li><li style="margin: 4.5pt 0in; font-family: 'Times New Roman'; color: black; font-size: 12pt;" class="MsoNormal"><span style="font-family: Verdana; font-size: 10pt;"><span style="font-weight: bold;">BSP P-NUCLEO-USB001 V1.2.0</span> (<a style="color: blue; text-decoration: underline;" href="Drivers/BSP/P-NUCLEO-USB001/Release_Notes.html">release
+notes</a>)</span></li></ul><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-size: 10pt; font-family: Verdana;">Middlewares</span></li><ul><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;">STM32 USB-C Power Delivery
+Core Stack Library V1.2.0</span></span><span style="font-size: 10pt; font-family: Verdana;"> </span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"> (<a href="Middlewares/ST/STM32_USBPD_Library/Core/Release_Notes.html">release
+notes</a>)</span></li><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;">STM32 USB-C Power Delivery F0 Device Library V1.2.0</span></span><span style="font-size: 10pt; font-family: Verdana;"> </span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"> (<a href="Middlewares/ST/STM32_USBPD_Library/Devices/STM32F072/Release_Notes.html">release
+notes</a>)</span></li><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-family: Verdana; font-size: 10pt; font-weight: bold;">FreeRTOS
+V8.2.3</span><span style="font-family: Verdana; font-size: 10pt;"><span class="Apple-converted-space"> </span></span><span style="font-family: Verdana; font-size: 10pt;"></span><span style="font-family: Verdana; font-size: 10pt;">(<a style="color: blue; text-decoration: underline;" href="Middlewares/Third_Party/FreeRTOS/Source/readme.txt">release
+notes</a>) </span><span style="font-family: Verdana; font-size: 10pt;"><span style="font-weight: bold;">ST modified
+20160122</span> (<a style="color: blue; text-decoration: underline;" href="Middlewares/Third_Party/FreeRTOS/Source/st_readme.txt">release
+notes</a>)</span></li></ul></ul>
+<span style="font-size: 10pt; font-family: Verdana;"></span><br>
+<span style="font-size: 10pt; font-family: Verdana;"><span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span></span>
+<p class="MsoNormal" style="margin: 4.5pt 0cm 4.5pt 23px; width: 868px;"><b style=""><u><span style="font-size: 10pt; font-family: Verdana; color: black;">Development
+Toolchains and Compilers<o:p></o:p></span></u></b></p>
+<ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-size: 10pt; font-family: Verdana;">IAR Embedded
+Workbench for ARM (EWARM) toolchain V7.60.1&nbsp;+ </span><span style="font-family: Verdana; font-size: 10pt;">ST-LINK</span></li><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-family: Verdana; font-size: 10pt;">MDK-ARM version 5.16.0.0</span></li><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-family: Verdana; font-size: 10pt;">SW4STM32 1.11.0<br></span></li></ul>
+<br>
+<p class="MsoNormal" style="margin: 4.5pt 0cm 4.5pt 23px; width: 868px;"><b><u><span style="font-size: 10pt; color: black; font-family: Verdana;">Supported
+Devices and boards<o:p></o:p></span></u></b></p>
+<ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-size: 10pt; font-family: Verdana;"></span><span class="MsoNormal" style="font-size: 10pt; font-family: Verdana;">STM32F072RB-Nucleo
+RevC board with built-in STLink with following configuration:</span></li><ul><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span class="MsoNormal" style="font-size: 10pt; font-family: Verdana;">Solder bridges SB48, SB49, SB62, SB63 are closed</span></li></ul><ul><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span class="MsoNormal" style="font-size: 10pt; font-family: Verdana;">Solder bridges SB13, SB14, SB15, SB21 are open</span></li></ul><ul><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span class="MsoNormal" style="font-size: 10pt; font-family: Verdana;">0 Ohm resistors R34, R36 are removed<br>
+                  </span></li></ul><li class="MsoNormal" style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black;"><span style="font-size: 10pt; font-family: Verdana;">
+<span class="MsoNormal">P-NUCLEO-USB001 shield, MB1257, RevB or RevC.</span></span></li></ul><h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 500pt; width: 200px;"><span style="font-size: 10pt; font-family: Arial; color: white;">V1.1.1
 / 29-June-2016</span></h3>
 <p class="MsoNormal" style="margin: 4.5pt 0cm 4.5pt 18pt;"><b style=""><u><span style="font-size: 10pt; font-family: Verdana; color: black;">Main
-Changes</span></u></b></p><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Fix project settings for Provide example.</span></li></ul>
+Changes</span></u></b></p><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Fix project settings for Provider example.</span></li></ul>
 
 <p class="MsoNormal" style="margin: 4.5pt 0cm 4.5pt 18pt;"><b style=""><u><span style="font-size: 10pt; font-family: Verdana; color: black;">Contents<o:p></o:p></span></u></b></p>
 <span style="font-size: 10pt; font-family: Verdana;">

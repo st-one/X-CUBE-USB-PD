@@ -1,0 +1,90 @@
+; 
+; USB-IF Vendor Info File Generator, Version 1.1.0.1
+; 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Intro tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$VIF_Specification: "Revision 1.00, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.0.1"
+UUT_Device_Type: 3        ; Provider Only
+$Vendor_Name: "STMicroelectronics"
+$Product_Name: "STM32F072RBT6"
+$Version_Info: "SRC"
+$TID: "x"
+$Port_Label: "0"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   General PD Settings tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Specification_Revision: 1        ; Revision 2.0
+SOP_Capable: YES
+SOP_P_Capable: NO
+SOP_PP_Capable: NO
+SOP_P_Debug_Capable: NO
+SOP_PP_Debug_Capable: NO
+USB_Comms_Capable: NO
+DR_Swap_To_DFP_Supported: NO
+DR_Swap_To_UFP_Supported: NO
+Unconstrained_Power: NO
+VCONN_Swap_To_On_Supported: NO
+VCONN_Swap_To_Off_Supported: NO
+Responds_To_Discov_SOP: YES
+Attempts_Discov_SOP: YES
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Type-C tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type_C_State_Machine: 0        ; SRC
+RP_Value: 2        ; 3A
+Type_C_Is_Debug_Target_SRC: NO
+Type_C_Can_Act_As_Host: NO
+Type_C_Can_Act_As_Device: NO
+Type_C_Is_Alt_Mode_Controller: NO
+Type_C_Is_Alt_Mode_Device: NO
+Type_C_Power_Source: 0        ; Self-Powered
+Type_C_BC_1_2_Support: 0        ; None
+Type_C_Battery_Powered: NO
+Type_C_Port_On_Hub: NO
+Type_C_Supports_Audio_Accessory: NO
+Captive_Cable: NO
+Type_C_Sources_VCONN: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Source tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Source: 15000        ; (15000 mW)
+USB_Suspend_May_Be_Cleared: YES
+Sends_Pings: NO
+Num_Src_PDOs: 1
+
+    Src_PDO_Supply_Type1: 0        ; Fixed
+    Src_PDO_Peak_Current1: 0        ; 100% IOC
+    Src_PDO_Voltage1: 100        ; (5000 mV)
+    Src_PDO_Max_Current1: 300        ; (3000 mA)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SOP Discovery - Part One tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Structured_VDM_Version_SOP: 0        ; V1.0
+XID_SOP: 43690
+Data_Capable_as_USB_Host_SOP: NO
+Data_Capable_as_USB_Device_SOP: NO
+Product_Type_SOP: 0        ; Undefined
+Modal_Operation_Supported_SOP: YES
+USB_VID_SOP: 0x0483
+PID_SOP: 0xAAAA
+bcdDevice_SOP: 0xAAAA
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SOP Discovery - Part Two tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SVID_fixed_SOP: YES
+Num_SVIDs_min_SOP: 1
+Num_SVIDs_max_SOP: 1
+
+    SVID1_SOP: 0x0483
+    SVID1_modes_fixed_SOP: YES
+    SVID1_num_modes_min_SOP: 1
+    SVID1_num_modes_max_SOP: 1
+

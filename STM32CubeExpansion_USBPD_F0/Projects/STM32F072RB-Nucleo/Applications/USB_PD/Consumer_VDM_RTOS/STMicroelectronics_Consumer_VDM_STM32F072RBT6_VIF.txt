@@ -1,0 +1,1260 @@
+; 
+; USB-IF Vendor Info File Generator, Version 1.1.0.1
+; 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Intro tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$VIF_Specification: "Revision 1.00, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.0.1"
+UUT_Device_Type: 0        ; Consumer Only
+$Vendor_Name: "ST"
+$Product_Name: "STM32F072RB"
+$Version_Info: "VDM"
+$TID: "XXX"
+$Port_Label: "XXX"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   General PD Settings tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Specification_Revision: 1        ; Revision 2.0
+SOP_Capable: YES
+SOP_P_Capable: NO
+SOP_PP_Capable: NO
+SOP_P_Debug_Capable: NO
+SOP_PP_Debug_Capable: NO
+USB_Comms_Capable: NO
+DR_Swap_To_DFP_Supported: NO
+DR_Swap_To_UFP_Supported: NO
+Unconstrained_Power: NO
+VCONN_Swap_To_On_Supported: NO
+VCONN_Swap_To_Off_Supported: NO
+Responds_To_Discov_SOP: YES
+Attempts_Discov_SOP: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Type-C tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type_C_State_Machine: 1        ; SNK
+Type_C_Supports_VCONN_Powered_Accessory: NO
+Type_C_Is_VCONN_Powered_Accessory: NO
+Type_C_Is_Debug_Target_SNK: NO
+Type_C_Can_Act_As_Host: NO
+Type_C_Can_Act_As_Device: NO
+Type_C_Is_Alt_Mode_Controller: NO
+Type_C_Is_Alt_Mode_Device: NO
+Type_C_Power_Source: 0        ; Self-Powered
+Type_C_BC_1_2_Support: 0        ; None
+Type_C_Battery_Powered: NO
+Type_C_Port_On_Hub: NO
+Type_C_Supports_Audio_Accessory: NO
+Captive_Cable: NO
+Type_C_Sources_VCONN: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Sink tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Sink: 15000        ; (15000 mW)
+No_USB_Suspend_May_Be_Set: YES
+GiveBack_May_Be_Set: NO
+Higher_Capability_Set: NO
+Num_Snk_PDOs: 1
+
+    Snk_PDO_Supply_Type1: 0        ; Fixed
+    Snk_PDO_Voltage1: 100        ; (5000 mV)
+    Snk_PDO_Op_Current1: 150        ; (1500 mA)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SOP Discovery - Part One tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Structured_VDM_Version_SOP: 0        ; V1.0
+XID_SOP: 43690
+Data_Capable_as_USB_Host_SOP: NO
+Data_Capable_as_USB_Device_SOP: NO
+Product_Type_SOP: 0        ; Undefined
+Modal_Operation_Supported_SOP: YES
+USB_VID_SOP: 0x0483
+PID_SOP: 0xAAAA
+bcdDevice_SOP: 0xAAAA
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SOP Discovery - Part Two tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SVID_fixed_SOP: YES
+Num_SVIDs_min_SOP: 1
+Num_SVIDs_max_SOP: 1
+
+    SVID1_SOP: 0xFF01
+    SVID1_modes_fixed_SOP: YES
+    SVID1_num_modes_min_SOP: 1
+    SVID1_num_modes_max_SOP: 1
+
+; --------------------------------------------------------------------------------
+; DisplayPort Alt-Mode
+; --------------------------------------------------------------------------------
+
+DP_Modes_Count                            : 2               
+
+; Mode 1
+DP_mode1_Port_Cap                         : 1               ; UFP_D Capable
+DP_mode1_Support_DPv13                    : Yes             
+DP_mode1_Support_UsbGen2                  : No              
+DP_mode1_Receptacle                       : No              ; DP on Type-C Plug
+DP_mode1_Usb20_Not_Used                   : No              
+
+; DFP_D Pin Assignments Supported
+DP_mode1_Dfp_D_A_Supported                : No              
+DP_mode1_Dfp_D_B_Supported                : No              
+DP_mode1_Dfp_D_C_Supported                : Yes             
+DP_mode1_Dfp_D_D_Supported                : Yes             
+DP_mode1_Dfp_D_E_Supported                : No              
+DP_mode1_Dfp_D_F_Supported                : No              
+
+; UFP_D Pin Assignments Supported
+DP_mode1_Ufp_D_A_Supported                : No              
+DP_mode1_Ufp_D_B_Supported                : No              
+DP_mode1_Ufp_D_C_Supported                : No              
+DP_mode1_Ufp_D_D_Supported                : No              
+DP_mode1_Ufp_D_E_Supported                : No              
+
+; Mode 2
+DP_mode2_Port_Cap                         : 3               ; Both DFP_D and UFP_D Capable
+DP_mode2_Support_DPv13                    : Yes             
+DP_mode2_Support_UsbGen2                  : No              
+DP_mode2_Receptacle                       : Yes             ; DP on Type-C Receptacle
+DP_mode2_Usb20_Not_Used                   : No              
+
+; DFP_D Pin Assignments Supported
+DP_mode2_Dfp_D_A_Supported                : No              
+DP_mode2_Dfp_D_B_Supported                : No              
+DP_mode2_Dfp_D_C_Supported                : Yes             
+DP_mode2_Dfp_D_D_Supported                : Yes             
+DP_mode2_Dfp_D_E_Supported                : No              
+DP_mode2_Dfp_D_F_Supported                : No              
+
+; UFP_D Pin Assignments Supported
+DP_mode2_Ufp_D_A_Supported                : No              
+DP_mode2_Ufp_D_B_Supported                : No              
+DP_mode2_Ufp_D_C_Supported                : No              
+DP_mode2_Ufp_D_D_Supported                : No              
+DP_mode2_Ufp_D_E_Supported                : No              
+
+; --------------------------------------------------------------------------------
+; Remaining fields (not relevant for selected configuration)
+; --------------------------------------------------------------------------------
+
+Rp_Value                                  : 0               ; Default USB Power
+Type_C_Implements_Try_SRC                 : Yes             
+Type_C_Implements_Try_SNK                 : Yes             
+Type_C_Is_Debug_Target_SRC                : No              
+Type_C_Host_Speed                         : 1               ; USB 3.1 Gen1 (5 Gbps)
+Type_C_Device_Speed                       : 1               ; USB 3.1 Gen1 (5 Gbps)
+Accepts_PR_Swap_As_Src                    : Yes             
+Accepts_PR_Swap_As_Snk                    : Yes             
+Requests_PR_Swap_As_Src                   : Yes             
+Requests_PR_Swap_As_Snk                   : Yes             
+PD_Power_as_Source                        : 2500            ; 2.5 W
+USB_Suspend_May_Be_Cleared                : Yes             
+Sends_Pings                               : No              
+Num_Src_PDOs                              : 1               
+Src_PDO_Supply_Type1                      : 0               ; Fixed
+Src_PDO_Voltage1                          : 100             ; 5 V
+Src_PDO_Min_Voltage1                      : 100             ; 5 V
+Src_PDO_Max_Voltage1                      : 100             ; 5 V
+Src_PDO_Peak_Current1                     : 0               ; 100% IOC
+Src_PDO_Max_Current1                      : 100             ; 1 A
+Src_PDO_Max_Power1                        : 100             ; 25 W
+Src_PDO_Supply_Type2                      : 0               ; Fixed
+Src_PDO_Voltage2                          : 100             ; 5 V
+Src_PDO_Min_Voltage2                      : 100             ; 5 V
+Src_PDO_Max_Voltage2                      : 100             ; 5 V
+Src_PDO_Peak_Current2                     : 0               ; 100% IOC
+Src_PDO_Max_Current2                      : 100             ; 1 A
+Src_PDO_Max_Power2                        : 100             ; 25 W
+Src_PDO_Supply_Type3                      : 0               ; Fixed
+Src_PDO_Voltage3                          : 100             ; 5 V
+Src_PDO_Min_Voltage3                      : 100             ; 5 V
+Src_PDO_Max_Voltage3                      : 100             ; 5 V
+Src_PDO_Peak_Current3                     : 0               ; 100% IOC
+Src_PDO_Max_Current3                      : 100             ; 1 A
+Src_PDO_Max_Power3                        : 100             ; 25 W
+Src_PDO_Supply_Type4                      : 0               ; Fixed
+Src_PDO_Voltage4                          : 100             ; 5 V
+Src_PDO_Min_Voltage4                      : 100             ; 5 V
+Src_PDO_Max_Voltage4                      : 100             ; 5 V
+Src_PDO_Peak_Current4                     : 0               ; 100% IOC
+Src_PDO_Max_Current4                      : 100             ; 1 A
+Src_PDO_Max_Power4                        : 100             ; 25 W
+Src_PDO_Supply_Type5                      : 0               ; Fixed
+Src_PDO_Voltage5                          : 100             ; 5 V
+Src_PDO_Min_Voltage5                      : 100             ; 5 V
+Src_PDO_Max_Voltage5                      : 100             ; 5 V
+Src_PDO_Peak_Current5                     : 0               ; 100% IOC
+Src_PDO_Max_Current5                      : 100             ; 1 A
+Src_PDO_Max_Power5                        : 100             ; 25 W
+Src_PDO_Supply_Type6                      : 0               ; Fixed
+Src_PDO_Voltage6                          : 100             ; 5 V
+Src_PDO_Min_Voltage6                      : 100             ; 5 V
+Src_PDO_Max_Voltage6                      : 100             ; 5 V
+Src_PDO_Peak_Current6                     : 0               ; 100% IOC
+Src_PDO_Max_Current6                      : 100             ; 1 A
+Src_PDO_Max_Power6                        : 100             ; 25 W
+Src_PDO_Supply_Type7                      : 0               ; Fixed
+Src_PDO_Voltage7                          : 100             ; 5 V
+Src_PDO_Min_Voltage7                      : 100             ; 5 V
+Src_PDO_Max_Voltage7                      : 100             ; 5 V
+Src_PDO_Peak_Current7                     : 0               ; 100% IOC
+Src_PDO_Max_Current7                      : 100             ; 1 A
+Src_PDO_Max_Power7                        : 100             ; 25 W
+Snk_PDO_Min_Voltage1                      : 100             ; 5 V
+Snk_PDO_Max_Voltage1                      : 100             ; 5 V
+Snk_PDO_Op_Power1                         : 100             ; 25 W
+Snk_PDO_Supply_Type2                      : 0               ; Fixed
+Snk_PDO_Voltage2                          : 100             ; 5 V
+Snk_PDO_Min_Voltage2                      : 100             ; 5 V
+Snk_PDO_Max_Voltage2                      : 100             ; 5 V
+Snk_PDO_Op_Current2                       : 100             ; 1 A
+Snk_PDO_Op_Power2                         : 100             ; 25 W
+Snk_PDO_Supply_Type3                      : 0               ; Fixed
+Snk_PDO_Voltage3                          : 100             ; 5 V
+Snk_PDO_Min_Voltage3                      : 100             ; 5 V
+Snk_PDO_Max_Voltage3                      : 100             ; 5 V
+Snk_PDO_Op_Current3                       : 100             ; 1 A
+Snk_PDO_Op_Power3                         : 100             ; 25 W
+Snk_PDO_Supply_Type4                      : 0               ; Fixed
+Snk_PDO_Voltage4                          : 100             ; 5 V
+Snk_PDO_Min_Voltage4                      : 100             ; 5 V
+Snk_PDO_Max_Voltage4                      : 100             ; 5 V
+Snk_PDO_Op_Current4                       : 100             ; 1 A
+Snk_PDO_Op_Power4                         : 100             ; 25 W
+Snk_PDO_Supply_Type5                      : 0               ; Fixed
+Snk_PDO_Voltage5                          : 100             ; 5 V
+Snk_PDO_Min_Voltage5                      : 100             ; 5 V
+Snk_PDO_Max_Voltage5                      : 100             ; 5 V
+Snk_PDO_Op_Current5                       : 100             ; 1 A
+Snk_PDO_Op_Power5                         : 100             ; 25 W
+Snk_PDO_Supply_Type6                      : 0               ; Fixed
+Snk_PDO_Voltage6                          : 100             ; 5 V
+Snk_PDO_Min_Voltage6                      : 100             ; 5 V
+Snk_PDO_Max_Voltage6                      : 100             ; 5 V
+Snk_PDO_Op_Current6                       : 100             ; 1 A
+Snk_PDO_Op_Power6                         : 100             ; 25 W
+Snk_PDO_Supply_Type7                      : 0               ; Fixed
+Snk_PDO_Voltage7                          : 100             ; 5 V
+Snk_PDO_Min_Voltage7                      : 100             ; 5 V
+Snk_PDO_Max_Voltage7                      : 100             ; 5 V
+Snk_PDO_Op_Current7                       : 100             ; 1 A
+Snk_PDO_Op_Power7                         : 100             ; 25 W
+AMA_HW_Vers                               : 0x0             
+AMA_FW_Vers                               : 0x0             
+AMA_SSTX1_Dir_Support                     : No              
+AMA_SSTX2_Dir_Support                     : No              
+AMA_SSRX1_Dir_Support                     : No              
+AMA_SSRX2_Dir_Support                     : No              
+AMA_VCONN_power                           : 0               ; 1 W
+AMA_VCONN_reqd                            : No              
+AMA_VBUS_reqd                             : No              
+AMA_Superspeed_Support                    : 1               ; USB 3.1 Gen 1
+SVID1_mode1_recog_mask_SOP                : 0x00000000      
+SVID1_mode1_recog_value_SOP               : 0x00000000      
+SVID1_mode2_recog_mask_SOP                : 0x00000000      
+SVID1_mode2_recog_value_SOP               : 0x00000000      
+SVID1_mode3_recog_mask_SOP                : 0x00000000      
+SVID1_mode3_recog_value_SOP               : 0x00000000      
+SVID1_mode4_recog_mask_SOP                : 0x00000000      
+SVID1_mode4_recog_value_SOP               : 0x00000000      
+SVID1_mode5_recog_mask_SOP                : 0x00000000      
+SVID1_mode5_recog_value_SOP               : 0x00000000      
+SVID1_mode6_recog_mask_SOP                : 0x00000000      
+SVID1_mode6_recog_value_SOP               : 0x00000000      
+SVID2_SOP                                 : 0x0000          
+SVID2_num_modes_min_SOP                   : 1               
+SVID2_num_modes_max_SOP                   : 1               
+SVID2_modes_fixed_SOP                     : Yes             
+SVID2_mode1_recog_mask_SOP                : 0x00000000      
+SVID2_mode1_recog_value_SOP               : 0x00000000      
+SVID2_mode2_recog_mask_SOP                : 0x00000000      
+SVID2_mode2_recog_value_SOP               : 0x00000000      
+SVID2_mode3_recog_mask_SOP                : 0x00000000      
+SVID2_mode3_recog_value_SOP               : 0x00000000      
+SVID2_mode4_recog_mask_SOP                : 0x00000000      
+SVID2_mode4_recog_value_SOP               : 0x00000000      
+SVID2_mode5_recog_mask_SOP                : 0x00000000      
+SVID2_mode5_recog_value_SOP               : 0x00000000      
+SVID2_mode6_recog_mask_SOP                : 0x00000000      
+SVID2_mode6_recog_value_SOP               : 0x00000000      
+SVID3_SOP                                 : 0x0000          
+SVID3_num_modes_min_SOP                   : 1               
+SVID3_num_modes_max_SOP                   : 1               
+SVID3_modes_fixed_SOP                     : Yes             
+SVID3_mode1_recog_mask_SOP                : 0x00000000      
+SVID3_mode1_recog_value_SOP               : 0x00000000      
+SVID3_mode2_recog_mask_SOP                : 0x00000000      
+SVID3_mode2_recog_value_SOP               : 0x00000000      
+SVID3_mode3_recog_mask_SOP                : 0x00000000      
+SVID3_mode3_recog_value_SOP               : 0x00000000      
+SVID3_mode4_recog_mask_SOP                : 0x00000000      
+SVID3_mode4_recog_value_SOP               : 0x00000000      
+SVID3_mode5_recog_mask_SOP                : 0x00000000      
+SVID3_mode5_recog_value_SOP               : 0x00000000      
+SVID3_mode6_recog_mask_SOP                : 0x00000000      
+SVID3_mode6_recog_value_SOP               : 0x00000000      
+SVID4_SOP                                 : 0x0000          
+SVID4_num_modes_min_SOP                   : 1               
+SVID4_num_modes_max_SOP                   : 1               
+SVID4_modes_fixed_SOP                     : Yes             
+SVID4_mode1_recog_mask_SOP                : 0x00000000      
+SVID4_mode1_recog_value_SOP               : 0x00000000      
+SVID4_mode2_recog_mask_SOP                : 0x00000000      
+SVID4_mode2_recog_value_SOP               : 0x00000000      
+SVID4_mode3_recog_mask_SOP                : 0x00000000      
+SVID4_mode3_recog_value_SOP               : 0x00000000      
+SVID4_mode4_recog_mask_SOP                : 0x00000000      
+SVID4_mode4_recog_value_SOP               : 0x00000000      
+SVID4_mode5_recog_mask_SOP                : 0x00000000      
+SVID4_mode5_recog_value_SOP               : 0x00000000      
+SVID4_mode6_recog_mask_SOP                : 0x00000000      
+SVID4_mode6_recog_value_SOP               : 0x00000000      
+SVID5_SOP                                 : 0x0000          
+SVID5_num_modes_min_SOP                   : 1               
+SVID5_num_modes_max_SOP                   : 1               
+SVID5_modes_fixed_SOP                     : Yes             
+SVID5_mode1_recog_mask_SOP                : 0x00000000      
+SVID5_mode1_recog_value_SOP               : 0x00000000      
+SVID5_mode2_recog_mask_SOP                : 0x00000000      
+SVID5_mode2_recog_value_SOP               : 0x00000000      
+SVID5_mode3_recog_mask_SOP                : 0x00000000      
+SVID5_mode3_recog_value_SOP               : 0x00000000      
+SVID5_mode4_recog_mask_SOP                : 0x00000000      
+SVID5_mode4_recog_value_SOP               : 0x00000000      
+SVID5_mode5_recog_mask_SOP                : 0x00000000      
+SVID5_mode5_recog_value_SOP               : 0x00000000      
+SVID5_mode6_recog_mask_SOP                : 0x00000000      
+SVID5_mode6_recog_value_SOP               : 0x00000000      
+SVID6_SOP                                 : 0x0000          
+SVID6_num_modes_min_SOP                   : 1               
+SVID6_num_modes_max_SOP                   : 1               
+SVID6_modes_fixed_SOP                     : Yes             
+SVID6_mode1_recog_mask_SOP                : 0x00000000      
+SVID6_mode1_recog_value_SOP               : 0x00000000      
+SVID6_mode2_recog_mask_SOP                : 0x00000000      
+SVID6_mode2_recog_value_SOP               : 0x00000000      
+SVID6_mode3_recog_mask_SOP                : 0x00000000      
+SVID6_mode3_recog_value_SOP               : 0x00000000      
+SVID6_mode4_recog_mask_SOP                : 0x00000000      
+SVID6_mode4_recog_value_SOP               : 0x00000000      
+SVID6_mode5_recog_mask_SOP                : 0x00000000      
+SVID6_mode5_recog_value_SOP               : 0x00000000      
+SVID6_mode6_recog_mask_SOP                : 0x00000000      
+SVID6_mode6_recog_value_SOP               : 0x00000000      
+SVID7_SOP                                 : 0x0000          
+SVID7_num_modes_min_SOP                   : 1               
+SVID7_num_modes_max_SOP                   : 1               
+SVID7_modes_fixed_SOP                     : Yes             
+SVID7_mode1_recog_mask_SOP                : 0x00000000      
+SVID7_mode1_recog_value_SOP               : 0x00000000      
+SVID7_mode2_recog_mask_SOP                : 0x00000000      
+SVID7_mode2_recog_value_SOP               : 0x00000000      
+SVID7_mode3_recog_mask_SOP                : 0x00000000      
+SVID7_mode3_recog_value_SOP               : 0x00000000      
+SVID7_mode4_recog_mask_SOP                : 0x00000000      
+SVID7_mode4_recog_value_SOP               : 0x00000000      
+SVID7_mode5_recog_mask_SOP                : 0x00000000      
+SVID7_mode5_recog_value_SOP               : 0x00000000      
+SVID7_mode6_recog_mask_SOP                : 0x00000000      
+SVID7_mode6_recog_value_SOP               : 0x00000000      
+SVID8_SOP                                 : 0x0000          
+SVID8_num_modes_min_SOP                   : 1               
+SVID8_num_modes_max_SOP                   : 1               
+SVID8_modes_fixed_SOP                     : Yes             
+SVID8_mode1_recog_mask_SOP                : 0x00000000      
+SVID8_mode1_recog_value_SOP               : 0x00000000      
+SVID8_mode2_recog_mask_SOP                : 0x00000000      
+SVID8_mode2_recog_value_SOP               : 0x00000000      
+SVID8_mode3_recog_mask_SOP                : 0x00000000      
+SVID8_mode3_recog_value_SOP               : 0x00000000      
+SVID8_mode4_recog_mask_SOP                : 0x00000000      
+SVID8_mode4_recog_value_SOP               : 0x00000000      
+SVID8_mode5_recog_mask_SOP                : 0x00000000      
+SVID8_mode5_recog_value_SOP               : 0x00000000      
+SVID8_mode6_recog_mask_SOP                : 0x00000000      
+SVID8_mode6_recog_value_SOP               : 0x00000000      
+SVID9_SOP                                 : 0x0000          
+SVID9_num_modes_min_SOP                   : 1               
+SVID9_num_modes_max_SOP                   : 1               
+SVID9_modes_fixed_SOP                     : Yes             
+SVID9_mode1_recog_mask_SOP                : 0x00000000      
+SVID9_mode1_recog_value_SOP               : 0x00000000      
+SVID9_mode2_recog_mask_SOP                : 0x00000000      
+SVID9_mode2_recog_value_SOP               : 0x00000000      
+SVID9_mode3_recog_mask_SOP                : 0x00000000      
+SVID9_mode3_recog_value_SOP               : 0x00000000      
+SVID9_mode4_recog_mask_SOP                : 0x00000000      
+SVID9_mode4_recog_value_SOP               : 0x00000000      
+SVID9_mode5_recog_mask_SOP                : 0x00000000      
+SVID9_mode5_recog_value_SOP               : 0x00000000      
+SVID9_mode6_recog_mask_SOP                : 0x00000000      
+SVID9_mode6_recog_value_SOP               : 0x00000000      
+SVID10_SOP                                : 0x0000          
+SVID10_num_modes_min_SOP                  : 1               
+SVID10_num_modes_max_SOP                  : 1               
+SVID10_modes_fixed_SOP                    : Yes             
+SVID10_mode1_recog_mask_SOP               : 0x00000000      
+SVID10_mode1_recog_value_SOP              : 0x00000000      
+SVID10_mode2_recog_mask_SOP               : 0x00000000      
+SVID10_mode2_recog_value_SOP              : 0x00000000      
+SVID10_mode3_recog_mask_SOP               : 0x00000000      
+SVID10_mode3_recog_value_SOP              : 0x00000000      
+SVID10_mode4_recog_mask_SOP               : 0x00000000      
+SVID10_mode4_recog_value_SOP              : 0x00000000      
+SVID10_mode5_recog_mask_SOP               : 0x00000000      
+SVID10_mode5_recog_value_SOP              : 0x00000000      
+SVID10_mode6_recog_mask_SOP               : 0x00000000      
+SVID10_mode6_recog_value_SOP              : 0x00000000      
+SVID11_SOP                                : 0x0000          
+SVID11_num_modes_min_SOP                  : 1               
+SVID11_num_modes_max_SOP                  : 1               
+SVID11_modes_fixed_SOP                    : Yes             
+SVID11_mode1_recog_mask_SOP               : 0x00000000      
+SVID11_mode1_recog_value_SOP              : 0x00000000      
+SVID11_mode2_recog_mask_SOP               : 0x00000000      
+SVID11_mode2_recog_value_SOP              : 0x00000000      
+SVID11_mode3_recog_mask_SOP               : 0x00000000      
+SVID11_mode3_recog_value_SOP              : 0x00000000      
+SVID11_mode4_recog_mask_SOP               : 0x00000000      
+SVID11_mode4_recog_value_SOP              : 0x00000000      
+SVID11_mode5_recog_mask_SOP               : 0x00000000      
+SVID11_mode5_recog_value_SOP              : 0x00000000      
+SVID11_mode6_recog_mask_SOP               : 0x00000000      
+SVID11_mode6_recog_value_SOP              : 0x00000000      
+SVID12_SOP                                : 0x0000          
+SVID12_num_modes_min_SOP                  : 1               
+SVID12_num_modes_max_SOP                  : 1               
+SVID12_modes_fixed_SOP                    : Yes             
+SVID12_mode1_recog_mask_SOP               : 0x00000000      
+SVID12_mode1_recog_value_SOP              : 0x00000000      
+SVID12_mode2_recog_mask_SOP               : 0x00000000      
+SVID12_mode2_recog_value_SOP              : 0x00000000      
+SVID12_mode3_recog_mask_SOP               : 0x00000000      
+SVID12_mode3_recog_value_SOP              : 0x00000000      
+SVID12_mode4_recog_mask_SOP               : 0x00000000      
+SVID12_mode4_recog_value_SOP              : 0x00000000      
+SVID12_mode5_recog_mask_SOP               : 0x00000000      
+SVID12_mode5_recog_value_SOP              : 0x00000000      
+SVID12_mode6_recog_mask_SOP               : 0x00000000      
+SVID12_mode6_recog_value_SOP              : 0x00000000      
+SVID13_SOP                                : 0x0000          
+SVID13_num_modes_min_SOP                  : 1               
+SVID13_num_modes_max_SOP                  : 1               
+SVID13_modes_fixed_SOP                    : Yes             
+SVID13_mode1_recog_mask_SOP               : 0x00000000      
+SVID13_mode1_recog_value_SOP              : 0x00000000      
+SVID13_mode2_recog_mask_SOP               : 0x00000000      
+SVID13_mode2_recog_value_SOP              : 0x00000000      
+SVID13_mode3_recog_mask_SOP               : 0x00000000      
+SVID13_mode3_recog_value_SOP              : 0x00000000      
+SVID13_mode4_recog_mask_SOP               : 0x00000000      
+SVID13_mode4_recog_value_SOP              : 0x00000000      
+SVID13_mode5_recog_mask_SOP               : 0x00000000      
+SVID13_mode5_recog_value_SOP              : 0x00000000      
+SVID13_mode6_recog_mask_SOP               : 0x00000000      
+SVID13_mode6_recog_value_SOP              : 0x00000000      
+SVID14_SOP                                : 0x0000          
+SVID14_num_modes_min_SOP                  : 1               
+SVID14_num_modes_max_SOP                  : 1               
+SVID14_modes_fixed_SOP                    : Yes             
+SVID14_mode1_recog_mask_SOP               : 0x00000000      
+SVID14_mode1_recog_value_SOP              : 0x00000000      
+SVID14_mode2_recog_mask_SOP               : 0x00000000      
+SVID14_mode2_recog_value_SOP              : 0x00000000      
+SVID14_mode3_recog_mask_SOP               : 0x00000000      
+SVID14_mode3_recog_value_SOP              : 0x00000000      
+SVID14_mode4_recog_mask_SOP               : 0x00000000      
+SVID14_mode4_recog_value_SOP              : 0x00000000      
+SVID14_mode5_recog_mask_SOP               : 0x00000000      
+SVID14_mode5_recog_value_SOP              : 0x00000000      
+SVID14_mode6_recog_mask_SOP               : 0x00000000      
+SVID14_mode6_recog_value_SOP              : 0x00000000      
+SVID15_SOP                                : 0x0000          
+SVID15_num_modes_min_SOP                  : 1               
+SVID15_num_modes_max_SOP                  : 1               
+SVID15_modes_fixed_SOP                    : Yes             
+SVID15_mode1_recog_mask_SOP               : 0x00000000      
+SVID15_mode1_recog_value_SOP              : 0x00000000      
+SVID15_mode2_recog_mask_SOP               : 0x00000000      
+SVID15_mode2_recog_value_SOP              : 0x00000000      
+SVID15_mode3_recog_mask_SOP               : 0x00000000      
+SVID15_mode3_recog_value_SOP              : 0x00000000      
+SVID15_mode4_recog_mask_SOP               : 0x00000000      
+SVID15_mode4_recog_value_SOP              : 0x00000000      
+SVID15_mode5_recog_mask_SOP               : 0x00000000      
+SVID15_mode5_recog_value_SOP              : 0x00000000      
+SVID15_mode6_recog_mask_SOP               : 0x00000000      
+SVID15_mode6_recog_value_SOP              : 0x00000000      
+SVID16_SOP                                : 0x0000          
+SVID16_num_modes_min_SOP                  : 1               
+SVID16_num_modes_max_SOP                  : 1               
+SVID16_modes_fixed_SOP                    : Yes             
+SVID16_mode1_recog_mask_SOP               : 0x00000000      
+SVID16_mode1_recog_value_SOP              : 0x00000000      
+SVID16_mode2_recog_mask_SOP               : 0x00000000      
+SVID16_mode2_recog_value_SOP              : 0x00000000      
+SVID16_mode3_recog_mask_SOP               : 0x00000000      
+SVID16_mode3_recog_value_SOP              : 0x00000000      
+SVID16_mode4_recog_mask_SOP               : 0x00000000      
+SVID16_mode4_recog_value_SOP              : 0x00000000      
+SVID16_mode5_recog_mask_SOP               : 0x00000000      
+SVID16_mode5_recog_value_SOP              : 0x00000000      
+SVID16_mode6_recog_mask_SOP               : 0x00000000      
+SVID16_mode6_recog_value_SOP              : 0x00000000      
+SVID17_SOP                                : 0x0000          
+SVID17_num_modes_min_SOP                  : 1               
+SVID17_num_modes_max_SOP                  : 1               
+SVID17_modes_fixed_SOP                    : Yes             
+SVID17_mode1_recog_mask_SOP               : 0x00000000      
+SVID17_mode1_recog_value_SOP              : 0x00000000      
+SVID17_mode2_recog_mask_SOP               : 0x00000000      
+SVID17_mode2_recog_value_SOP              : 0x00000000      
+SVID17_mode3_recog_mask_SOP               : 0x00000000      
+SVID17_mode3_recog_value_SOP              : 0x00000000      
+SVID17_mode4_recog_mask_SOP               : 0x00000000      
+SVID17_mode4_recog_value_SOP              : 0x00000000      
+SVID17_mode5_recog_mask_SOP               : 0x00000000      
+SVID17_mode5_recog_value_SOP              : 0x00000000      
+SVID17_mode6_recog_mask_SOP               : 0x00000000      
+SVID17_mode6_recog_value_SOP              : 0x00000000      
+SVID18_SOP                                : 0x0000          
+SVID18_num_modes_min_SOP                  : 1               
+SVID18_num_modes_max_SOP                  : 1               
+SVID18_modes_fixed_SOP                    : Yes             
+SVID18_mode1_recog_mask_SOP               : 0x00000000      
+SVID18_mode1_recog_value_SOP              : 0x00000000      
+SVID18_mode2_recog_mask_SOP               : 0x00000000      
+SVID18_mode2_recog_value_SOP              : 0x00000000      
+SVID18_mode3_recog_mask_SOP               : 0x00000000      
+SVID18_mode3_recog_value_SOP              : 0x00000000      
+SVID18_mode4_recog_mask_SOP               : 0x00000000      
+SVID18_mode4_recog_value_SOP              : 0x00000000      
+SVID18_mode5_recog_mask_SOP               : 0x00000000      
+SVID18_mode5_recog_value_SOP              : 0x00000000      
+SVID18_mode6_recog_mask_SOP               : 0x00000000      
+SVID18_mode6_recog_value_SOP              : 0x00000000      
+SVID19_SOP                                : 0x0000          
+SVID19_num_modes_min_SOP                  : 1               
+SVID19_num_modes_max_SOP                  : 1               
+SVID19_modes_fixed_SOP                    : Yes             
+SVID19_mode1_recog_mask_SOP               : 0x00000000      
+SVID19_mode1_recog_value_SOP              : 0x00000000      
+SVID19_mode2_recog_mask_SOP               : 0x00000000      
+SVID19_mode2_recog_value_SOP              : 0x00000000      
+SVID19_mode3_recog_mask_SOP               : 0x00000000      
+SVID19_mode3_recog_value_SOP              : 0x00000000      
+SVID19_mode4_recog_mask_SOP               : 0x00000000      
+SVID19_mode4_recog_value_SOP              : 0x00000000      
+SVID19_mode5_recog_mask_SOP               : 0x00000000      
+SVID19_mode5_recog_value_SOP              : 0x00000000      
+SVID19_mode6_recog_mask_SOP               : 0x00000000      
+SVID19_mode6_recog_value_SOP              : 0x00000000      
+SVID20_SOP                                : 0x0000          
+SVID20_num_modes_min_SOP                  : 1               
+SVID20_num_modes_max_SOP                  : 1               
+SVID20_modes_fixed_SOP                    : Yes             
+SVID20_mode1_recog_mask_SOP               : 0x00000000      
+SVID20_mode1_recog_value_SOP              : 0x00000000      
+SVID20_mode2_recog_mask_SOP               : 0x00000000      
+SVID20_mode2_recog_value_SOP              : 0x00000000      
+SVID20_mode3_recog_mask_SOP               : 0x00000000      
+SVID20_mode3_recog_value_SOP              : 0x00000000      
+SVID20_mode4_recog_mask_SOP               : 0x00000000      
+SVID20_mode4_recog_value_SOP              : 0x00000000      
+SVID20_mode5_recog_mask_SOP               : 0x00000000      
+SVID20_mode5_recog_value_SOP              : 0x00000000      
+SVID20_mode6_recog_mask_SOP               : 0x00000000      
+SVID20_mode6_recog_value_SOP              : 0x00000000      
+SVID21_SOP                                : 0x0000          
+SVID21_num_modes_min_SOP                  : 1               
+SVID21_num_modes_max_SOP                  : 1               
+SVID21_modes_fixed_SOP                    : Yes             
+SVID21_mode1_recog_mask_SOP               : 0x00000000      
+SVID21_mode1_recog_value_SOP              : 0x00000000      
+SVID21_mode2_recog_mask_SOP               : 0x00000000      
+SVID21_mode2_recog_value_SOP              : 0x00000000      
+SVID21_mode3_recog_mask_SOP               : 0x00000000      
+SVID21_mode3_recog_value_SOP              : 0x00000000      
+SVID21_mode4_recog_mask_SOP               : 0x00000000      
+SVID21_mode4_recog_value_SOP              : 0x00000000      
+SVID21_mode5_recog_mask_SOP               : 0x00000000      
+SVID21_mode5_recog_value_SOP              : 0x00000000      
+SVID21_mode6_recog_mask_SOP               : 0x00000000      
+SVID21_mode6_recog_value_SOP              : 0x00000000      
+SVID22_SOP                                : 0x0000          
+SVID22_num_modes_min_SOP                  : 1               
+SVID22_num_modes_max_SOP                  : 1               
+SVID22_modes_fixed_SOP                    : Yes             
+SVID22_mode1_recog_mask_SOP               : 0x00000000      
+SVID22_mode1_recog_value_SOP              : 0x00000000      
+SVID22_mode2_recog_mask_SOP               : 0x00000000      
+SVID22_mode2_recog_value_SOP              : 0x00000000      
+SVID22_mode3_recog_mask_SOP               : 0x00000000      
+SVID22_mode3_recog_value_SOP              : 0x00000000      
+SVID22_mode4_recog_mask_SOP               : 0x00000000      
+SVID22_mode4_recog_value_SOP              : 0x00000000      
+SVID22_mode5_recog_mask_SOP               : 0x00000000      
+SVID22_mode5_recog_value_SOP              : 0x00000000      
+SVID22_mode6_recog_mask_SOP               : 0x00000000      
+SVID22_mode6_recog_value_SOP              : 0x00000000      
+SVID23_SOP                                : 0x0000          
+SVID23_num_modes_min_SOP                  : 1               
+SVID23_num_modes_max_SOP                  : 1               
+SVID23_modes_fixed_SOP                    : Yes             
+SVID23_mode1_recog_mask_SOP               : 0x00000000      
+SVID23_mode1_recog_value_SOP              : 0x00000000      
+SVID23_mode2_recog_mask_SOP               : 0x00000000      
+SVID23_mode2_recog_value_SOP              : 0x00000000      
+SVID23_mode3_recog_mask_SOP               : 0x00000000      
+SVID23_mode3_recog_value_SOP              : 0x00000000      
+SVID23_mode4_recog_mask_SOP               : 0x00000000      
+SVID23_mode4_recog_value_SOP              : 0x00000000      
+SVID23_mode5_recog_mask_SOP               : 0x00000000      
+SVID23_mode5_recog_value_SOP              : 0x00000000      
+SVID23_mode6_recog_mask_SOP               : 0x00000000      
+SVID23_mode6_recog_value_SOP              : 0x00000000      
+SVID24_SOP                                : 0x0000          
+SVID24_num_modes_min_SOP                  : 1               
+SVID24_num_modes_max_SOP                  : 1               
+SVID24_modes_fixed_SOP                    : Yes             
+SVID24_mode1_recog_mask_SOP               : 0x00000000      
+SVID24_mode1_recog_value_SOP              : 0x00000000      
+SVID24_mode2_recog_mask_SOP               : 0x00000000      
+SVID24_mode2_recog_value_SOP              : 0x00000000      
+SVID24_mode3_recog_mask_SOP               : 0x00000000      
+SVID24_mode3_recog_value_SOP              : 0x00000000      
+SVID24_mode4_recog_mask_SOP               : 0x00000000      
+SVID24_mode4_recog_value_SOP              : 0x00000000      
+SVID24_mode5_recog_mask_SOP               : 0x00000000      
+SVID24_mode5_recog_value_SOP              : 0x00000000      
+SVID24_mode6_recog_mask_SOP               : 0x00000000      
+SVID24_mode6_recog_value_SOP              : 0x00000000      
+Structured_VDM_Version                    : 0               ; v1.0
+Data_Capable_as_USB_Host                  : Yes             
+Data_Capable_as_USB_Device                : Yes             
+Product_Type                              : 3               ; Passive Cable
+Modal_Operation_Supported                 : No              
+USB_VID                                   : 0x0000          
+PID                                       : 0x0000          
+bcdDevice                                 : 0x0100          
+XID                                       : 0               
+Cable_HW_Vers                             : 0x0             
+Cable_FW_Vers                             : 0x0             
+Type_C_to_Type_A_B_C                      : 0x2             ; Type-C
+Type_C_to_Type_C_Capt_Vdm_V2              : 0x2             ; Type-C
+Type_C_to_Plug_Receptacle                 : 0               ; Plug
+Cable_Latency                             : 1               ; < 10 ns (~1 m)
+Cable_Termination_Type                    : 1               ; Both ends Passive VCONN required
+Cable_SSTX1_Dir_Support                   : No              
+Cable_SSTX2_Dir_Support                   : No              
+Cable_SSRX1_Dir_Support                   : No              
+Cable_SSRX2_Dir_Support                   : No              
+Cable_VBUS_Current                        : 0               ; 1.5 A (Deprecated)
+VBUS_through_cable                        : Yes             
+Max_VBUS_Voltage_Vdm_V2                   : 0               ; 20 V
+Cable_SOP''_controller                    : No              
+Cable_Superspeed_Support                  : 1               ; USB 3.1 Gen 1
+Manufacturer_Info_Supported               : No              
+Manufacturer_Info_VID                     : 0x0000          
+Manufacturer_Info_PID                     : 0               
+Cable_num_SVIDs_min                       : 1               
+Cable_num_SVIDs_max                       : 1               
+SVID_fixed                                : Yes             
+SVID1                                     : 0x0000          
+SVID1_num_modes_min                       : 1               
+SVID1_num_modes_max                       : 1               
+SVID1_modes_fixed                         : Yes             
+SVID1_mode1_enter                         : Yes             
+SVID1_mode1_recog_mask                    : 0x00000000      
+SVID1_mode1_recog_value                   : 0x00000000      
+SVID1_mode2_enter                         : Yes             
+SVID1_mode2_recog_mask                    : 0x00000000      
+SVID1_mode2_recog_value                   : 0x00000000      
+SVID1_mode3_enter                         : Yes             
+SVID1_mode3_recog_mask                    : 0x00000000      
+SVID1_mode3_recog_value                   : 0x00000000      
+SVID1_mode4_enter                         : Yes             
+SVID1_mode4_recog_mask                    : 0x00000000      
+SVID1_mode4_recog_value                   : 0x00000000      
+SVID1_mode5_enter                         : Yes             
+SVID1_mode5_recog_mask                    : 0x00000000      
+SVID1_mode5_recog_value                   : 0x00000000      
+SVID1_mode6_enter                         : Yes             
+SVID1_mode6_recog_mask                    : 0x00000000      
+SVID1_mode6_recog_value                   : 0x00000000      
+SVID2                                     : 0x0000          
+SVID2_num_modes_min                       : 1               
+SVID2_num_modes_max                       : 1               
+SVID2_modes_fixed                         : Yes             
+SVID2_mode1_enter                         : Yes             
+SVID2_mode1_recog_mask                    : 0x00000000      
+SVID2_mode1_recog_value                   : 0x00000000      
+SVID2_mode2_enter                         : Yes             
+SVID2_mode2_recog_mask                    : 0x00000000      
+SVID2_mode2_recog_value                   : 0x00000000      
+SVID2_mode3_enter                         : Yes             
+SVID2_mode3_recog_mask                    : 0x00000000      
+SVID2_mode3_recog_value                   : 0x00000000      
+SVID2_mode4_enter                         : Yes             
+SVID2_mode4_recog_mask                    : 0x00000000      
+SVID2_mode4_recog_value                   : 0x00000000      
+SVID2_mode5_enter                         : Yes             
+SVID2_mode5_recog_mask                    : 0x00000000      
+SVID2_mode5_recog_value                   : 0x00000000      
+SVID2_mode6_enter                         : Yes             
+SVID2_mode6_recog_mask                    : 0x00000000      
+SVID2_mode6_recog_value                   : 0x00000000      
+SVID3                                     : 0x0000          
+SVID3_num_modes_min                       : 1               
+SVID3_num_modes_max                       : 1               
+SVID3_modes_fixed                         : Yes             
+SVID3_mode1_enter                         : Yes             
+SVID3_mode1_recog_mask                    : 0x00000000      
+SVID3_mode1_recog_value                   : 0x00000000      
+SVID3_mode2_enter                         : Yes             
+SVID3_mode2_recog_mask                    : 0x00000000      
+SVID3_mode2_recog_value                   : 0x00000000      
+SVID3_mode3_enter                         : Yes             
+SVID3_mode3_recog_mask                    : 0x00000000      
+SVID3_mode3_recog_value                   : 0x00000000      
+SVID3_mode4_enter                         : Yes             
+SVID3_mode4_recog_mask                    : 0x00000000      
+SVID3_mode4_recog_value                   : 0x00000000      
+SVID3_mode5_enter                         : Yes             
+SVID3_mode5_recog_mask                    : 0x00000000      
+SVID3_mode5_recog_value                   : 0x00000000      
+SVID3_mode6_enter                         : Yes             
+SVID3_mode6_recog_mask                    : 0x00000000      
+SVID3_mode6_recog_value                   : 0x00000000      
+SVID4                                     : 0x0000          
+SVID4_num_modes_min                       : 1               
+SVID4_num_modes_max                       : 1               
+SVID4_modes_fixed                         : Yes             
+SVID4_mode1_enter                         : Yes             
+SVID4_mode1_recog_mask                    : 0x00000000      
+SVID4_mode1_recog_value                   : 0x00000000      
+SVID4_mode2_enter                         : Yes             
+SVID4_mode2_recog_mask                    : 0x00000000      
+SVID4_mode2_recog_value                   : 0x00000000      
+SVID4_mode3_enter                         : Yes             
+SVID4_mode3_recog_mask                    : 0x00000000      
+SVID4_mode3_recog_value                   : 0x00000000      
+SVID4_mode4_enter                         : Yes             
+SVID4_mode4_recog_mask                    : 0x00000000      
+SVID4_mode4_recog_value                   : 0x00000000      
+SVID4_mode5_enter                         : Yes             
+SVID4_mode5_recog_mask                    : 0x00000000      
+SVID4_mode5_recog_value                   : 0x00000000      
+SVID4_mode6_enter                         : Yes             
+SVID4_mode6_recog_mask                    : 0x00000000      
+SVID4_mode6_recog_value                   : 0x00000000      
+SVID5                                     : 0x0000          
+SVID5_num_modes_min                       : 1               
+SVID5_num_modes_max                       : 1               
+SVID5_modes_fixed                         : Yes             
+SVID5_mode1_enter                         : Yes             
+SVID5_mode1_recog_mask                    : 0x00000000      
+SVID5_mode1_recog_value                   : 0x00000000      
+SVID5_mode2_enter                         : Yes             
+SVID5_mode2_recog_mask                    : 0x00000000      
+SVID5_mode2_recog_value                   : 0x00000000      
+SVID5_mode3_enter                         : Yes             
+SVID5_mode3_recog_mask                    : 0x00000000      
+SVID5_mode3_recog_value                   : 0x00000000      
+SVID5_mode4_enter                         : Yes             
+SVID5_mode4_recog_mask                    : 0x00000000      
+SVID5_mode4_recog_value                   : 0x00000000      
+SVID5_mode5_enter                         : Yes             
+SVID5_mode5_recog_mask                    : 0x00000000      
+SVID5_mode5_recog_value                   : 0x00000000      
+SVID5_mode6_enter                         : Yes             
+SVID5_mode6_recog_mask                    : 0x00000000      
+SVID5_mode6_recog_value                   : 0x00000000      
+SVID6                                     : 0x0000          
+SVID6_num_modes_min                       : 1               
+SVID6_num_modes_max                       : 1               
+SVID6_modes_fixed                         : Yes             
+SVID6_mode1_enter                         : Yes             
+SVID6_mode1_recog_mask                    : 0x00000000      
+SVID6_mode1_recog_value                   : 0x00000000      
+SVID6_mode2_enter                         : Yes             
+SVID6_mode2_recog_mask                    : 0x00000000      
+SVID6_mode2_recog_value                   : 0x00000000      
+SVID6_mode3_enter                         : Yes             
+SVID6_mode3_recog_mask                    : 0x00000000      
+SVID6_mode3_recog_value                   : 0x00000000      
+SVID6_mode4_enter                         : Yes             
+SVID6_mode4_recog_mask                    : 0x00000000      
+SVID6_mode4_recog_value                   : 0x00000000      
+SVID6_mode5_enter                         : Yes             
+SVID6_mode5_recog_mask                    : 0x00000000      
+SVID6_mode5_recog_value                   : 0x00000000      
+SVID6_mode6_enter                         : Yes             
+SVID6_mode6_recog_mask                    : 0x00000000      
+SVID6_mode6_recog_value                   : 0x00000000      
+SVID7                                     : 0x0000          
+SVID7_num_modes_min                       : 1               
+SVID7_num_modes_max                       : 1               
+SVID7_modes_fixed                         : Yes             
+SVID7_mode1_enter                         : Yes             
+SVID7_mode1_recog_mask                    : 0x00000000      
+SVID7_mode1_recog_value                   : 0x00000000      
+SVID7_mode2_enter                         : Yes             
+SVID7_mode2_recog_mask                    : 0x00000000      
+SVID7_mode2_recog_value                   : 0x00000000      
+SVID7_mode3_enter                         : Yes             
+SVID7_mode3_recog_mask                    : 0x00000000      
+SVID7_mode3_recog_value                   : 0x00000000      
+SVID7_mode4_enter                         : Yes             
+SVID7_mode4_recog_mask                    : 0x00000000      
+SVID7_mode4_recog_value                   : 0x00000000      
+SVID7_mode5_enter                         : Yes             
+SVID7_mode5_recog_mask                    : 0x00000000      
+SVID7_mode5_recog_value                   : 0x00000000      
+SVID7_mode6_enter                         : Yes             
+SVID7_mode6_recog_mask                    : 0x00000000      
+SVID7_mode6_recog_value                   : 0x00000000      
+SVID8                                     : 0x0000          
+SVID8_num_modes_min                       : 1               
+SVID8_num_modes_max                       : 1               
+SVID8_modes_fixed                         : Yes             
+SVID8_mode1_enter                         : Yes             
+SVID8_mode1_recog_mask                    : 0x00000000      
+SVID8_mode1_recog_value                   : 0x00000000      
+SVID8_mode2_enter                         : Yes             
+SVID8_mode2_recog_mask                    : 0x00000000      
+SVID8_mode2_recog_value                   : 0x00000000      
+SVID8_mode3_enter                         : Yes             
+SVID8_mode3_recog_mask                    : 0x00000000      
+SVID8_mode3_recog_value                   : 0x00000000      
+SVID8_mode4_enter                         : Yes             
+SVID8_mode4_recog_mask                    : 0x00000000      
+SVID8_mode4_recog_value                   : 0x00000000      
+SVID8_mode5_enter                         : Yes             
+SVID8_mode5_recog_mask                    : 0x00000000      
+SVID8_mode5_recog_value                   : 0x00000000      
+SVID8_mode6_enter                         : Yes             
+SVID8_mode6_recog_mask                    : 0x00000000      
+SVID8_mode6_recog_value                   : 0x00000000      
+SVID9                                     : 0x0000          
+SVID9_num_modes_min                       : 1               
+SVID9_num_modes_max                       : 1               
+SVID9_modes_fixed                         : Yes             
+SVID9_mode1_enter                         : Yes             
+SVID9_mode1_recog_mask                    : 0x00000000      
+SVID9_mode1_recog_value                   : 0x00000000      
+SVID9_mode2_enter                         : Yes             
+SVID9_mode2_recog_mask                    : 0x00000000      
+SVID9_mode2_recog_value                   : 0x00000000      
+SVID9_mode3_enter                         : Yes             
+SVID9_mode3_recog_mask                    : 0x00000000      
+SVID9_mode3_recog_value                   : 0x00000000      
+SVID9_mode4_enter                         : Yes             
+SVID9_mode4_recog_mask                    : 0x00000000      
+SVID9_mode4_recog_value                   : 0x00000000      
+SVID9_mode5_enter                         : Yes             
+SVID9_mode5_recog_mask                    : 0x00000000      
+SVID9_mode5_recog_value                   : 0x00000000      
+SVID9_mode6_enter                         : Yes             
+SVID9_mode6_recog_mask                    : 0x00000000      
+SVID9_mode6_recog_value                   : 0x00000000      
+SVID10                                    : 0x0000          
+SVID10_num_modes_min                      : 1               
+SVID10_num_modes_max                      : 1               
+SVID10_modes_fixed                        : Yes             
+SVID10_mode1_enter                        : Yes             
+SVID10_mode1_recog_mask                   : 0x00000000      
+SVID10_mode1_recog_value                  : 0x00000000      
+SVID10_mode2_enter                        : Yes             
+SVID10_mode2_recog_mask                   : 0x00000000      
+SVID10_mode2_recog_value                  : 0x00000000      
+SVID10_mode3_enter                        : Yes             
+SVID10_mode3_recog_mask                   : 0x00000000      
+SVID10_mode3_recog_value                  : 0x00000000      
+SVID10_mode4_enter                        : Yes             
+SVID10_mode4_recog_mask                   : 0x00000000      
+SVID10_mode4_recog_value                  : 0x00000000      
+SVID10_mode5_enter                        : Yes             
+SVID10_mode5_recog_mask                   : 0x00000000      
+SVID10_mode5_recog_value                  : 0x00000000      
+SVID10_mode6_enter                        : Yes             
+SVID10_mode6_recog_mask                   : 0x00000000      
+SVID10_mode6_recog_value                  : 0x00000000      
+SVID11                                    : 0x0000          
+SVID11_num_modes_min                      : 1               
+SVID11_num_modes_max                      : 1               
+SVID11_modes_fixed                        : Yes             
+SVID11_mode1_enter                        : Yes             
+SVID11_mode1_recog_mask                   : 0x00000000      
+SVID11_mode1_recog_value                  : 0x00000000      
+SVID11_mode2_enter                        : Yes             
+SVID11_mode2_recog_mask                   : 0x00000000      
+SVID11_mode2_recog_value                  : 0x00000000      
+SVID11_mode3_enter                        : Yes             
+SVID11_mode3_recog_mask                   : 0x00000000      
+SVID11_mode3_recog_value                  : 0x00000000      
+SVID11_mode4_enter                        : Yes             
+SVID11_mode4_recog_mask                   : 0x00000000      
+SVID11_mode4_recog_value                  : 0x00000000      
+SVID11_mode5_enter                        : Yes             
+SVID11_mode5_recog_mask                   : 0x00000000      
+SVID11_mode5_recog_value                  : 0x00000000      
+SVID11_mode6_enter                        : Yes             
+SVID11_mode6_recog_mask                   : 0x00000000      
+SVID11_mode6_recog_value                  : 0x00000000      
+SVID12                                    : 0x0000          
+SVID12_num_modes_min                      : 1               
+SVID12_num_modes_max                      : 1               
+SVID12_modes_fixed                        : Yes             
+SVID12_mode1_enter                        : Yes             
+SVID12_mode1_recog_mask                   : 0x00000000      
+SVID12_mode1_recog_value                  : 0x00000000      
+SVID12_mode2_enter                        : Yes             
+SVID12_mode2_recog_mask                   : 0x00000000      
+SVID12_mode2_recog_value                  : 0x00000000      
+SVID12_mode3_enter                        : Yes             
+SVID12_mode3_recog_mask                   : 0x00000000      
+SVID12_mode3_recog_value                  : 0x00000000      
+SVID12_mode4_enter                        : Yes             
+SVID12_mode4_recog_mask                   : 0x00000000      
+SVID12_mode4_recog_value                  : 0x00000000      
+SVID12_mode5_enter                        : Yes             
+SVID12_mode5_recog_mask                   : 0x00000000      
+SVID12_mode5_recog_value                  : 0x00000000      
+SVID12_mode6_enter                        : Yes             
+SVID12_mode6_recog_mask                   : 0x00000000      
+SVID12_mode6_recog_value                  : 0x00000000      
+SVID13                                    : 0x0000          
+SVID13_num_modes_min                      : 1               
+SVID13_num_modes_max                      : 1               
+SVID13_modes_fixed                        : Yes             
+SVID13_mode1_enter                        : Yes             
+SVID13_mode1_recog_mask                   : 0x00000000      
+SVID13_mode1_recog_value                  : 0x00000000      
+SVID13_mode2_enter                        : Yes             
+SVID13_mode2_recog_mask                   : 0x00000000      
+SVID13_mode2_recog_value                  : 0x00000000      
+SVID13_mode3_enter                        : Yes             
+SVID13_mode3_recog_mask                   : 0x00000000      
+SVID13_mode3_recog_value                  : 0x00000000      
+SVID13_mode4_enter                        : Yes             
+SVID13_mode4_recog_mask                   : 0x00000000      
+SVID13_mode4_recog_value                  : 0x00000000      
+SVID13_mode5_enter                        : Yes             
+SVID13_mode5_recog_mask                   : 0x00000000      
+SVID13_mode5_recog_value                  : 0x00000000      
+SVID13_mode6_enter                        : Yes             
+SVID13_mode6_recog_mask                   : 0x00000000      
+SVID13_mode6_recog_value                  : 0x00000000      
+SVID14                                    : 0x0000          
+SVID14_num_modes_min                      : 1               
+SVID14_num_modes_max                      : 1               
+SVID14_modes_fixed                        : Yes             
+SVID14_mode1_enter                        : Yes             
+SVID14_mode1_recog_mask                   : 0x00000000      
+SVID14_mode1_recog_value                  : 0x00000000      
+SVID14_mode2_enter                        : Yes             
+SVID14_mode2_recog_mask                   : 0x00000000      
+SVID14_mode2_recog_value                  : 0x00000000      
+SVID14_mode3_enter                        : Yes             
+SVID14_mode3_recog_mask                   : 0x00000000      
+SVID14_mode3_recog_value                  : 0x00000000      
+SVID14_mode4_enter                        : Yes             
+SVID14_mode4_recog_mask                   : 0x00000000      
+SVID14_mode4_recog_value                  : 0x00000000      
+SVID14_mode5_enter                        : Yes             
+SVID14_mode5_recog_mask                   : 0x00000000      
+SVID14_mode5_recog_value                  : 0x00000000      
+SVID14_mode6_enter                        : Yes             
+SVID14_mode6_recog_mask                   : 0x00000000      
+SVID14_mode6_recog_value                  : 0x00000000      
+SVID15                                    : 0x0000          
+SVID15_num_modes_min                      : 1               
+SVID15_num_modes_max                      : 1               
+SVID15_modes_fixed                        : Yes             
+SVID15_mode1_enter                        : Yes             
+SVID15_mode1_recog_mask                   : 0x00000000      
+SVID15_mode1_recog_value                  : 0x00000000      
+SVID15_mode2_enter                        : Yes             
+SVID15_mode2_recog_mask                   : 0x00000000      
+SVID15_mode2_recog_value                  : 0x00000000      
+SVID15_mode3_enter                        : Yes             
+SVID15_mode3_recog_mask                   : 0x00000000      
+SVID15_mode3_recog_value                  : 0x00000000      
+SVID15_mode4_enter                        : Yes             
+SVID15_mode4_recog_mask                   : 0x00000000      
+SVID15_mode4_recog_value                  : 0x00000000      
+SVID15_mode5_enter                        : Yes             
+SVID15_mode5_recog_mask                   : 0x00000000      
+SVID15_mode5_recog_value                  : 0x00000000      
+SVID15_mode6_enter                        : Yes             
+SVID15_mode6_recog_mask                   : 0x00000000      
+SVID15_mode6_recog_value                  : 0x00000000      
+SVID16                                    : 0x0000          
+SVID16_num_modes_min                      : 1               
+SVID16_num_modes_max                      : 1               
+SVID16_modes_fixed                        : Yes             
+SVID16_mode1_enter                        : Yes             
+SVID16_mode1_recog_mask                   : 0x00000000      
+SVID16_mode1_recog_value                  : 0x00000000      
+SVID16_mode2_enter                        : Yes             
+SVID16_mode2_recog_mask                   : 0x00000000      
+SVID16_mode2_recog_value                  : 0x00000000      
+SVID16_mode3_enter                        : Yes             
+SVID16_mode3_recog_mask                   : 0x00000000      
+SVID16_mode3_recog_value                  : 0x00000000      
+SVID16_mode4_enter                        : Yes             
+SVID16_mode4_recog_mask                   : 0x00000000      
+SVID16_mode4_recog_value                  : 0x00000000      
+SVID16_mode5_enter                        : Yes             
+SVID16_mode5_recog_mask                   : 0x00000000      
+SVID16_mode5_recog_value                  : 0x00000000      
+SVID16_mode6_enter                        : Yes             
+SVID16_mode6_recog_mask                   : 0x00000000      
+SVID16_mode6_recog_value                  : 0x00000000      
+SVID17                                    : 0x0000          
+SVID17_num_modes_min                      : 1               
+SVID17_num_modes_max                      : 1               
+SVID17_modes_fixed                        : Yes             
+SVID17_mode1_enter                        : Yes             
+SVID17_mode1_recog_mask                   : 0x00000000      
+SVID17_mode1_recog_value                  : 0x00000000      
+SVID17_mode2_enter                        : Yes             
+SVID17_mode2_recog_mask                   : 0x00000000      
+SVID17_mode2_recog_value                  : 0x00000000      
+SVID17_mode3_enter                        : Yes             
+SVID17_mode3_recog_mask                   : 0x00000000      
+SVID17_mode3_recog_value                  : 0x00000000      
+SVID17_mode4_enter                        : Yes             
+SVID17_mode4_recog_mask                   : 0x00000000      
+SVID17_mode4_recog_value                  : 0x00000000      
+SVID17_mode5_enter                        : Yes             
+SVID17_mode5_recog_mask                   : 0x00000000      
+SVID17_mode5_recog_value                  : 0x00000000      
+SVID17_mode6_enter                        : Yes             
+SVID17_mode6_recog_mask                   : 0x00000000      
+SVID17_mode6_recog_value                  : 0x00000000      
+SVID18                                    : 0x0000          
+SVID18_num_modes_min                      : 1               
+SVID18_num_modes_max                      : 1               
+SVID18_modes_fixed                        : Yes             
+SVID18_mode1_enter                        : Yes             
+SVID18_mode1_recog_mask                   : 0x00000000      
+SVID18_mode1_recog_value                  : 0x00000000      
+SVID18_mode2_enter                        : Yes             
+SVID18_mode2_recog_mask                   : 0x00000000      
+SVID18_mode2_recog_value                  : 0x00000000      
+SVID18_mode3_enter                        : Yes             
+SVID18_mode3_recog_mask                   : 0x00000000      
+SVID18_mode3_recog_value                  : 0x00000000      
+SVID18_mode4_enter                        : Yes             
+SVID18_mode4_recog_mask                   : 0x00000000      
+SVID18_mode4_recog_value                  : 0x00000000      
+SVID18_mode5_enter                        : Yes             
+SVID18_mode5_recog_mask                   : 0x00000000      
+SVID18_mode5_recog_value                  : 0x00000000      
+SVID18_mode6_enter                        : Yes             
+SVID18_mode6_recog_mask                   : 0x00000000      
+SVID18_mode6_recog_value                  : 0x00000000      
+SVID19                                    : 0x0000          
+SVID19_num_modes_min                      : 1               
+SVID19_num_modes_max                      : 1               
+SVID19_modes_fixed                        : Yes             
+SVID19_mode1_enter                        : Yes             
+SVID19_mode1_recog_mask                   : 0x00000000      
+SVID19_mode1_recog_value                  : 0x00000000      
+SVID19_mode2_enter                        : Yes             
+SVID19_mode2_recog_mask                   : 0x00000000      
+SVID19_mode2_recog_value                  : 0x00000000      
+SVID19_mode3_enter                        : Yes             
+SVID19_mode3_recog_mask                   : 0x00000000      
+SVID19_mode3_recog_value                  : 0x00000000      
+SVID19_mode4_enter                        : Yes             
+SVID19_mode4_recog_mask                   : 0x00000000      
+SVID19_mode4_recog_value                  : 0x00000000      
+SVID19_mode5_enter                        : Yes             
+SVID19_mode5_recog_mask                   : 0x00000000      
+SVID19_mode5_recog_value                  : 0x00000000      
+SVID19_mode6_enter                        : Yes             
+SVID19_mode6_recog_mask                   : 0x00000000      
+SVID19_mode6_recog_value                  : 0x00000000      
+SVID20                                    : 0x0000          
+SVID20_num_modes_min                      : 1               
+SVID20_num_modes_max                      : 1               
+SVID20_modes_fixed                        : Yes             
+SVID20_mode1_enter                        : Yes             
+SVID20_mode1_recog_mask                   : 0x00000000      
+SVID20_mode1_recog_value                  : 0x00000000      
+SVID20_mode2_enter                        : Yes             
+SVID20_mode2_recog_mask                   : 0x00000000      
+SVID20_mode2_recog_value                  : 0x00000000      
+SVID20_mode3_enter                        : Yes             
+SVID20_mode3_recog_mask                   : 0x00000000      
+SVID20_mode3_recog_value                  : 0x00000000      
+SVID20_mode4_enter                        : Yes             
+SVID20_mode4_recog_mask                   : 0x00000000      
+SVID20_mode4_recog_value                  : 0x00000000      
+SVID20_mode5_enter                        : Yes             
+SVID20_mode5_recog_mask                   : 0x00000000      
+SVID20_mode5_recog_value                  : 0x00000000      
+SVID20_mode6_enter                        : Yes             
+SVID20_mode6_recog_mask                   : 0x00000000      
+SVID20_mode6_recog_value                  : 0x00000000      
+SVID21                                    : 0x0000          
+SVID21_num_modes_min                      : 1               
+SVID21_num_modes_max                      : 1               
+SVID21_modes_fixed                        : Yes             
+SVID21_mode1_enter                        : Yes             
+SVID21_mode1_recog_mask                   : 0x00000000      
+SVID21_mode1_recog_value                  : 0x00000000      
+SVID21_mode2_enter                        : Yes             
+SVID21_mode2_recog_mask                   : 0x00000000      
+SVID21_mode2_recog_value                  : 0x00000000      
+SVID21_mode3_enter                        : Yes             
+SVID21_mode3_recog_mask                   : 0x00000000      
+SVID21_mode3_recog_value                  : 0x00000000      
+SVID21_mode4_enter                        : Yes             
+SVID21_mode4_recog_mask                   : 0x00000000      
+SVID21_mode4_recog_value                  : 0x00000000      
+SVID21_mode5_enter                        : Yes             
+SVID21_mode5_recog_mask                   : 0x00000000      
+SVID21_mode5_recog_value                  : 0x00000000      
+SVID21_mode6_enter                        : Yes             
+SVID21_mode6_recog_mask                   : 0x00000000      
+SVID21_mode6_recog_value                  : 0x00000000      
+SVID22                                    : 0x0000          
+SVID22_num_modes_min                      : 1               
+SVID22_num_modes_max                      : 1               
+SVID22_modes_fixed                        : Yes             
+SVID22_mode1_enter                        : Yes             
+SVID22_mode1_recog_mask                   : 0x00000000      
+SVID22_mode1_recog_value                  : 0x00000000      
+SVID22_mode2_enter                        : Yes             
+SVID22_mode2_recog_mask                   : 0x00000000      
+SVID22_mode2_recog_value                  : 0x00000000      
+SVID22_mode3_enter                        : Yes             
+SVID22_mode3_recog_mask                   : 0x00000000      
+SVID22_mode3_recog_value                  : 0x00000000      
+SVID22_mode4_enter                        : Yes             
+SVID22_mode4_recog_mask                   : 0x00000000      
+SVID22_mode4_recog_value                  : 0x00000000      
+SVID22_mode5_enter                        : Yes             
+SVID22_mode5_recog_mask                   : 0x00000000      
+SVID22_mode5_recog_value                  : 0x00000000      
+SVID22_mode6_enter                        : Yes             
+SVID22_mode6_recog_mask                   : 0x00000000      
+SVID22_mode6_recog_value                  : 0x00000000      
+SVID23                                    : 0x0000          
+SVID23_num_modes_min                      : 1               
+SVID23_num_modes_max                      : 1               
+SVID23_modes_fixed                        : Yes             
+SVID23_mode1_enter                        : Yes             
+SVID23_mode1_recog_mask                   : 0x00000000      
+SVID23_mode1_recog_value                  : 0x00000000      
+SVID23_mode2_enter                        : Yes             
+SVID23_mode2_recog_mask                   : 0x00000000      
+SVID23_mode2_recog_value                  : 0x00000000      
+SVID23_mode3_enter                        : Yes             
+SVID23_mode3_recog_mask                   : 0x00000000      
+SVID23_mode3_recog_value                  : 0x00000000      
+SVID23_mode4_enter                        : Yes             
+SVID23_mode4_recog_mask                   : 0x00000000      
+SVID23_mode4_recog_value                  : 0x00000000      
+SVID23_mode5_enter                        : Yes             
+SVID23_mode5_recog_mask                   : 0x00000000      
+SVID23_mode5_recog_value                  : 0x00000000      
+SVID23_mode6_enter                        : Yes             
+SVID23_mode6_recog_mask                   : 0x00000000      
+SVID23_mode6_recog_value                  : 0x00000000      
+SVID24                                    : 0x0000          
+SVID24_num_modes_min                      : 1               
+SVID24_num_modes_max                      : 1               
+SVID24_modes_fixed                        : Yes             
+SVID24_mode1_enter                        : Yes             
+SVID24_mode1_recog_mask                   : 0x00000000      
+SVID24_mode1_recog_value                  : 0x00000000      
+SVID24_mode2_enter                        : Yes             
+SVID24_mode2_recog_mask                   : 0x00000000      
+SVID24_mode2_recog_value                  : 0x00000000      
+SVID24_mode3_enter                        : Yes             
+SVID24_mode3_recog_mask                   : 0x00000000      
+SVID24_mode3_recog_value                  : 0x00000000      
+SVID24_mode4_enter                        : Yes             
+SVID24_mode4_recog_mask                   : 0x00000000      
+SVID24_mode4_recog_value                  : 0x00000000      
+SVID24_mode5_enter                        : Yes             
+SVID24_mode5_recog_mask                   : 0x00000000      
+SVID24_mode5_recog_value                  : 0x00000000      
+SVID24_mode6_enter                        : Yes             
+SVID24_mode6_recog_mask                   : 0x00000000      
+SVID24_mode6_recog_value                  : 0x00000000      
+DP_mode3_Port_Cap                         : 1               ; UFP_D Capable
+DP_mode3_Support_DPv13                    : Yes             
+DP_mode3_Support_UsbGen2                  : Yes             
+DP_mode3_Receptacle                       : Yes             ; DP on Type-C Receptacle
+DP_mode3_Usb20_Not_Used                   : Yes             
+DP_mode3_Dfp_D_A_Supported                : No              
+DP_mode3_Dfp_D_B_Supported                : No              
+DP_mode3_Dfp_D_C_Supported                : No              
+DP_mode3_Dfp_D_D_Supported                : No              
+DP_mode3_Dfp_D_E_Supported                : No              
+DP_mode3_Dfp_D_F_Supported                : No              
+DP_mode3_Ufp_D_A_Supported                : No              
+DP_mode3_Ufp_D_B_Supported                : No              
+DP_mode3_Ufp_D_C_Supported                : No              
+DP_mode3_Ufp_D_D_Supported                : No              
+DP_mode3_Ufp_D_E_Supported                : No              
+DP_mode4_Port_Cap                         : 1               ; UFP_D Capable
+DP_mode4_Support_DPv13                    : Yes             
+DP_mode4_Support_UsbGen2                  : Yes             
+DP_mode4_Receptacle                       : Yes             ; DP on Type-C Receptacle
+DP_mode4_Usb20_Not_Used                   : Yes             
+DP_mode4_Dfp_D_A_Supported                : No              
+DP_mode4_Dfp_D_B_Supported                : No              
+DP_mode4_Dfp_D_C_Supported                : No              
+DP_mode4_Dfp_D_D_Supported                : No              
+DP_mode4_Dfp_D_E_Supported                : No              
+DP_mode4_Dfp_D_F_Supported                : No              
+DP_mode4_Ufp_D_A_Supported                : No              
+DP_mode4_Ufp_D_B_Supported                : No              
+DP_mode4_Ufp_D_C_Supported                : No              
+DP_mode4_Ufp_D_D_Supported                : No              
+DP_mode4_Ufp_D_E_Supported                : No              
+DP_mode5_Port_Cap                         : 1               ; UFP_D Capable
+DP_mode5_Support_DPv13                    : Yes             
+DP_mode5_Support_UsbGen2                  : Yes             
+DP_mode5_Receptacle                       : Yes             ; DP on Type-C Receptacle
+DP_mode5_Usb20_Not_Used                   : Yes             
+DP_mode5_Dfp_D_A_Supported                : No              
+DP_mode5_Dfp_D_B_Supported                : No              
+DP_mode5_Dfp_D_C_Supported                : No              
+DP_mode5_Dfp_D_D_Supported                : No              
+DP_mode5_Dfp_D_E_Supported                : No              
+DP_mode5_Dfp_D_F_Supported                : No              
+DP_mode5_Ufp_D_A_Supported                : No              
+DP_mode5_Ufp_D_B_Supported                : No              
+DP_mode5_Ufp_D_C_Supported                : No              
+DP_mode5_Ufp_D_D_Supported                : No              
+DP_mode5_Ufp_D_E_Supported                : No              
+DP_mode6_Port_Cap                         : 1               ; UFP_D Capable
+DP_mode6_Support_DPv13                    : Yes             
+DP_mode6_Support_UsbGen2                  : Yes             
+DP_mode6_Receptacle                       : Yes             ; DP on Type-C Receptacle
+DP_mode6_Usb20_Not_Used                   : Yes             
+DP_mode6_Dfp_D_A_Supported                : No              
+DP_mode6_Dfp_D_B_Supported                : No              
+DP_mode6_Dfp_D_C_Supported                : No              
+DP_mode6_Dfp_D_D_Supported                : No              
+DP_mode6_Dfp_D_E_Supported                : No              
+DP_mode6_Dfp_D_F_Supported                : No              
+DP_mode6_Ufp_D_A_Supported                : No              
+DP_mode6_Ufp_D_B_Supported                : No              
+DP_mode6_Ufp_D_C_Supported                : No              
+DP_mode6_Ufp_D_D_Supported                : No              
+DP_mode6_Ufp_D_E_Supported                : No              
