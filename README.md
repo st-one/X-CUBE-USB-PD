@@ -1,6 +1,6 @@
 # X-CUBE-USB-PD
-Firmware X-Cube-USB-PD for STM32F0 Nucleo board named P-NUCLEO-USB001  
-  (STM32CubeExpansion_USBPD_F0)
+Firmware X-Cube-USB-PD for STM32F0 Nucleo board named P-NUCLEO-USB001   
+    (STM32CubeExpansion_USBPD_F0)
 
 Purpose:
 --------
