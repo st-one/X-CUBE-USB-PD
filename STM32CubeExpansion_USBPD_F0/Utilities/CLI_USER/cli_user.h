@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    cli_user.h
   * @author  System Lab
-  * @version V0.4.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Header file of CLI API
   ******************************************************************************
   * @attention
@@ -54,10 +54,14 @@
 /**
  * @brief  Dimensions of the queues to be used for the communication 
  */
-#define CLI_QUEUE_TX_LENGTH     5
+#define CLI_QUEUE_TX_LENGTH     8
 #define CLI_QUEUE_RX_LENGTH	3
 
-#define CLI_WELCOME_MESSAGE_LEN 3
+#if !defined(USBPD_CLI_TEST_ONLY)
+#define CLI_WELCOME_MESSAGE_LEN 4
+#else
+#define CLI_WELCOME_MESSAGE_LEN 5
+#endif
    
 #define DBG_MODULE  /* strip debug code at compile time */
 

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    cli_console.c
   * @author  System Lab
-  * @version V0.4.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Console implementation, convert a flow char in a string newline
   *          terminated.
   ******************************************************************************
@@ -163,7 +163,7 @@ portBASE_TYPE CLI_ConsoleDirectRx(portCHAR * cText, portTickType xTicksToWait)
  * @param  cText  is the array char (string)
  * @return pdTRUE if the item was successfully posted, otherwise errQUEUE_FULL.
  */
-portBASE_TYPE CLI_ConsoleDirectTx(portCHAR * cText, portTickType xTicksToWait)
+portBASE_TYPE CLI_ConsoleDirectTx(const portCHAR * cText, portTickType xTicksToWait)
 {
   portBASE_TYPE xReturn = pdFALSE;
   if (xQueueIn) 
@@ -177,7 +177,7 @@ portBASE_TYPE CLI_ConsoleDirectTx(portCHAR * cText, portTickType xTicksToWait)
  * @param  cText  is the array char (string)
  * @return pdTRUE if the item was successfully posted, otherwise errQUEUE_FULL.
  */
-portBASE_TYPE CLI_ConsoleDirectTxFromISR(portCHAR * cText)
+portBASE_TYPE CLI_ConsoleDirectTxFromISR(const portCHAR * cText)
 {
   static portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
   return xQueueSendToBackFromISR(

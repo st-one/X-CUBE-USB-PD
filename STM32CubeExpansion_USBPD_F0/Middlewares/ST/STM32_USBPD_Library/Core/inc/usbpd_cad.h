@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_cad.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_cad.h for Cable Attach-Detach
   *          controls.
   ******************************************************************************

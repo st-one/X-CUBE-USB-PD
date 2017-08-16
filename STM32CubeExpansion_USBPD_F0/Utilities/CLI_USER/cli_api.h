@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    cli_user.h
   * @author  System Lab
-  * @version V0.4.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Header file of CLI API
   ******************************************************************************
   * @attention
@@ -52,7 +52,7 @@
 
 void CLI_Init( xComPortHandle * pxPortHandle);
 void CLI_Run( void );
-void CLI_Async_Notify(char *string);
+void CLI_Async_Notify(const char *string);
 #endif /* USBPD_CLI */
 
 #endif /* __CLI_API_H */

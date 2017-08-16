@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_def.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Global defines for USB-PD libarary
   ******************************************************************************
   * @attention
@@ -153,9 +153,9 @@
  *    64-bit preamble + SOP (4x 5b) + header (16-bit) + message in 4b5b + 32-bit CRC  + EOP (1x 5b)
  * =  64bit           + 4*5bit      + 16bit * 5/4 + 7 * 32bit * 5/4 + 32bit * 5/4 + 5
  */
-#define PHY_BIT_LEN            ((uint16_t)429)
-#define PHY_MAX_RAW_SIZE       ((uint16_t)((PHY_BIT_LEN*2) + 3))
-
+#define PHY_BIT_LEN             ((uint16_t)429)
+#define PHY_MAX_RAW_SIZE        ((uint16_t)((PHY_BIT_LEN*2) + 3))
+#define PHY_MAX_RAW_BYTE_SIZE   ((uint8_t)60) /* PHY_BIT_LEN / 8 + SAFE Bytes */
 
 /** @defgroup USBPD_PDO_Index_And_Mask_Constants Index and Mask constants used in PDO bits handling
   * @{
@@ -338,7 +338,6 @@ typedef enum
 {
   USBPD_SPECIFICATION_REV1               = 0x00,  /*!< Revision 1.0      */
   USBPD_SPECIFICATION_REV2               = 0x01,  /*!< Revision 2.0      */
-  //USBPD_SPECIFICATION_REV3               = 0x02   /*!< Revision 3.0      */  
 }USBPD_SpecRev_TypeDef;
 /** 
   * @}

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_it.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.3.0
+  * @date    24-Apr-2017
   * @brief   Main Interrupt Service Routines.
   *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
@@ -99,10 +99,12 @@ void SysTick_Handler(void)
   USBPD_CAD_TimerCounter(0);
   USBPD_PE_TimerCounter(0);
   USBPD_PRL_TimerCounter(0);
+  USBPD_VDM_TimerCounter(0);
 #if (USBPD_PORT_COUNT == 2)
   USBPD_CAD_TimerCounter(1);
   USBPD_PE_TimerCounter(1);
   USBPD_PRL_TimerCounter(1);
+  USBPD_VDM_TimerCounter(1);
 #endif  
 }
 

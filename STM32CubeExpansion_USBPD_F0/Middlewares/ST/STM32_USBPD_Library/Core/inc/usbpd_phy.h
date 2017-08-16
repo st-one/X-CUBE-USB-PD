@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_phy.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_phy.h.
   ******************************************************************************
   * @attention
@@ -54,7 +54,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbpd_def.h"
-//#include "usbpd_conf.h"
 #include "usbpd_hw_if.h"
 
 /** @addtogroup STM32_USBPD_LIBRARY

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_porthandle.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.3.0
+  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_porthandle.h.
   ******************************************************************************
   * @attention
@@ -203,69 +203,71 @@ typedef struct
   
   /* Exported constants --------------------------------------------------------*/
   /* Exported macro ------------------------------------------------------------*/
-#define TX_SPI(__PORT__)                ((__PORT__ == 0) ? SPI2 :     SPI1 )
+#define TX_SPI(__PORT__)                ((__PORT__ == USBPD_USED_PORT) ? SPI2 :     SPI1 )
 #define TX_SCK_GPIOPORT(__PORT__)       ( GPIOB )
-#define TX_SCK_PIN(__PORT__)            ((__PORT__ == 0) ? GPIO_PIN_13 :  GPIO_PIN_3 )
-#define TX_CC1_SPI_GPIOAF(__PORT__)     ((__PORT__ == 0) ? GPIO_AF0_SPI2 :  GPIO_AF0_SPI1 )
-#define TX_CC2_SPI_GPIOAF(__PORT__)     ((__PORT__ == 0) ? GPIO_AF1_SPI2 :  GPIO_AF0_SPI1 )
-#define TX_CLK_SPI_GPIOAF(__PORT__)     ((__PORT__ == 0) ? GPIO_AF0_SPI2 :  GPIO_AF0_SPI1 )
+#define TX_SCK_PIN(__PORT__)            ((__PORT__ == USBPD_USED_PORT) ? GPIO_PIN_13 :  GPIO_PIN_3 )
+#define TX_CC1_SPI_GPIOAF(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? GPIO_AF0_SPI2 :  GPIO_AF0_SPI1 )
+#define TX_CC2_SPI_GPIOAF(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? GPIO_AF1_SPI2 :  GPIO_AF0_SPI1 )
+#define TX_CLK_SPI_GPIOAF(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? GPIO_AF0_SPI2 :  GPIO_AF0_SPI1 )
 #define TX_CC1_GPIOPORT(__PORT__)  ( GPIOB )
-#define TX_CC1_PIN(__PORT__)    ((__PORT__ == 0) ? GPIO_PIN_14 :  GPIO_PIN_4 )
-#define TX_CC1_PIN_POSITION(__PORT__)  ((__PORT__ == 0) ? 14 :                  4 )
-#define TX_CC2_GPIOPORT(__PORT__)  ((__PORT__ == 0) ? GPIOC :      GPIOA )
-#define TX_CC2_PIN(__PORT__)    ((__PORT__ == 0) ? GPIO_PIN_2 :    GPIO_PIN_6 )
-#define TX_CC2_PIN_POSITION(__PORT__)  ((__PORT__ == 0) ? 2 :                  6 )
-#define TX_DMACH(__PORT__)     ((__PORT__ == 0) ? DMA1_Channel5 :   DMA1_Channel3 )
-#define TX_DMACHIRQ(__PORT__)     ((__PORT__ == 0) ? DMA1_Channel4_5_6_7_IRQn :   DMA1_Channel2_3_IRQn )
+#define TX_CC1_PIN(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? GPIO_PIN_14 :  GPIO_PIN_4 )
+#define TX_CC1_PIN_POSITION(__PORT__)  ((__PORT__ == USBPD_USED_PORT) ? 14 :                  4 )
+#define TX_CC2_GPIOPORT(__PORT__)  ((__PORT__ == USBPD_USED_PORT) ? GPIOC :      GPIOA )
+#define TX_CC2_PIN(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? GPIO_PIN_2 :    GPIO_PIN_6 )
+#define TX_CC2_PIN_POSITION(__PORT__)  ((__PORT__ == USBPD_USED_PORT) ? 2 :                  6 )
+#define TX_DMA(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? DMA1 :   DMA1 )
+#define TX_DMACH(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? DMA1_Channel5 :   DMA1_Channel3 )
+#define TX_DMACH_NUMBER(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? LL_DMA_CHANNEL_5 :   LL_DMA_CHANNEL_3 )
+#define TX_DMACHIRQ(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? DMA1_Channel4_5_6_7_IRQn :   DMA1_Channel2_3_IRQn )
 #if defined(__PE_DUALPORT)
-#define TX_DMACHIRQ_PRIO(__PORT__)   ((__PORT__ == 0) ? (TX_IRQ_PRIO + 2 + USBPD_HIGH_IRQ_PRIO) : (TX_IRQ_PRIO + 2 + USBPD_HIGH_IRQ_PRIO) )
+#define TX_DMACHIRQ_PRIO(__PORT__)   ((__PORT__ == USBPD_USED_PORT) ? (TX_IRQ_PRIO + 2 + USBPD_HIGH_IRQ_PRIO) : (TX_IRQ_PRIO + 2 + USBPD_HIGH_IRQ_PRIO) )
 #else
 #define TX_DMACHIRQ_PRIO(__PORT__)   ((__PORT__ == 0) ? (TX_IRQ_PRIO + USBPD_HIGH_IRQ_PRIO) : (TX_IRQ_PRIO + USBPD_LOW_IRQ_PRIO) )
 #endif
-#define TX_TIM(__PORT__)      ((__PORT__ == 0) ? TIM14 :       TIM15 )
-#define TX_TIMCH(__PORT__)           ((__PORT__ == 0) ? TIM_CHANNEL_1 :   TIM_CHANNEL_2 )
+#define TX_TIM(__PORT__)      ((__PORT__ == USBPD_USED_PORT) ? TIM14 :       TIM15 )
+#define TX_TIMCH(__PORT__)           ((__PORT__ == USBPD_USED_PORT) ? TIM_CHANNEL_1 :   TIM_CHANNEL_2 )
 #define TX_TIM_GPIOPORT(__PORT__)       ( GPIOB )
-#define TX_TIM_PIN(__PORT__)            ((__PORT__ == 0) ? GPIO_PIN_1 :    GPIO_PIN_15 )
-#define TX_TIM_GPIOAF(__PORT__)         ((__PORT__ == 0) ? GPIO_AF0_TIM14 :  GPIO_AF1_TIM15 )
+#define TX_TIM_PIN(__PORT__)            ((__PORT__ == USBPD_USED_PORT) ? GPIO_PIN_1 :    GPIO_PIN_15 )
+#define TX_TIM_GPIOAF(__PORT__)         ((__PORT__ == USBPD_USED_PORT) ? GPIO_AF0_TIM14 :  GPIO_AF1_TIM15 )
 
-#define RX_TIM(__PORT__)      ((__PORT__ == 0) ? TIM3 :       TIM1 )
+#define RX_TIM(__PORT__)      ((__PORT__ == USBPD_USED_PORT) ? TIM3 :       TIM1 )
 #define RX_TIMCH(__PORT__)     ( TIM_CHANNEL_1 )
 #define RX_TIMCH_TIMIT(__PORT__)        ( TIM_IT_CC1 )
 #define RX_TIM_DMA_CC(__PORT__)         ( TIM_DMA_CC1 )
 #define RX_TIM_DMA_ID_CC(__PORT__)         ( TIM_DMA_ID_CC1 )
-#define RX_TIM_IRQN(__PORT__)     ((__PORT__ == 0) ? TIM3_IRQn : TIM1_CC_IRQn )
+#define RX_TIM_IRQN(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? TIM3_IRQn : TIM1_CC_IRQn )
 #if defined(__PE_DUALPORT)
-#define RX_TIM_IRQ_PRIO(__PORT__)   ((__PORT__ == 0) ? (RX_IRQ_PRIO + USBPD_HIGH_IRQ_PRIO) : (RX_IRQ_PRIO + USBPD_HIGH_IRQ_PRIO) )
+#define RX_TIM_IRQ_PRIO(__PORT__)   ((__PORT__ == USBPD_USED_PORT) ? (RX_IRQ_PRIO + USBPD_HIGH_IRQ_PRIO) : (RX_IRQ_PRIO + USBPD_HIGH_IRQ_PRIO) )
 #else
 #define RX_TIM_IRQ_PRIO(__PORT__)   ((__PORT__ == 0) ? (RX_IRQ_PRIO + USBPD_HIGH_IRQ_PRIO) : (RX_IRQ_PRIO + USBPD_LOW_IRQ_PRIO) )
 #endif
-#define RX_COMP(__PORT__)    ((__PORT__ == 0) ? COMP1 : COMP2 )
-#define RX_COMPOUT(__PORT__)    ((__PORT__ == 0) ? COMP_OUTPUT_TIM3IC1 : COMP_OUTPUT_TIM1IC1 )
-#define RX_DMACH(__PORT__)     ((__PORT__ == 0) ? DMA1_Channel4 :   DMA1_Channel2 )
-#define RX_COUNTTIM(__PORT__)      ((__PORT__ == 0) ? TIM16 :       TIM17 )
-#define RX_COUNTTIM_IRQN(__PORT__)   ((__PORT__ == 0) ? TIM16_IRQn : TIM17_IRQn )
+#define RX_COMP(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? COMP1 : COMP2 )
+#define RX_COMPOUT(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? COMP_OUTPUT_TIM3IC1 : COMP_OUTPUT_TIM1IC1 )
+#define RX_DMACH(__PORT__)     ((__PORT__ == USBPD_USED_PORT) ? DMA1_Channel4 :   DMA1_Channel2 )
+#define RX_COUNTTIM(__PORT__)      ((__PORT__ == USBPD_USED_PORT) ? TIM16 :       TIM17 )
+#define RX_COUNTTIM_IRQN(__PORT__)   ((__PORT__ == USBPD_USED_PORT) ? TIM16_IRQn : TIM17_IRQn )
 #define RX_COUNTTIMIRQ_PRIO(__PORT__)   ((__PORT__ == 0) ? (RX_IRQ_PRIO + 1 + USBPD_HIGH_IRQ_PRIO) : (RX_IRQ_PRIO + 1 + USBPD_LOW_IRQ_PRIO) )
 #define RX_COUNTTIMCH(__PORT__)         ( TIM_CHANNEL_1 )
 #define RX_COUNTTIMCH_TIMIT(__PORT__)   ( TIM_IT_CC1 )
 #define RX_COUNTTIMCH_ITFLAG(__PORT__)  ( TIM_FLAG_CC1 )
 #define RX_CC1_GPIOPORT(__PORT__)  ( GPIOA )
-#define RX_CC1_PIN(__PORT__)    ((__PORT__ == 0) ? GPIO_PIN_0 :    GPIO_PIN_2 )
-#define RX_CC1_PIN_POSITION(__PORT__)  ((__PORT__ == 0) ? 0 :            2 )  
-#define RX_CC1_ADCCH(__PORT__)    ((__PORT__ == 0) ? ADC_CHANNEL_0 :  ADC_CHANNEL_4 )
+#define RX_CC1_PIN(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? GPIO_PIN_0 :    GPIO_PIN_2 )
+#define RX_CC1_PIN_POSITION(__PORT__)  ((__PORT__ == USBPD_USED_PORT) ? 0 :            2 )  
+#define RX_CC1_ADCCH(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? ADC_CHANNEL_0 :  ADC_CHANNEL_4 )
 #define RX_CC1_COMPCH(__PORT__)    ( COMP_INVERTINGINPUT_IO1 )
 #define RX_CC2_GPIOPORT(__PORT__)  ( GPIOA )
-#define RX_CC2_PIN(__PORT__)    ((__PORT__ == 0) ? GPIO_PIN_5 :    GPIO_PIN_4 )
-#define RX_CC2_PIN_POSITION(__PORT__)  ((__PORT__ == 0) ? 5 :            4 )  
-#define RX_CC2_ADCCH(__PORT__)    ((__PORT__ == 0) ? ADC_CHANNEL_2 :  ADC_CHANNEL_5 )
-#define RX_CC2_COMPCH(__PORT__)    ((__PORT__ == 0) ? COMP_INVERTINGINPUT_DAC2 : COMP_INVERTINGINPUT_DAC1 )
-#define HRP_POSITION(__PORT__)          ((__PORT__ == 0) ? 12 :            7 )      
+#define RX_CC2_PIN(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? GPIO_PIN_5 :    GPIO_PIN_4 )
+#define RX_CC2_PIN_POSITION(__PORT__)  ((__PORT__ == USBPD_USED_PORT) ? 5 :            4 )  
+#define RX_CC2_ADCCH(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? ADC_CHANNEL_2 :  ADC_CHANNEL_5 )
+#define RX_CC2_COMPCH(__PORT__)    ((__PORT__ == USBPD_USED_PORT) ? COMP_INVERTINGINPUT_DAC2 : COMP_INVERTINGINPUT_DAC1 )
+#define HRP_POSITION(__PORT__)          ((__PORT__ == USBPD_USED_PORT) ? 12 :            7 )      
     
 #define RX_REF_GPIOPORT(__PORT__)       ( GPIOA )
 #define RX_REF_PIN(__PORT)              ( GPIO_PIN_1 )
 #define RX_REF_ADCCH(__PORT__)          ( ADC_CHANNEL_1 )
   
 #define SPI_CLK_ENABLE(PortNum) do { \
-                              if (PortNum==0) \
+                              if (PortNum==USBPD_USED_PORT) \
                                 __HAL_RCC_SPI2_CLK_ENABLE(); \
                               else \
                                 __HAL_RCC_SPI1_CLK_ENABLE(); \
@@ -282,42 +284,42 @@ typedef struct
 ( (uint8_t)( (htim_base->Instance == TX_TIM(0)) || (htim_base->Instance == RX_TIM(0)) || (htim_base->Instance == RX_COUNTTIM(0)) )? 0 : 1 )
 
 #define TX_TIM_CLK_ENABLE(PortNum) do { \
-                              if (PortNum==0) \
+                              if (PortNum==USBPD_USED_PORT) \
                                 __HAL_RCC_TIM14_CLK_ENABLE(); \
                               else \
                                 __HAL_RCC_TIM15_CLK_ENABLE(); \
                               } while(0)
 
 #define RX_TIM_CLK_ENABLE(PortNum) do { \
-                              if (PortNum==0) \
+                              if (PortNum==USBPD_USED_PORT) \
                                 __HAL_RCC_TIM3_CLK_ENABLE(); \
                               else \
                                 __HAL_RCC_TIM1_CLK_ENABLE(); \
                               } while(0)
 
 #define RX_COUNTTIM_CLK_ENABLE(PortNum) do { \
-                              if (PortNum==0) \
+                              if (PortNum==USBPD_USED_PORT) \
                                 __HAL_RCC_TIM16_CLK_ENABLE(); \
                               else \
                                 __HAL_RCC_TIM17_CLK_ENABLE(); \
                               } while(0)
 
 #define TX_TIM_CLK_DISABLE(PortNum) do { \
-                              if (PortNum==0) \
+                              if (PortNum==USBPD_USED_PORT) \
                                 __HAL_RCC_TIM14_CLK_DISABLE(); \
                               else \
                                 __HAL_RCC_TIM15_CLK_DISABLE(); \
                               } while(0)
 
 #define RX_TIM_CLK_DISABLE(PortNum) do { \
-                              if (PortNum==0) \
+                              if (PortNum==USBPD_USED_PORT) \
                                 __HAL_RCC_TIM3_CLK_DISABLE(); \
                               else \
                                 __HAL_RCC_TIM1_CLK_DISABLE(); \
                               } while(0)
 
 #define RX_COUNTTIM_CLK_DISABLE(PortNum) do { \
-                              if (PortNum==0) \
+                              if (PortNum==USBPD_USED_PORT) \
                                 __HAL_RCC_TIM16_CLK_DISABLE(); \
                               else \
                                 __HAL_RCC_TIM17_CLK_DISABLE(); \

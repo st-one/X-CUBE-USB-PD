@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.3.0
+  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -62,7 +62,7 @@ void USBPD_PE_Task(void const *argument);
 void USBPD_CAD_Task(void const *argument);
 
 /* List of callbacks for PE layer */
-static uint32_t USBPD_DPM_HardReset(uint8_t PortNum);
+static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status);
 static void USBPD_DPM_SetupNewPower(uint8_t PortNum);
 static USBPD_StatusTypeDef USBPD_DPM_EvaluatPRSwap(uint8_t PortNum);
 static void USBPD_DPM_TurnOnPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef Role);
@@ -75,6 +75,8 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
 static void USBPD_DPM_SetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId , uint32_t *Ptr, uint32_t Size);  
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum);
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateCapabilities(uint8_t PortNum);
+static void USBPD_DPM_PowerRoleSwap(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_PRS_Status_TypeDef Status);
+static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status);
 
 
 /* Private variables ---------------------------------------------------------*/
@@ -105,6 +107,9 @@ USBPD_PE_Callbacks dpmCallbacks =
   USBPD_DPM_SetDataInfo,
   USBPD_DPM_EvaluateRequest,
   USBPD_DPM_EvaluateCapabilities,
+  USBPD_DPM_Capability,
+  USBPD_DPM_PowerRoleSwap,
+  NULL,
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -253,18 +258,36 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
   * @param  PortNum The current port number
   * @retval None
   */
-static uint32_t USBPD_DPM_HardReset(uint8_t PortNum)
+static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
 {
-  if(USBPD_PORTPOWERROLE_SRC == PE_GetPowerRole(PortNum))
+  uint32_t ret = 1;
+  switch (Status)
+  {
+  case USBPD_HR_STATUS_START_ACK:
+  case USBPD_HR_STATUS_START_REQ:
+    if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
   {
     /* Reset the power supply */
     USBPD_DPM_TurnOffPower(PortNum,PE_GetPowerRole(PortNum));
-    return 1;
+      ret = 1;
   }
   else
   {
-    return USBPD_PWR_IF_IsEnabled(PortNum);
+      ret = (uint32_t)USBPD_PWR_IF_IsEnabled(PortNum);
   }
+    break;
+  case USBPD_HR_STATUS_COMPLETED:
+    if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
+    {
+          /* Reset the power supply */
+      USBPD_DPM_TurnOnPower(PortNum,CurrentRole);
+      ret = 1;
+    }
+    break;
+  default:
+      break;
+  }
+ return ret;
 }
 
 /**
@@ -864,6 +887,46 @@ static void USBPD_DPM_RequestPowerRoleSwap(uint8_t PortNum)
   USBPD_PE_RequestPowerRoleSwap(PortNum);
 }
 
+/**
+  * @brief  Power role swap status update
+  * @param  PortNum Port number
+  * @param  CurrentRole the current role
+  * @param  Status status on power role swap event
+  */
+static void USBPD_DPM_PowerRoleSwap(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_PRS_Status_TypeDef Status)
+{
+  if (CurrentRole == USBPD_PORTPOWERROLE_SRC || CurrentRole == USBPD_PORTPOWERROLE_SNK)
+  {
+    switch (Status)
+    {
+    case USBPD_PRS_STATUS_VBUS_OFF:
+      USBPD_DPM_TurnOffPower(PortNum, CurrentRole);
+      break;
+    case USBPD_PRS_STATUS_SRC_RP2RD:
+      USBPD_DPM_AssertRd(PortNum);
+      break;
+    case USBPD_PRS_STATUS_SNK_RD2RP:
+      USBPD_DPM_AssertRp(PortNum);
+      break;
+    case USBPD_PRS_STATUS_VBUS_ON:
+      USBPD_DPM_TurnOnPower(PortNum, CurrentRole);
+      break;
+    default:
+      break;
+    }
+  }
+}
+
+/**
+  * @brief  Capability status update
+  * @param  PortNum Port number
+  * @param  CurrentRole the current role
+  * @param  Status status on capability event
+  */
+static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status)
+{
+  DPM_Ports[PortNum].DPM_RDOPosition = (DPM_Ports[PortNum].DPM_RequestDOMsg>>28);
+}
 /**
   * @brief  EXTI line detection callback.
   * @param  GPIO_Pin Specifies the port pin connected to corresponding EXTI line.

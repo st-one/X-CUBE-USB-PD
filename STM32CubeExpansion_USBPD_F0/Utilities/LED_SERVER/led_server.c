@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    led_server.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   LED server file provides services to control the LEDs in order to 
   *          show current status and error messages.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics International N.V. 
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -76,8 +76,10 @@ osThreadId xLedThreadId;
 uint16_t GlobalPeriod = LED_BLINK_MODE_PERIOD; /* 2 sec */
 uint16_t GlobalCount = 0x00;
 uint32_t GlobalMap = 0x55;
-/* Remapping order bits */
-const uint8_t LedOrder[] = {0, 1, 2, 3, 4, 5}; 
+
+/* Array support to remapping order bits,
+   by default it is the same of the definition */
+uint8_t LedOrder[LED_INDEX_LEN]; 
 
 /* Global variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -101,6 +103,9 @@ void Led_Init()
   for(i=0; i<LED_INDEX_LEN; i++)
   {
     prvLedStatusInit((LED_BSP_TypeDef)i);
+    
+    /* set default order */
+    LedOrder[i] = i;
   }
   GlobalCount = 0;
 }
@@ -173,20 +178,6 @@ void Led_OrderedSetBits(uint8_t LedBitmap)
     Led_Set((LED_BSP_TypeDef)LedOrder[i], (((LedBitmap>>i) & 0x01) == 0x01 ? LED_MODE_ON : LED_MODE_OFF), 0);
   }
 }
-
-///**
-// * @brief  Set the LED status according to the map.
-// * @param  cLedBitmap: the new map to be set
-// */
-//static inline void Led_OrderedSetBits(uint8_t powerrole)
-//{
-//  LED_Mode mode = LED_MODE_BLINK_ROLE_SRC;
-//  if (powerrole == LED_MODE_BLINK_ROLE_SNK) 
-//  {
-//    mode = 
-//  }
-//}
-
 
 /**
  * @brief  Callback for the task to provide the blink.

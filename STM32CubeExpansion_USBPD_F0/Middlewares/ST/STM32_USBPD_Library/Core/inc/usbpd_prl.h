@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_prl.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Header file for Protocol Layer module.
   ******************************************************************************
   * @attention
@@ -53,9 +53,7 @@
 #endif 
 
 /* Includes ------------------------------------------------------------------*/
-//#include "usbpd_timersserver.h"
 #include "usbpd_def.h"
-//#include "usbpd_conf.h"
 #if USBPD_TCPM_MODULE_ENABLED
 #include "usbpd_tcpm.h"
 #else

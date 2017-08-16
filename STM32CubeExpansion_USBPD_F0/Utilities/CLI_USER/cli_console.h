@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    cli_console.h
   * @author  System Lab
-  * @version V0.4.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Header file of CLI console 
   ******************************************************************************
   * @attention
@@ -51,8 +51,8 @@ void CLI_ConsoleStart( uint16_t usStackSize, osPriority xPriority, xQueueHandle 
   */  
 /* CLI Console string manipulation ********************************************/
 portBASE_TYPE CLI_ConsoleDirectRx(portCHAR * cText, portTickType xTicksToWait);
-portBASE_TYPE CLI_ConsoleDirectTx(portCHAR * cText, portTickType xTicksToWait);
-portBASE_TYPE CLI_ConsoleDirectTxFromISR(portCHAR * cText);
+portBASE_TYPE CLI_ConsoleDirectTx(const portCHAR * cText, portTickType xTicksToWait);
+portBASE_TYPE CLI_ConsoleDirectTxFromISR(const portCHAR * cText);
 /**
   * @}
   */ 

@@ -19,7 +19,7 @@
 						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug.1809601700" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug">
 							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.1390298589" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.665028717" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32F072RBTx" valueType="string"/>
-							<option id="fr.ac6.managedbuild.option.gnu.cross.board.1621862304" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="STM32F072B-DISCO" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.board.1621862304" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="STM32F072B-NUCLEO" valueType="string"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.1251860033" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.125063603" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.no" valueType="enumerated"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.433669147" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.soft" valueType="enumerated"/>
@@ -82,8 +82,6 @@
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.1372671660" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.1264924126" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value=""/>
-									<listOptionValue builtIn="false" value="ROJ_DIR$\..\Inc"/>
-									<listOptionValue builtIn="false" value="ROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.43666493" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.1693645816" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input"/>

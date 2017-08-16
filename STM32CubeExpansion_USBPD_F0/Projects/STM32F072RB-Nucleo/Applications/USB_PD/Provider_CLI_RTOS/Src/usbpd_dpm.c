@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.3.0
+  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -65,7 +65,7 @@ void USBPD_PE_Task(void const *argument);
 void USBPD_CAD_Task(void const *argument);
 
 /* List of callbacks for PE layer */
-static uint32_t USBPD_DPM_HardReset(uint8_t PortNum);
+static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status);
 static void USBPD_DPM_SetupNewPower(uint8_t PortNum);
 static void USBPD_DPM_ExplicitContractDone(uint8_t PortNum);
 static void USBPD_DPM_TurnOnPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef role);
@@ -74,6 +74,7 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
 static void USBPD_DPM_SetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId , uint32_t *Ptr, uint32_t Size);  
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum);
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateCapabilities(uint8_t PortNum);
+static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status);
 
 
 /* Private variables ---------------------------------------------------------*/
@@ -104,6 +105,9 @@ USBPD_PE_Callbacks dpmCallbacks =
   USBPD_DPM_SetDataInfo,
   USBPD_DPM_EvaluateRequest,
   USBPD_DPM_EvaluateCapabilities,
+  USBPD_DPM_Capability,
+  NULL,
+  NULL,
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -180,9 +184,12 @@ USBPD_StatusTypeDef USBPD_DPM_Init(void)
   */
 void USBPD_PE_Task(void const *argument)
 {
+  uint8_t PortNum = argument ? *(uint8_t *)argument : USBPD_PORT_0;
+  assert_param(USBPD_PORT_IsValid(PortNum));
+  
   for(;;)
   {
-    USBPD_PE_SRCProcess(USBPD_PORT_0);
+    USBPD_PE_SRCProcess(PortNum);
     osDelay(2);
   }
 }
@@ -215,13 +222,13 @@ static char buffer[CLI_OUTPUT_MAX_SIZE];
   */
 void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef Cc)
 {
-  if ( PortNum == USBPD_PORT_0 )
-  {
+  assert_param(USBPD_PORT_IsValid(PortNum));
+  
     switch(State)
     {
     case USBPD_CAD_STATE_ATTACHED:
     case USBPD_CAD_STATE_ATTEMC:
-      /* An ufp is attached on the port*/
+    /* An sink is attached on the port */
       osDelay(100);
       
       /* Enable VBUS */
@@ -235,6 +242,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
       /* Led feedback */
 #ifdef USBPD_LED_SERVER
       Led_Set(DPM_Leds[PortNum].CCLine, LED_MODE_BLINK_CC(Cc), 0);
+    Led_Set(DPM_Leds[PortNum].VBus, LED_MODE_BLINK_VBUS, 0);
 #endif /* USBPD_LED_SERVER */
       osDelay(150);
       
@@ -243,7 +251,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
       if (PETaskHandle == NULL)
       {
         osThreadDef(PETask, USBPD_PE_Task, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
-        PETaskHandle = osThreadCreate(osThread(PETask), NULL);
+      PETaskHandle = osThreadCreate(osThread(PETask), &PortNum);
       }
 #ifdef USBPD_CLI
       sprintf(buffer, "\r\n*** Attached: Port %d CC%d\r\n>", PortNum, Cc);
@@ -292,9 +300,12 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
       /* Disable VCONN*/
       USBPD_PWR_IF_Enable_VConn(PortNum, CCNONE);
       
+    /* a delay to be sure of the turn power off */
       osDelay(100);
-      /* The ufp is detached */
+    /* The sink is detached */
       USBPD_PE_IsCableConnected(PortNum, 0);
+    
+    /* PE Task termination */
       if (PETaskHandle != NULL)
       {
         osThreadTerminate(PETaskHandle);
@@ -332,28 +343,45 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
       break;
     }
   }
-}
-
 
 /**
   * @brief  Callback function called by PE layer when HardReset message received from PRL
   * @param  PortNum The current port number
-  * @retval None
+  * @param  CurrentRole the current role
+  * @param  Status status on hard reset event
+  * @retval 0 if ok, 1 if error, 2 if busy
   */
-static uint32_t USBPD_DPM_HardReset(uint8_t PortNum)
+static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
 {
-  if(USBPD_PORTPOWERROLE_SRC == PE_GetPowerRole(PortNum))
+  uint32_t ret = 1;
+  switch (Status)
+  {
+  case USBPD_HR_STATUS_START_ACK:
+  case USBPD_HR_STATUS_START_REQ:
+    if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
   {
     /* Reset the power supply */
     USBPD_DPM_TurnOffPower(PortNum,PE_GetPowerRole(PortNum));
-    return 1;
+      ret = 1;
   }
   else
   {
-    return USBPD_PWR_IF_IsEnabled(PortNum);
+      ret = (uint32_t)USBPD_PWR_IF_IsEnabled(PortNum);
   }
+    break;
+  case USBPD_HR_STATUS_COMPLETED:
+    if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
+    {
+          /* Reset the power supply */
+      USBPD_DPM_TurnOnPower(PortNum,CurrentRole);
+      ret = 1;
+    }
+    break;
+  default:
+      break;
+  }
+ return ret;
 }
-
 
 /**
   * @brief  Turn Off power supply.
@@ -905,6 +933,16 @@ static int32_t DPM_FindVoltageIndex(uint32_t PortNum, USBPD_SNKPowerRequest_Type
   return (-1);
 }
 
+/**
+  * @brief  Capability status update
+  * @param  PortNum Port number
+  * @param  CurrentRole the current role
+  * @param  Status status on capability event
+  */
+static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status)
+{
+  DPM_Ports[PortNum].DPM_RDOPosition = (DPM_Ports[PortNum].DPM_RequestDOMsg>>28);
+}
 
 /**
   * @brief  Set required power by a sink port and store it in DPM Handle

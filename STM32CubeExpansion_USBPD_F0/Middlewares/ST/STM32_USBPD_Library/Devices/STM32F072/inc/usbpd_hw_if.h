@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_hw_if.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.3.0
+  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_hw_if.h for USB-PD Hardwer 
              Interface layer. This file is specific for each device.
   ******************************************************************************
@@ -187,9 +187,12 @@ typedef enum
  * */
 #define MAMP(X)		( ((int32_t)( ( ((uint32_t)X)*3300 )>>10 ) )-6600 )
 
-#if (USBPD_PORT_COUNT == 1)
+#if ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 0))
 #define ENCC1_PIN(__PORT__)    ( ENCC1_P0 )
 #define ENCC2_PIN(__PORT__)    ( ENCC2_P0 )
+#elif ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 1))
+#define ENCC1_PIN(__PORT__)    ( ENCC1_P1 )
+#define ENCC2_PIN(__PORT__)    ( ENCC2_P1 )
 #elif (USBPD_PORT_COUNT == 2)
 #define ENCC1_PIN(__PORT__)    ((__PORT__ == 0) ? ENCC1_P0 : ENCC1_P1 )
 #define ENCC2_PIN(__PORT__)    ((__PORT__ == 0) ? ENCC2_P0 : ENCC2_P1 )
@@ -197,19 +200,23 @@ typedef enum
 
 #define OTHER_CC(__CC__)                ( ((CCxPin_TypeDef)(__CC__))==CC1 ? CC2 : ( (((CCxPin_TypeDef)(__CC__))==CC2) ? CC1 : CCNONE ) ) 
 
-#if (USBPD_PORT_COUNT == 1)
+#if ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 0))
+#define VBUS_INDEX(__PORT__)    5
+#elif ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 1))
 #define VBUS_INDEX(__PORT__)    5
 #elif (USBPD_PORT_COUNT == 2)
 #define VBUS_INDEX(__PORT__)    ((__PORT__ == 0) ? 8 : 9 )
 #endif
 
-#if (USBPD_PORT_COUNT == 1)
+#if ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 0))
 #define IBUS_INDEX(__PORT__)		2
+#elif ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 1))
+#define IBUS_INDEX(__PORT__)    3
 #elif (USBPD_PORT_COUNT == 2)
 #define IBUS_INDEX(__PORT__)		((__PORT__ == 0) ? 3 : 6 )
 #endif
  /*
- Single Port
+ Single Port on port 0
  P0 CC1 = ADC DMA Index 0
  P0 CC2 = ADC DMA Index  3
 
@@ -220,6 +227,18 @@ typedef enum
   3     ADC_CHANNEL_5   //P0.CC2    PA5
   4     ADC_CHANNEL_10  //Not used  PC0
   5     ADC_CHANNEL_14  //P0.VBUS   PC4 
+ 
+ Single Port on port 1
+ P0 CC1 = ADC DMA Index 1
+ P0 CC2 = ADC DMA Index 2
+
+  ADC DMA Index => ch
+  0     ADC_CHANNEL_1   //RXRef     PA1
+  1     ADC_CHANNEL_2   //P1.CC1    PA2
+  2     ADC_CHANNEL_4   //P1.CC2    PA4
+  3     ADC_CHANNEL_7   //P1.IBUS   PA7
+  4     ADC_CHANNEL_10  //Not used  PC0
+  5     ADC_CHANNEL_15  //P1.VBUS   PC5
  
  Dual Port
  P0 CC1 = ADC DMA Index 0
@@ -249,14 +268,18 @@ typedef enum
 
 #define CC_INDEX(__PORT__,__CC__) ((__CC__) == CC1 ? CC1_INDEX(__PORT__) : CC2_INDEX(__PORT__)) 
 
-#if (USBPD_PORT_COUNT == 1)
+#if ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 0))
 #define CC1_INDEX(__PORT__)    0
+#elif ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 1))
+#define CC1_INDEX(__PORT__)    1
 #elif (USBPD_PORT_COUNT == 2)
 #define CC1_INDEX(__PORT__)    ((__PORT__ == 0) ? 0 : 2 )
 #endif
 
-#if (USBPD_PORT_COUNT == 1)
+#if ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 0))
 #define CC2_INDEX(__PORT__)    3
+#elif ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 1))
+#define CC2_INDEX(__PORT__)    2
 #elif (USBPD_PORT_COUNT == 2)
 #define CC2_INDEX(__PORT__)    ((__PORT__ == 0) ? 5 : 4 )
 #endif

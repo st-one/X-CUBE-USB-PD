@@ -19,7 +19,7 @@
 						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug.1391647872" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug">
 							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.1982186190" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.1509366992" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32F072RBTx" valueType="string"/>
-							<option id="fr.ac6.managedbuild.option.gnu.cross.board.803985343" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="STM32F072B-DISCO" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.board.803985343" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="NUCLEO-F072RB" valueType="string"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.1935240171" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.630495214" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.no" valueType="enumerated"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.1062767116" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.soft" valueType="enumerated"/>

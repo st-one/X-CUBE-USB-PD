@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.3.0
+  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -65,13 +65,14 @@ void USBPD_PE_Task(void const *argument);
 void USBPD_CAD_Task(void const *argument);
 
 /* List of callbacks for PE layer */
-static uint32_t USBPD_DPM_HardReset(uint8_t PortNum);
+static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status);
 static void USBPD_DPM_SetupNewPower(uint8_t PortNum);
 static void USBPD_DPM_ExplicitContractDone(uint8_t PortNum);
 static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId , uint32_t *Ptr, uint32_t *Size);  
 static void USBPD_DPM_SetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId , uint32_t *Ptr, uint32_t Size);  
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum);
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateCapabilities(uint8_t PortNum);
+static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status);
 
 static void USBPD_VDM_Notif(void);
 
@@ -103,6 +104,9 @@ USBPD_PE_Callbacks dpmCallbacks =
   USBPD_DPM_SetDataInfo,
   USBPD_DPM_EvaluateRequest,
   USBPD_DPM_EvaluateCapabilities,
+  USBPD_DPM_Capability,
+  NULL,
+  NULL,
 };
 
 static uint32_t VDMCounter = 0;
@@ -262,15 +266,26 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
 /**
   * @brief  Callback function called by PE layer when HardReset message received from PRL
   * @param  PortNum The current port number
-  * @retval None
+  * @param  CurrentRole the current role
+  * @param  Status status on hard reset event
+  * @retval 0 if continue 1 otherwise
   */
-static uint32_t USBPD_DPM_HardReset(uint8_t PortNum)
+static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
 {
-  /* Reset the power supply */
-  USBPD_PWR_IF_PowerReset(PortNum);
-  return 1;
+  uint32_t ret = 1;
+  switch (Status)
+  {
+  case USBPD_HR_STATUS_START_ACK:
+  case USBPD_HR_STATUS_START_REQ:
+    ret = (uint32_t)USBPD_PWR_IF_IsEnabled(PortNum);
+    break;
+  case USBPD_HR_STATUS_COMPLETED:
+    break;
+  default:
+      break;
+  }
+ return ret;
 }
-
 
 /**
   * @brief  Request the DPM to setup the new power level.
@@ -699,6 +714,16 @@ USBPD_StatusTypeDef USBPD_DPM_RequestNewPowerProfile(uint8_t PortNum, uint8_t PD
   return USBPD_OK;
 }
 
+/**
+  * @brief  Capability status update
+  * @param  PortNum Port number
+  * @param  CurrentRole the current role
+  * @param  Status status on capability event
+  */
+static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status)
+{
+  DPM_Ports[PortNum].DPM_RDOPosition = (DPM_Ports[PortNum].DPM_RequestDOMsg>>28);
+}
 
 /**
   * @brief  Find PDO index that offers the most amount of power.

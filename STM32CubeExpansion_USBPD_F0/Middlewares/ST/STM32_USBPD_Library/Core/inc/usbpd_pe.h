@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_pe.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Header file of Policy Engine module.
   ******************************************************************************
   * @attention
@@ -77,6 +77,46 @@
   * @{
   */
 
+typedef enum
+{
+  USBPD_HR_STATUS_START_ACK,
+  USBPD_HR_STATUS_START_REQ,
+  USBPD_HR_STATUS_MSG_SENT,
+  USBPD_HR_STATUS_MSG_RECEIVED,
+  USBPD_HR_STATUS_WAIT_VBUS_VSAFE0V,
+  USBPD_HR_STATUS_COMPLETED,
+  USBPD_HR_STATUS_FAILED,
+} USBPD_HR_Status_TypeDef;
+
+typedef enum
+{
+  USBPD_PRS_STATUS_NA,
+  USBPD_PRS_STATUS_START_ACK, 
+  USBPD_PRS_STATUS_START_REQ, 
+  USBPD_PRS_STATUS_ACCEPTED,
+  USBPD_PRS_STATUS_REJECTED, 
+  USBPD_PRS_STATUS_WAIT,
+  USBPD_PRS_STATUS_VBUS_OFF,
+  USBPD_PRS_STATUS_SRC_RP2RD, 
+  USBPD_PRS_STATUS_SRC_PS_READY_SENT, 
+  USBPD_PRS_STATUS_SNK_PS_READY_RECEIVED, 
+  USBPD_PRS_STATUS_SNK_RD2RP, 
+  USBPD_PRS_STATUS_VBUS_ON,
+  USBPD_PRS_STATUS_SNK_PS_READY_SENT, 
+  USBPD_PRS_STATUS_SRC_PS_READY_RECEIVED, 
+  USBPD_PRS_STATUS_COMPLETED,
+  USBPD_PRS_STATUS_FAILED,
+  USBPD_PRS_STATUS_ABORTED,
+} USBPD_PRS_Status_TypeDef;
+
+typedef enum
+{
+  USBPD_CAP_STATUS_REQUESTING,
+  USBPD_CAP_STATUS_ACCEPTED,
+  USBPD_CAP_STATUS_REJECTED, 
+  USBPD_CAP_STATUS_WAIT,
+} USBPD_CAP_Status_TypeDef;
+  
 /** @defgroup PE_CallBacks_structure_definition PE CallBacks structure definition
   * @brief  PE CallBacks exposed by the PE to the  DMP
   * @{
@@ -91,11 +131,13 @@ typedef struct
   void (*USBPD_PE_RequestSetupNewPower)(uint8_t PortNum);
   
   /**
-    * @brief  Request the DPM to perform a HardReset.
+    * @brief  Inform the DPM to HardReset status.
     * @param  PortNum Port number
+    * @param  Role of the board
+    * @param  Status HR Status update
     * @retval None
   */
-  uint32_t (*USBPD_PE_HardReset)(uint8_t PortNum);
+  uint32_t (*USBPD_PE_HardReset)(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status);
 
   /**
     * @brief  Get evaluation of swap request from DPM.
@@ -189,6 +231,32 @@ typedef struct
   */
   USBPD_StatusTypeDef (*USBPD_PE_EvaluateCapabilities)(uint8_t PortNum);
 
+  /**
+    * @brief  Callback to be used by PE to notify a generic event, clear for the specific DPM
+    * @param  PortNum Port number
+    * @param  Param Generic parameter
+    * @param  lpText String
+    * @retval None
+  */
+  void (*USBPD_PE_Capability)(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status);
+
+  /**
+    * @brief  Callback to be used ...
+    * @param  PortNum Port number
+    * @param  Role of the board
+    * @param  Status HR Status update
+    * @retval None
+  */
+  void (*USBPD_PE_PowerRoleSwap)(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_PRS_Status_TypeDef Status);
+  
+  /**
+    * @brief  Callback to be used ...
+    * @param  PortNum Port number
+    * @param  Role of the board
+    * @retval Return 1 if the VBus is present otherwise 0
+  */
+  uint8_t (*USBPD_PE_GetVBusStatus)(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole);
+  
 }USBPD_PE_Callbacks;
 
 /**
@@ -223,7 +291,6 @@ void                        USBPD_PE_TimerCounter(uint8_t PortNum);
 
 /* Get current power role */
 USBPD_PortPowerRole_TypeDef PE_GetPowerRole(uint8_t PortNum);
-USBPD_PortPowerRole_TypeDef PE_GetCurrentPowerRole(uint8_t PortNum);
 void                        PE_SetPowerRole(uint8_t PortNum, USBPD_PortPowerRole_TypeDef role);
 USBPD_PortDataRole_TypeDef  PE_GetDataRole(uint8_t PortNum);
 USBPD_PortPowerRole_TypeDef PE_GetDefaultPortPowerRole(uint8_t PortNum);
@@ -240,6 +307,7 @@ void                        PE_ResetDuringSwap(uint8_t PortNum);
 USBPD_StatusTypeDef         USBPD_PE_RequestNewPowerProfile(uint8_t PortNum, uint8_t PDOIndex);
 USBPD_StatusTypeDef         USBPD_PE_RequestPowerRoleSwap(uint8_t PortNum);
 USBPD_StatusTypeDef         USBPD_PE_GetReceivedPowerProfile(uint8_t PortNum, uint32_t *pPDO, uint32_t *pNbPDO);
+USBPD_StatusTypeDef         USBPD_PE_HardReset_Request(uint8_t PortNum);
 
 #ifdef USBPD_VDM_ENABLED
 USBPD_StatusTypeDef         USBPD_PE_SVDM_RequestIdentity(uint8_t PortNum, USBPD_SOPType_TypeDef SOPType);

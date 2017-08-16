@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_vdm_callback.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.3.0
+  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -60,6 +60,7 @@
 #define MODE_DP_PIN_D 0x08
 #define MODE_DP_PIN_E 0x10
 #define MODE_DP_PIN_F 0x20
+#define MODE_DP_PIN_ALL (MODE_DP_PIN_A | MODE_DP_PIN_B | MODE_DP_PIN_C | MODE_DP_PIN_D | MODE_DP_PIN_E | MODE_DP_PIN_F)
 
 /* Pin configs B/D/F support multi-function */
 #define MODE_DP_PIN_MF_MASK 0x2a
@@ -147,6 +148,8 @@ typedef struct {
 }USBPD_SVIDUSerInfo_TypeDef;
 
 /* Private macro -------------------------------------------------------------*/
+/* Private variables  -------------------------------------------------------------*/
+__IO uint8_t SendAttention = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* List of callbacks for VDM layer */
 
@@ -157,6 +160,7 @@ static USBPD_StatusTypeDef USBPD_VDM_EnterMode(uint8_t PortNum, uint16_t SVID, u
 static USBPD_StatusTypeDef USBPD_VDM_ExitMode(uint8_t PortNum, uint16_t SVID, uint32_t ModeIndex);
 static USBPD_StatusTypeDef USBPD_VDM_Attention(uint8_t Port, USBPD_AttentionInfo_TypeDef **pAttentionInfo);
 static USBPD_StatusTypeDef USBPD_VDM_InformAttention(uint8_t PortNum, USBPD_AttentionInfo_TypeDef *pAttentionInfo);
+static void HPD_Init(void);
 
 /* Private variables ---------------------------------------------------------*/
 USBPD_VDM_Callbacks vdmCallbacks =
@@ -201,20 +205,12 @@ const USBPD_DPModeTypeDef vdo_dp_modes[2] =
 {
   {
     .b.UFP_D_Pin        = 0,              /* UFP pin cfg supported : none         */
-    .b.DFP_D_Pin        = MODE_DP_PIN_C | MODE_DP_PIN_D, /* DFP pin cfg supported */
+    .b.DFP_D_Pin        = MODE_DP_PIN_C | MODE_DP_PIN_E, /* DFP pin cfg supported */
     .b.USB20            = 0,              /* USB2.0 signalling even in AMode      */
     .b.PlugOrRecept     = CABLE_TO_PLUG,  /* its a plug                           */
     .b.Supports         = MODE_DP_V13,    /* DPv1.3 Support, no Gen2              */
-    .b.SignalDirection  = MODE_DP_SNK     /* Its a sink only                      */
+    .b.SignalDirection  = MODE_DP_SNK    /* Its a sink / src                 */
   },
-  {
-    .b.UFP_D_Pin        = 0,                  /* UFP pin cfg supported : none     */
-    .b.DFP_D_Pin        = MODE_DP_PIN_C | MODE_DP_PIN_D, /* DFP pin cfg supported */
-    .b.USB20            = 0,                  /* USB2.0 signalling even in AMode  */
-    .b.PlugOrRecept     = CABLE_TO_RECEPTACLE,/* its a receptacle                 */
-    .b.Supports         = MODE_DP_V13,        /* DPv1.3 Support, no Gen2          */
-    .b.SignalDirection  = MODE_DP_BOTH        /* Its a sink / src                 */
-  }
 };
 
 USBPD_DPStatus_TypeDef sDP_Status = 
@@ -227,7 +223,7 @@ USBPD_DPStatus_TypeDef sDP_Status =
   .b.MultiFunction  = 0,
   .b.Enable         = 1,
   .b.PowerLow       = 0,
-  .b.ConnectStatus  = 2,
+  .b.ConnectStatus  = 1,
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -301,9 +297,8 @@ static USBPD_StatusTypeDef USBPD_VDM_DiscoverModes(uint8_t Port, uint16_t SVID, 
   {
     mode_info.Nack      = 0;
     mode_info.SVID      = SVID;
-    mode_info.NumModes  = 2;
+    mode_info.NumModes  = 1;
     mode_info.Modes[0]  = vdo_dp_modes[0].d32;
-    mode_info.Modes[1]  = vdo_dp_modes[1].d32;
   }
   else
   {
@@ -327,12 +322,6 @@ static USBPD_StatusTypeDef USBPD_VDM_EnterMode(uint8_t PortNum, uint16_t SVID, u
 {
   USBPD_StatusTypeDef status = USBPD_FAIL;
   if ((DISPLAY_PORT_SVID == SVID) && (ModeIndex == 1))
-  {
-    status = USBPD_OK;
-    VDM_Mode_On = 1;
-  }
-  
-  if ((DISPLAY_PORT_SVID == SVID) && (ModeIndex == 2))
   {
     status = USBPD_OK;
     VDM_Mode_On = 1;
@@ -376,9 +365,25 @@ static USBPD_StatusTypeDef USBPD_VDM_ExitMode(uint8_t PortNum, uint16_t SVID, ui
 static USBPD_StatusTypeDef USBPD_VDM_Attention(uint8_t Port, USBPD_AttentionInfo_TypeDef **pAttentionInfo)
 {
   *pAttentionInfo = &sAttention;
+  if (SendAttention)
+  {
+      sAttention.Command = SVDM_ATTENTION;
+      sAttention.VDO        = sDP_Status.d32;
+      sAttention.SVID = DISPLAY_PORT_SVID;
+  }
   if (sAttention.Command == SVDM_DP_STATUS)
-   sAttention.VDO        = sDP_Status.d32;
+  {
+    sAttention.VDO        = sDP_Status.d32;
+    sAttention.SVID = DISPLAY_PORT_SVID;
+  }
 
+  if (sAttention.Command == SVDM_DP_CONFIG)
+  {
+    sAttention.VDO        = 0;
+    sAttention.SVID = DISPLAY_PORT_SVID;
+  }
+
+  SendAttention = 0;
   return USBPD_OK;
 }
 
@@ -404,6 +409,11 @@ static USBPD_StatusTypeDef USBPD_VDM_InformAttention(uint8_t PortNum, USBPD_Atte
     /* DP not connected */
       sDP_Status.b.ConnectStatus = 0;
   }
+  if (pAttentionInfo->Command == SVDM_DP_CONFIG)
+  {
+    sAttention.Command    = SVDM_DP_CONFIG;
+    sAttention.VDO        = 0;
+  }
 
   return USBPD_OK;
 }
@@ -424,6 +434,53 @@ USBPD_StatusTypeDef VDM_Initialization(void)
   }
   
   USBPD_VDM_Init(0, vdmCallbacks);
+  HPD_Init();
   return USBPD_OK;
 }
+
+/**
+  * @brief  Initialize HPD Alert pin 
+  * @param  None
+  * @retval 0 if OK 
+  */
+void HPD_Init(void)
+{
+  GPIO_InitTypeDef   GPIO_InitStructure;
+
+  /* Enable GPIOC clock */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+
+  /* Configure PC.13 pin as input floating */
+  GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStructure.Pull = GPIO_PULLDOWN;
+  GPIO_InitStructure.Pin = GPIO_PIN_9;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
+  
+  /* Enable and set EXTI line 2_3 Interrupt to the lowest priority */
+  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 3, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
+  
+  if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_9) == GPIO_PIN_SET)
+    sDP_Status.b.HPDState = 1;
+  else
+    sDP_Status.b.HPDState = 0;
+    
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_9) == GPIO_PIN_SET)
+  {
+    sDP_Status.b.HPDState = 1;
+    sDP_Status.b.Enable = 1;
+  }
+  else
+  {
+    sDP_Status.b.HPDState = 0;
+    sDP_Status.b.Enable = 0;
+  }
+  SendAttention = 1;
+  USBPD_PE_SVDM_RequestAttention(0);
+}
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

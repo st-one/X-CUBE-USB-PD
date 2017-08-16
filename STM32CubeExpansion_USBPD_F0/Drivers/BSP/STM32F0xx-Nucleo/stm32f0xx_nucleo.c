@@ -420,7 +420,9 @@ static void SPIx_Init(void)
 
 /**
   * @brief  SPI Write a byte to device
-  * @param  Value: value to be written
+  * @param  DataIn: value to be written
+  * @param  DataOut: read value
+  * @param  DataLength: value data length
   * @retval None
   */
 static void SPIx_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength)
@@ -439,7 +441,7 @@ static void SPIx_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t
 
 /**
   * @brief  SPI Write an amount of data to device
-  * @param  Value: value to be written
+  * @param  DataIn: value to be written
   * @param  DataLength: number of bytes to write
   * @retval None
   */
@@ -551,7 +553,7 @@ void SD_IO_Init(void)
 
 /**
   * @brief  Set the SD_CS pin.
-  * @param  pin value.
+  * @param  val pin value.
   * @retval None
   */
 void SD_IO_CSState(uint8_t val)
@@ -595,7 +597,7 @@ uint8_t SD_IO_WriteByte(uint8_t Data)
 
 /**
   * @brief  Write an amount of data on the SD.
-  * @param  Data: byte to send.
+  * @param  DataOut: byte to send.
   * @param  DataLength: number of bytes to write
   * @retval none
   */
@@ -762,7 +764,6 @@ static void ADCx_MspInit(ADC_HandleTypeDef *hadc)
 
 /**
   * @brief  DeInitializes ADC MSP.
-  * @param  None
   * @note ADC DeInit does not disable the GPIO clock
   * @retval None
   */
@@ -830,7 +831,6 @@ static HAL_StatusTypeDef ADCx_Init(void)
 
 /**
   * @brief  Initializes ADC HAL.
-  * @param  None
   * @retval None
   */
 static void ADCx_DeInit(void)

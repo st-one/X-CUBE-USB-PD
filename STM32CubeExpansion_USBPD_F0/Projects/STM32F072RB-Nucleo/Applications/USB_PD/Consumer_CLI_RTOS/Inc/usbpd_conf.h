@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    usbpd_conf.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
+  * @version V1.3.0
+  * @date    24-Apr-2017
   * @brief   This file contains general configuration
   ******************************************************************************
   * @attention

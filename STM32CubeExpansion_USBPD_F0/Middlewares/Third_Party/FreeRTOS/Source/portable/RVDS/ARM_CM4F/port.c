@@ -1,5 +1,5 @@
 /*
-    FreeRTOS V8.2.3 - Copyright (C) 2015 Real Time Engineers Ltd.
+    FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
     All rights reserved
 
     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
@@ -145,12 +145,16 @@ r0p1 port. */
 #define portINITIAL_EXEC_RETURN		( 0xfffffffd )
 
 /* The systick is a 24-bit counter. */
-#define portMAX_24_BIT_NUMBER				( 0xffffffUL )
+#define portMAX_24_BIT_NUMBER		( 0xffffffUL )
 
 /* A fiddle factor to estimate the number of SysTick counts that would have
 occurred while the SysTick counter is stopped during tickless idle
 calculations. */
-#define portMISSED_COUNTS_FACTOR			( 45UL )
+#define portMISSED_COUNTS_FACTOR	( 45UL )
+
+/* For strict compliance with the Cortex-M spec the task start address should
+have bit-0 clear, as it is loaded into the PC on exit from an ISR. */
+#define portSTART_ADDRESS_MASK		( ( StackType_t ) 0xfffffffeUL )
 
 /* Each task maintains its own interrupt status in the critical nesting
 variable. */
@@ -237,7 +241,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
 	*pxTopOfStack = portINITIAL_XPSR;	/* xPSR */
 	pxTopOfStack--;
-	*pxTopOfStack = ( StackType_t ) pxCode;	/* PC */
+	*pxTopOfStack = ( ( StackType_t ) pxCode ) & portSTART_ADDRESS_MASK;	/* PC */
 	pxTopOfStack--;
 	*pxTopOfStack = ( StackType_t ) prvTaskExitError;	/* LR */
 
@@ -509,8 +513,8 @@ __asm void xPortPendSVHandler( void )
 	#endif
 
 	bx r14
-    nop
-    nop
+  nop
+  nop
 }
 /*-----------------------------------------------------------*/
 
@@ -519,8 +523,9 @@ void xPortSysTickHandler( void )
 	/* The SysTick runs at the lowest interrupt priority, so when this interrupt
 	executes all interrupts must be unmasked.  There is therefore no need to
 	save and then restore the interrupt mask value as its value is already
-	known. */
-	( void ) portSET_INTERRUPT_MASK_FROM_ISR();
+	known - therefore the slightly faster vPortRaiseBASEPRI() function is used
+	in place of portSET_INTERRUPT_MASK_FROM_ISR(). */
+	vPortRaiseBASEPRI();
 	{
 		/* Increment the RTOS tick. */
 		if( xTaskIncrementTick() != pdFALSE )
@@ -530,7 +535,7 @@ void xPortSysTickHandler( void )
 			portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
 		}
 	}
-	portCLEAR_INTERRUPT_MASK_FROM_ISR( 0 );
+	vPortClearBASEPRIFromISR();
 }
 /*-----------------------------------------------------------*/
 
@@ -565,6 +570,8 @@ void xPortSysTickHandler( void )
 		/* Enter a critical section but don't use the taskENTER_CRITICAL()
 		method as that will mask interrupts that should exit sleep mode. */
 		__disable_irq();
+		__dsb( portSY_FULL_READ_WRITE );
+		__isb( portSY_FULL_READ_WRITE );
 
 		/* If a context switch is pending or a task is waiting for the scheduler
 		to be unsuspended then abandon the low power entry. */
@@ -664,7 +671,7 @@ void xPortSysTickHandler( void )
 
 				/* The reload value is set to whatever fraction of a single tick
 				period remains. */
-				portNVIC_SYSTICK_LOAD_REG = ( ( ulCompleteTickPeriods + 1 ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
+				portNVIC_SYSTICK_LOAD_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
 			}
 
 			/* Restart SysTick so it runs from portNVIC_SYSTICK_LOAD_REG

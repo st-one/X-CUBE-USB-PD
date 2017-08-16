@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    cli_commands.c
   * @author  System Lab
-  * @version V0.4.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   CLI Commands defintion and implementation.
   ******************************************************************************
   * @attention
@@ -62,6 +62,11 @@
 osThreadId xCmdThreadId;
 
 /** 
+ * brief  handle of the thread
+ */
+char cDebugAsyncMessageEnable = 1;
+
+/** 
  * brief  receive in this queue the command (without endline)
  */
 static osMessageQId xQueueIn = NULL;
@@ -95,10 +100,13 @@ static portCHAR prvCommandCheckPortNumber(char *pcWriteBuffer, size_t xWriteBuff
 static inline void prvGetVoltageCurrentFromPDO(uint32_t PdoValue, float *pVoltage, float *pCurrent);
 
 static BaseType_t prvWelcomeCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString );
+static BaseType_t prvDebugCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString );
 static BaseType_t prvProfilesCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString );
 static BaseType_t prvStatusCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString );
 static BaseType_t prvRequestCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString );
 static BaseType_t prvPRSwapCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString );
+static BaseType_t prvHardResetCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString );
+static BaseType_t prvSystemResetCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString );
 
 /* Commands structure definition ---------------------------------------------*/
 /** @defgroup CLI_Commands_Definition CLI Commands Definition
@@ -109,38 +117,95 @@ static BaseType_t prvPRSwapCommandFunc( char *pcWriteBuffer, size_t xWriteBuffer
  */
 static const CLI_Command_Definition_t xWelcomeCommand =
 {
-	"welcome",
-	"w | welcome : Print out the welcome message\r\n",
-	prvWelcomeCommandFunc, /* The function to run. */
-	0 /* No parameter is expected. */
+  "welcome",
+  "w | welcome : Print out the welcome message\r\n",
+  prvWelcomeCommandFunc, /* The function to run. */
+  0 /* No parameter is expected. */
 };
 static const CLI_Command_Definition_t xWelcomeCommand2 =
 {
-	"w",
+  "w",
+  "",
+  prvWelcomeCommandFunc, /* The function to run. */
+  0 /* No parameter is expected. */
+};
+/** 
+ * brief  Debug command definition
+ */
+static const CLI_Command_Definition_t xDebugCommand =
+{
+	"debug",
+	//"d | debug : \r\n",
+        "",
+	prvDebugCommandFunc, /* The function to run. */
+	-1 /* Generic n parameter is expected. */
+};
+static const CLI_Command_Definition_t xDebugCommand2 =
+{
+	"d",
 	"",
-	prvWelcomeCommandFunc, /* The function to run. */
-	0 /* No parameter is expected. */
+	prvDebugCommandFunc, /* The function to run. */
+	-1 /* Generic n parameter is expected. */
+};
+
+/** 
+ * brief  Reset command definition
+ */
+static const CLI_Command_Definition_t xHardResetCommand =
+{
+	"hardreset",
+#if PORT_PARAM_ENABLE == 1        
+	"h | hardreset <port> : perform a hardreset for the port\r\n",
+#else
+	"h | hardreset : perform a hardreset\r\n",
+#endif /* PORT_PARAM_ENABLE */
+	prvHardResetCommandFunc, /* The function to run. */
+	PORT_PARAM_ENABLE
+};
+static const CLI_Command_Definition_t xHardResetCommand2 =
+{
+	"h",
+        "",
+	prvHardResetCommandFunc, /* The function to run. */
+	PORT_PARAM_ENABLE
+};
+/** 
+ * brief  Debug command definition
+ */
+static const CLI_Command_Definition_t xSystemResetCommand =
+{
+	"systemreset",
+        "",
+	prvSystemResetCommandFunc, /* The function to run. */
+	-1 /* Generic n parameter is expected. */
+};
+static const CLI_Command_Definition_t xSystemResetCommand2 =
+{
+	"z",
+	"",
+	prvSystemResetCommandFunc, /* The function to run. */
+	-1 /* Generic n parameter is expected. */
 };
 /** 
  * brief  Profiles command definition
  */
 static const CLI_Command_Definition_t xProfilesCommand =
 {
-	"profiles",
+  "profiles",
 #if PORT_PARAM_ENABLE == 1        
-	"p | profiles <port>: show the available profiles for the port\r\n",
+  "p | profiles <port> : show the available profiles for the port\r\n",
 #else
-	"p | profiles : show the available profiles \r\n",
+  "p | profiles : show the available profiles \r\n",
 #endif /* PORT_PARAM_ENABLE */
-	prvProfilesCommandFunc, /* The function to run. */
-	PORT_PARAM_ENABLE 
+  prvProfilesCommandFunc, /* The function to run. */
+  PORT_PARAM_ENABLE 
 };
 static const CLI_Command_Definition_t xProfilesCommand2 =
 {
-	"p",
-	"",
-	prvProfilesCommandFunc, /* The function to run. */
-	PORT_PARAM_ENABLE 
+  "p",
+  "",
+  prvProfilesCommandFunc, /* The function to run. */
+  PORT_PARAM_ENABLE 
 };
 
 /** 
@@ -148,42 +213,42 @@ static const CLI_Command_Definition_t xProfilesCommand2 =
  */
 static const CLI_Command_Definition_t xStatusCommand =
 {
-	"status",
+  "status",
 #if PORT_PARAM_ENABLE == 1        
-	"s | status <port> : show the status of the PD comm for the port\r\n",
+  "s | status <port> : show the status of the PD comm for the port\r\n",
 #else
-	"s | status : show the status of the PD comm\r\n",
+  "s | status : show the status of the PD comm\r\n",
 #endif /* PORT_PARAM_ENABLE */
-	prvStatusCommandFunc, /* The function to run. */
-	PORT_PARAM_ENABLE 
+  prvStatusCommandFunc, /* The function to run. */
+  PORT_PARAM_ENABLE 
 };
 static const CLI_Command_Definition_t xStatusCommand2 =
 {
-	"s",
-	"",
-	prvStatusCommandFunc, /* The function to run. */
-	PORT_PARAM_ENABLE 
+  "s",
+  "",
+  prvStatusCommandFunc, /* The function to run. */
+  PORT_PARAM_ENABLE 
 };
 /** 
  * brief  Request command definition
  */
 static const CLI_Command_Definition_t xRequestCommand =
 {
-	"request",
+  "request",
 #if PORT_PARAM_ENABLE == 1        
-	"r | request <port> <profile> : change PD profile (only sink) for the port\r\n",
+  "r | request <port> <profile> : change PD profile (only sink) for the port\r\n",
 #else
-	"r | request <profile> : change PD profile (only consumer)\r\n",
+  "r | request <profile> : change PD profile (only consumer)\r\n",
 #endif /* PORT_PARAM_ENABLE */
-	prvRequestCommandFunc, /* The function to run. */
-	(PORT_PARAM_ENABLE+1) 
+  prvRequestCommandFunc, /* The function to run. */
+  (PORT_PARAM_ENABLE+1) 
 };
 static const CLI_Command_Definition_t xRequestCommand2 =
 {
-	"r",
-	"",
-	prvRequestCommandFunc, /* The function to run. */
-	(PORT_PARAM_ENABLE+1) 
+  "r",
+  "",
+  prvRequestCommandFunc, /* The function to run. */
+  (PORT_PARAM_ENABLE+1) 
 };
 
 /** 
@@ -191,22 +256,22 @@ static const CLI_Command_Definition_t xRequestCommand2 =
  */
 static const CLI_Command_Definition_t xPRSwapCommand =
 {
-	"prswap",
+  "prswap",
 #if PORT_PARAM_ENABLE == 1        
-	"x | prswap <port> : start a power role swap for the port\r\n",
+  "x | prswap <port> : start a power role swap for the port\r\n",
 #else
-	"x | prswap : start a power role swap\r\n",
+  "x | prswap : start a power role swap\r\n",
 #endif /* PORT_PARAM_ENABLE */
-	prvPRSwapCommandFunc, /* The function to run. */
-	PORT_PARAM_ENABLE 
+  prvPRSwapCommandFunc, /* The function to run. */
+  PORT_PARAM_ENABLE 
 };
 
 static const CLI_Command_Definition_t xPRSwapCommand2 =
 {
-	"x",
-	"",
-	prvPRSwapCommandFunc, /* The function to run. */
-	PORT_PARAM_ENABLE 
+  "x",
+  "",
+  prvPRSwapCommandFunc, /* The function to run. */
+  PORT_PARAM_ENABLE 
 };
 /**
  * @}
@@ -217,18 +282,24 @@ static const CLI_Command_Definition_t xPRSwapCommand2 =
  */
 void CLI_RegisterCommands( void )
 {
-	/* Register all the command line commands defined immediately above. */
-	FreeRTOS_CLIRegisterCommand( &xWelcomeCommand );
-	FreeRTOS_CLIRegisterCommand( &xProfilesCommand );
-	FreeRTOS_CLIRegisterCommand( &xStatusCommand );
-	FreeRTOS_CLIRegisterCommand( &xRequestCommand );
-	FreeRTOS_CLIRegisterCommand( &xPRSwapCommand );
+  /* Register all the command line commands defined immediately above. */
+  FreeRTOS_CLIRegisterCommand( &xWelcomeCommand );
+  FreeRTOS_CLIRegisterCommand( &xDebugCommand );
+  FreeRTOS_CLIRegisterCommand( &xProfilesCommand );
+  FreeRTOS_CLIRegisterCommand( &xStatusCommand );
+  FreeRTOS_CLIRegisterCommand( &xRequestCommand );
+  FreeRTOS_CLIRegisterCommand( &xPRSwapCommand );
+  FreeRTOS_CLIRegisterCommand( &xHardResetCommand );
+  FreeRTOS_CLIRegisterCommand( &xSystemResetCommand );
 
-	FreeRTOS_CLIRegisterCommand( &xWelcomeCommand2 );
-	FreeRTOS_CLIRegisterCommand( &xProfilesCommand2 );
-	FreeRTOS_CLIRegisterCommand( &xStatusCommand2 );
-	FreeRTOS_CLIRegisterCommand( &xRequestCommand2 );
-	FreeRTOS_CLIRegisterCommand( &xPRSwapCommand2 );
+  FreeRTOS_CLIRegisterCommand( &xWelcomeCommand2 );
+  FreeRTOS_CLIRegisterCommand( &xDebugCommand2 );
+  FreeRTOS_CLIRegisterCommand( &xProfilesCommand2 );
+  FreeRTOS_CLIRegisterCommand( &xStatusCommand2 );
+  FreeRTOS_CLIRegisterCommand( &xRequestCommand2 );
+  FreeRTOS_CLIRegisterCommand( &xPRSwapCommand2 );
+  FreeRTOS_CLIRegisterCommand( &xHardResetCommand2 );
+  FreeRTOS_CLIRegisterCommand( &xSystemResetCommand2 );
 }
 
 /** @defgroup CLI_Commands_Callbacks CLI Commands Callbacks
@@ -238,6 +309,49 @@ void CLI_RegisterCommands( void )
 /**
  * @brief  CLI callback for the Welcome command.
  */
+static BaseType_t prvDebugCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString )
+{
+  const char *pcParameter = NULL;
+  BaseType_t xParameterStringLength;
+
+  /* To avoid warnings */
+  ( void ) pcWriteBuffer;
+  ( void ) xWriteBufferLen;
+  ( void ) pcCommandString;
+
+  pcParameter = FreeRTOS_CLIGetParameter(pcCommandString, 1, &xParameterStringLength);  
+  strcpy(pcWriteBuffer, "");
+  if (pcParameter)
+  {
+    if (
+        (strcmp(pcParameter, "on") == 0) || 
+        (strcmp(pcParameter, "ON") == 0) || 
+        (strcmp(pcParameter, "1") == 0)
+       )
+    {
+      cDebugAsyncMessageEnable = 1;
+    }
+    else if (
+        (strcmp(pcParameter, "off") == 0) || 
+        (strcmp(pcParameter, "OFF") == 0) || 
+        (strcmp(pcParameter, "0") == 0)
+       )
+    {
+      cDebugAsyncMessageEnable = 0;
+    }
+    else
+    {
+      strcat(pcWriteBuffer, "Invalid parameter: ");
+      strcat(pcWriteBuffer, pcParameter);
+      strcat(pcWriteBuffer, "\r\n");
+    }
+
+  }
+  strcat(pcWriteBuffer, "async messages are ");
+  strcat(pcWriteBuffer, cDebugAsyncMessageEnable == 1 ? "on" : "off");
+  strcat(pcWriteBuffer, "\r\n");
+  return pdFALSE;
+}
 static BaseType_t prvWelcomeCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString )
 {
   /* To storage the status of the send */
@@ -402,8 +516,8 @@ static BaseType_t prvProfilesCommandFunc( char *pcWriteBuffer, size_t xWriteBuff
           /* print the current cIndex */
           prvGetVoltageCurrentFromPDO(aSRCPDOBuffer[cIndex], &voltage, &current);
           sprintf( pcWriteBuffer, "%d) %d.%.2dV %d.%.2dA\r\n", cIndex+1,
-        		  (uint16_t)voltage, ((uint16_t)((uint16_t)(voltage*100)%100)),
-        		  (uint16_t)current, ((uint16_t)((uint16_t)(current*100)%100)));
+                   (uint16_t)voltage, ((uint16_t)((uint16_t)(voltage*100)%100)),
+                   (uint16_t)current, ((uint16_t)((uint16_t)(current*100)%100)));
           cIndex++;
         }
       }
@@ -450,8 +564,8 @@ static BaseType_t prvProfilesCommandFunc( char *pcWriteBuffer, size_t xWriteBuff
           float voltage = 0, current = 0;
           prvGetVoltageCurrentFromPDO(aSNKPDOBuffer[cIndex], &voltage, &current);
           sprintf( pcWriteBuffer, "%d) %d.%.2dV %d.%.2dA\r\n", cIndex+1,
-        		  (uint16_t)voltage, ((uint16_t)((uint16_t)(voltage*100)%100)),
-        		  (uint16_t)current, ((uint16_t)((uint16_t)(current*100)%100)));
+                   (uint16_t)voltage, ((uint16_t)((uint16_t)(voltage*100)%100)),
+                   (uint16_t)current, ((uint16_t)((uint16_t)(current*100)%100)));
           cIndex++;
         }
       }
@@ -557,8 +671,8 @@ static BaseType_t prvStatusCommandFunc( char *pcWriteBuffer, size_t xWriteBuffer
     /* print the connection status and role and eventually the value */
     USBPD_PE_CLI_GetCurrentRole((uint8_t)cPort, &currRole, &connStatus);
     sprintf( pcWriteBuffer, "Role: %s - %s", 
-            currRoleText[prvPortPowerRole2Index(currRole)], 
-            connStatusText[CONNSTATUSTEXT_SAFEINDEX(connStatus+1)]
+             currRoleText[prvPortPowerRole2Index(currRole)], 
+             connStatusText[CONNSTATUSTEXT_SAFEINDEX(connStatus+1)]
               );
   }
   else
@@ -643,7 +757,7 @@ static BaseType_t prvRequestCommandFunc( char *pcWriteBuffer, size_t xWriteBuffe
   /* check if the cable is plugged and a contract is reached */
   if (connStatus != 2)
   {
-    strcpy(pcWriteBuffer, "Request failed: no concract reached.\r\n");
+    strcpy(pcWriteBuffer, "Request failed: no contract reached.\r\n");
     return pdFALSE;
   }
 
@@ -675,7 +789,8 @@ static BaseType_t prvRequestCommandFunc( char *pcWriteBuffer, size_t xWriteBuffe
   cPDOIndex = atoi(pcParameter);
   
   /* the current role must be a Sink */
-  if (cPDOIndex == 0 || cPDOIndex > cSRCPDONum)
+  //if (cPDOIndex == 0 || cPDOIndex > 7) /* use to allow rejects */
+  if (cPDOIndex == 0 || cPDOIndex > cSRCPDONum) /* use to avoid rejects */
   {
     sprintf(pcWriteBuffer, "Request failed: wrong index param '%s' specified.\r\n", pcParameter);
     return pdFALSE;
@@ -693,8 +808,8 @@ static BaseType_t prvRequestCommandFunc( char *pcWriteBuffer, size_t xWriteBuffe
   prvGetVoltageCurrentFromPDO(aSRCPDOBuffer[cPDOIndex-1], &voltage, &current);
   
   sprintf( pcWriteBuffer, "Requested %d : %d.%.2dV %d.%.2dA\r\n", cPDOIndex,
-		  (uint16_t)voltage, ((uint16_t)((uint16_t)(voltage*100)%100)),
-		  (uint16_t)current, ((uint16_t)((uint16_t)(current*100)%100)));
+           (uint16_t)voltage, ((uint16_t)((uint16_t)(voltage*100)%100)),
+           (uint16_t)current, ((uint16_t)((uint16_t)(current*100)%100)));
   
   return pdFALSE;
 }
@@ -744,12 +859,16 @@ static BaseType_t prvPRSwapCommandFunc( char *pcWriteBuffer, size_t xWriteBuffer
     strcat(pcWriteBuffer, "Current role: ");
     strcat(pcWriteBuffer,currRoleText[prvPortPowerRole2Index(currRole)]);
     strcat(pcWriteBuffer, "\r\n");
+#ifdef USBPD_DPM_PRS
     USBPD_DPM_RequestPowerRoleSwap(cPort);
-    osDelay(300);
+    osDelay(800);
     USBPD_PE_CLI_GetCurrentRole((uint8_t)cPort, &currRole, &connStatus);
     strcat(pcWriteBuffer, "New role: ");
     strcat(pcWriteBuffer,currRoleText[prvPortPowerRole2Index(currRole)]);
     strcat(pcWriteBuffer, "\r\n");
+#else
+    strcpy(pcWriteBuffer, "Warning : power role swap not available\r\n");
+#endif
   }
   else
   {
@@ -760,6 +879,69 @@ static BaseType_t prvPRSwapCommandFunc( char *pcWriteBuffer, size_t xWriteBuffer
   return pdFALSE;
 }
 
+/**
+ * @brief  CLI callback for the hard reset command.
+ */
+static BaseType_t prvHardResetCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString )
+{
+  /* local variables definition */
+  static portCHAR cPort = USBPD_DEF_PORT;
+  static int8_t connStatus = -1;
+  USBPD_PortPowerRole_TypeDef currRole = USBPD_PORTPOWERROLE_UNKNOWN;
+  
+  /* To avoid warnings */
+  ( void ) pcWriteBuffer;
+  ( void ) xWriteBufferLen;
+  ( void ) pcCommandString;
+        
+  /* Check pointers */
+  configASSERT( pcWriteBuffer );
+  configASSERT( pcCommandString );
+  
+#if PORT_PARAM_ENABLE == 1  
+  /* check the port parameter */
+  cPort = prvCommandCheckPortNumber(pcWriteBuffer, xWriteBufferLen, pcCommandString);
+  /* in case of a wrong PortNumber this command */
+  if (cPort == CLI_PORTNUM_INVALID)
+  {
+    /* reset parameter */
+    cPort = USBPD_DEF_PORT;
+    
+    /* stop next call */
+    return pdFALSE;
+  }
+#endif /* PORT_PARAM_ENABLE */
+
+  USBPD_PE_CLI_GetCurrentRole((uint8_t)cPort, &currRole, &connStatus);
+  
+  /* check if the cable is plugged and a contract is reached */
+  if (connStatus != 2)
+  {
+    strcpy(pcWriteBuffer, "Request failed: no contract reached.\r\n");
+    return pdFALSE;
+  }
+
+  sprintf(pcWriteBuffer, "sending hard reset on port: %d\r\n", cPort);
+  
+  /* send an hard reset for the port selected */
+  USBPD_PE_HardReset_Request(cPort);
+  
+  return pdFALSE;
+}
+/**
+ * @brief  CLI callback for the system reset command.
+ */
+static BaseType_t prvSystemResetCommandFunc( char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString )
+{
+  /* To avoid warnings */
+  ( void ) pcWriteBuffer;
+  ( void ) xWriteBufferLen;
+  ( void ) pcCommandString;
+
+  strcpy(pcWriteBuffer, "restart");
+  NVIC_SystemReset();
+  return pdFALSE;
+}
 /*-----------------------------------------------------------*/
 
 /**

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    cli_commands.h
   * @author  System Lab
-  * @version V0.4.0
-  * @date    17-Jan-2017
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Header file of CLI command 
   ******************************************************************************
   * @attention

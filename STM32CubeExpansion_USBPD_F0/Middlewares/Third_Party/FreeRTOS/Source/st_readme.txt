@@ -3,7 +3,7 @@
   ******************************************************************************
   *
   *           Portions Copyright © 2016 STMicroelectronics International N.V. All rights reserved.
-  *           Portions Copyright (C) 2015 Real Time Engineers Ltd, All rights reserved
+  *           Portions Copyright (C) 2016 Real Time Engineers Ltd, All rights reserved
   *
   * @file    st_readme.txt 
   * @author  MCD Application Team
@@ -46,6 +46,57 @@
   *
   ******************************************************************************
   @endverbatim
+
+### 03-March-2017 ###
+=========================
+  Update CMSIS-RTOS drivers to support both CMSIS Core V4.x and V5.x
+  
+  Bug fixes:
+  + CMSIS-RTOS: Wrong return value for osSignalWait()
+  + CMSIS-RTOS: Not all queue size is 0 initialized with osMailCAlloc() 
+  
+  Limitation:
+  + CMSIS-RTOS: osSignalWAit() function is not fully compliant with the specification
+
+
+### 30-September-2016 ###
+=========================
+  The purpose of this release is to Upgrade to use FreeRTOS V9.0.0, this version
+  is a drop-in compatible replacement for FreeRTOS V8.2.3.
+  For more details please refer to http://www.freertos.org/History.txt 
+
+  + Add support to tickless mode for MPU ports:
+    - GCC/ARM_CM3_MPU/port.c
+    - GCC/ARM_CM4_MPU/port.c
+    - RVDS/ARM_CM4_MPU/port.c
+
+  + Update CM0 ports, add possibility to use a timebase different than Systick:
+    - IAR/ARM_CM0/port.c
+    - RVDS/ARM_CM0/port.c
+    - GCC/ARM_CM0/port.c
+
+  + Fix compilation error in CM3_MPU and CM4_MPU ports:
+    - GCC/ARM_CM3_MPU/portmacro.h
+    - GCC/ARM_CM4_MPU/portmacro.h 
+    - RVDS/ARM_CM4_MPU/portmacro.h
+    - Add "Source\portable\Common\" directory
+  
+  + cmsis_os.c
+    - Add support of Statically Allocated Systems introduced with FreeRTOS V9.0.0
+    - Add new wrappers CMSIS-RTOS APIs
+
+         FreeRTOS APIs       |     CMSIS-RTOS APIs        |               Description
+   ==================================================================================================================
+    uxQueueMessagesWaiting() |  osMessageWaiting()        |  Return the number of messages stored in a queue
+   ------------------------------------------------------------------------------------------------------------------
+    xTaskAbortDelay()        |  osAbortDelay()            |  Force a thread to get out the blocked state immediately
+   ------------------------------------------------------------------------------------------------------------------
+    uxSemaphoreGetCount()    |  osSemaphoreGetCount()     |  Return the current count of a semaphore
+   ------------------------------------------------------------------------------------------------------------------
+    uxQueueSpacesAvailable() |  osMessageAvailableSpace() |  Return the available space in a message queue
+   ------------------------------------------------------------------------------------------------------------------
+    vQueueDelete()           |  osMessageDelete()         |  Delete a message Queue
+   ------------------------------------------------------------------------------------------------------------------
 
 
 ### 22-January-2016 ###

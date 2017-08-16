@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    led_server.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    06-June-2016
+  * @version V1.2.1
+  * @date    24-Apr-2017
   * @brief   Header file of LED server module
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics International N.V. 
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 

@@ -93,7 +93,7 @@ Num_SVIDs_max_SOP: 1
 ; DisplayPort Alt-Mode
 ; --------------------------------------------------------------------------------
 
-DP_Modes_Count                            : 2               
+DP_Modes_Count                            : 1               
 
 ; Mode 1
 DP_mode1_Port_Cap                         : 1               ; UFP_D Capable
@@ -106,8 +106,8 @@ DP_mode1_Usb20_Not_Used                   : No
 DP_mode1_Dfp_D_A_Supported                : No              
 DP_mode1_Dfp_D_B_Supported                : No              
 DP_mode1_Dfp_D_C_Supported                : Yes             
-DP_mode1_Dfp_D_D_Supported                : Yes             
-DP_mode1_Dfp_D_E_Supported                : No              
+DP_mode1_Dfp_D_D_Supported                : No             
+DP_mode1_Dfp_D_E_Supported                : Yes              
 DP_mode1_Dfp_D_F_Supported                : No              
 
 ; UFP_D Pin Assignments Supported
@@ -116,28 +116,6 @@ DP_mode1_Ufp_D_B_Supported                : No
 DP_mode1_Ufp_D_C_Supported                : No              
 DP_mode1_Ufp_D_D_Supported                : No              
 DP_mode1_Ufp_D_E_Supported                : No              
-
-; Mode 2
-DP_mode2_Port_Cap                         : 3               ; Both DFP_D and UFP_D Capable
-DP_mode2_Support_DPv13                    : Yes             
-DP_mode2_Support_UsbGen2                  : No              
-DP_mode2_Receptacle                       : Yes             ; DP on Type-C Receptacle
-DP_mode2_Usb20_Not_Used                   : No              
-
-; DFP_D Pin Assignments Supported
-DP_mode2_Dfp_D_A_Supported                : No              
-DP_mode2_Dfp_D_B_Supported                : No              
-DP_mode2_Dfp_D_C_Supported                : Yes             
-DP_mode2_Dfp_D_D_Supported                : Yes             
-DP_mode2_Dfp_D_E_Supported                : No              
-DP_mode2_Dfp_D_F_Supported                : No              
-
-; UFP_D Pin Assignments Supported
-DP_mode2_Ufp_D_A_Supported                : No              
-DP_mode2_Ufp_D_B_Supported                : No              
-DP_mode2_Ufp_D_C_Supported                : No              
-DP_mode2_Ufp_D_D_Supported                : No              
-DP_mode2_Ufp_D_E_Supported                : No              
 
 ; --------------------------------------------------------------------------------
 ; Remaining fields (not relevant for selected configuration)

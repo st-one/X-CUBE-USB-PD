@@ -241,7 +241,8 @@ typedef enum
 
 /**
  * @brief Usart used in the BSP
- * */
+ *
+ */
 #define BSP_USART        USART1
 
 /**
@@ -251,8 +252,8 @@ typedef enum
 
 /**
  * @brief PIN RELATED MACROS
- * @{
- * */
+ *
+ */
 #define USART_TX_PORT                        GPIOA
 #define USART_TX_PIN                         GPIO_PIN_9
 #define USART_RX_PORT                        GPIOA
