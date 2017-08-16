@@ -1,5 +1,5 @@
 # X-CUBE-USB-PD
-Firmware X-Cube-USB-PD for STM32F0 Nucleo board  
+Firmware X-Cube-USB-PD for STM32F0 Nucleo board  (support USB Type-C and USB PD)
 -> to be used with Evaluation Kit named : P-NUCLEO-USB002 (based on STUSB1602 controller), or P-NUCLEO-USB001 (Discrete)   
 
 &nbsp;&nbsp; (folder: STM32CubeExpansion_USBPD_F0)
@@ -23,7 +23,7 @@ Hardware:
 * Development board: P-NUCLEO-USB002 &nbsp; &nbsp; (contains NUCLEO-F072RB Board + MB1303 board)   
 Devices : 
   * Embedded Controller: STM32F072  (runs the USB-PD stack)
-  * Analog Front End: STUSB1602 controller (high voltage tolerant 28V)   
+  * Analog Front End: STUSB1602 USB-PD controller (high voltage tolerant 28V)   
 
 Provider: STMicroelectronics   
 
