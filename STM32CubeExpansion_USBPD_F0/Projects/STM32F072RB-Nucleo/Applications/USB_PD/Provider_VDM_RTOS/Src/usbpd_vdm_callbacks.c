@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_vdm_callback.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -258,8 +256,9 @@ static uint32_t USBPD_VDM_GetModeIndex(uint8_t Port, uint16_t SVID)
   */
 static USBPD_StatusTypeDef USBPD_VDM_InformMode(uint8_t Port, USBPD_SOPType_TypeDef SOPType, USBPD_ModeInfo_TypeDef *ModesInfo)
 {
+  uint32_t index;
   sModesInfo.NumModes = ModesInfo->NumModes;
-  for (uint32_t index = 0; index < sModesInfo.NumModes; index++)
+  for (index = 0; index < sModesInfo.NumModes; index++)
   {
     sModesInfo.Modes[index] = ModesInfo->Modes[index];
   }

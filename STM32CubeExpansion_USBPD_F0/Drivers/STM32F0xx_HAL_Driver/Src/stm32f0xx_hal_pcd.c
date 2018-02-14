@@ -208,6 +208,12 @@ HAL_StatusTypeDef HAL_PCD_Init(PCD_HandleTypeDef *hpcd)
   hpcd->USB_Address = 0;
   hpcd->State= HAL_PCD_STATE_READY;
 
+  /* Activate Battery charging */
+  if (hpcd->Init.battery_charging_enable ==1)
+  {
+   HAL_PCDEx_ActivateBCD(hpcd);
+  }  
+
  return HAL_OK;
 }
 

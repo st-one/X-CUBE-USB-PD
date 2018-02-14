@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    led_server.c
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   LED server file provides services to control the LEDs in order to 
   *          show current status and error messages.
   ******************************************************************************
@@ -189,6 +187,9 @@ static void prvLedThread(void const * argument)
   uint16_t half_period;
   uint8_t i=0;
 
+  /* To wait a stable power before to turn-on leds */
+  osDelay(100);
+  
   /* Infinite loop */
   for(;;)
   {

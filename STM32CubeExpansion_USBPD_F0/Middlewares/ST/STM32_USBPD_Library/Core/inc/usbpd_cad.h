@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_cad.h
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_cad.h for Cable Attach-Detach
   *          controls.
   ******************************************************************************
@@ -107,17 +105,17 @@ typedef enum
    */
  typedef enum 
  {
-   USBPD_CAD_STATE_RESET        = 0x00,         /*!< USBPD CAD State Reset                              */
-   USBPD_CAD_STATE_DETACHED     = 0x01,         /*!< USBPD CAD State No cable detected                  */ 
-   USBPD_CAD_STATE_ATTACHED_WAIT= 0x02,         /*!< USBPD CAD State Port partner detected              */ 
-   USBPD_CAD_STATE_ATTACHED     = 0x03,         /*!< USBPD CAD State Port partner attached              */ 
-   USBPD_CAD_STATE_EMC          = 0x04,         /*!< USBPD CAD State Electronically Marked Cable detected   */ 
-   USBPD_CAD_STATE_ATTEMC       = 0x05,         /*!< USBPD CAD State Port Partner detected throug EMC   */ 
-   USBPD_CAD_STATE_ACCESSORY    = 0x06,         /*!< USBPD CAD State Accessory detected                 */ 
-   USBPD_CAD_STATE_DEBUG        = 0x07,         /*!< USBPD CAD State Debug detected                     */ 
-   USBPD_CAD_STATE_SWITCH_TO_SRC= 0x08,         /*!< USBPD CAD State switch to Source                   */ 
-   USBPD_CAD_STATE_SWITCH_TO_SNK= 0x09,         /*!< USBPD CAD State switch to Sink                     */ 
-   USPPD_CAD_STATE_UNKNOW       = 0x0A          /*!< USBPD CAD State unknow                             */
+   USBPD_CAD_STATE_RESET        ,         /*!< USBPD CAD State Reset                              */
+   USBPD_CAD_STATE_DETACHED     ,         /*!< USBPD CAD State No cable detected                  */ 
+   USBPD_CAD_STATE_ATTACHED     ,         /*!< USBPD CAD State Port partner attached              */ 
+   USBPD_CAD_STATE_EMC          ,         /*!< USBPD CAD State Electronically Marked Cable detected   */ 
+   USBPD_CAD_STATE_ATTEMC       ,         /*!< USBPD CAD State Port Partner detected throug EMC   */ 
+   USBPD_CAD_STATE_ACCESSORY    ,         /*!< USBPD CAD State Accessory detected                 */ 
+   USBPD_CAD_STATE_DEBUG        ,         /*!< USBPD CAD State Debug detected                     */ 
+   USBPD_CAD_STATE_ATTACHED_WAIT,         /*!< USBPD CAD State Port partner detected              */ 
+   USPPD_CAD_STATE_UNKNOW       ,         /*!< USBPD CAD State unknow                             */
+   USBPD_CAD_STATE_SWITCH_TO_SRC,         /*!< USBPD CAD State switch to Source                   */ 
+   USBPD_CAD_STATE_SWITCH_TO_SNK,         /*!< USBPD CAD State switch to Sink                     */ 
  } USBPD_CAD_STATE;
 /** 
   * @}

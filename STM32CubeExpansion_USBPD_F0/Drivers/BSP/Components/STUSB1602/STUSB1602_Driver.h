@@ -2,8 +2,6 @@
   **************************************************************************************************
   * @file    STUSB1602_Driver.h
   * @author  System Lab - Sensing & Connectivity Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file provides a set of structs and unions needed to manage the STUSB1602 Driver.
   **************************************************************************************************
   * @attention
@@ -45,8 +43,6 @@
 #define TIMEOUT_MAX             2000 /*<! The value of the maximal timeout for BUS waiting loops */
     
     
-//#define STUSB1602_I2C_Add_x(__PORT__)		((__PORT__ == 0) ? STUSB1602_I2C_Add_0 : STUSB1602_I2C_Add_1 )
-
 #define STUSB16xx_FAULT_STATUS_AL_MASK          0x08;
 #define STUSB16xx_MONITORING_STATUS_AL_MASK     0x10;
 #define STUSB16xx_CC_DETECTION_STATUS_AL_MASK   0x20;
@@ -159,17 +155,9 @@ typedef union
   struct
   {    
     uint8_t VCONN_PRESENCE_TRANS 	:       1;
-#ifdef STUSB1602_CUT_1_3 
-    uint8_t VBUS_VALID_TRANS 	        :       1;
-#else
     uint8_t VBUS_PRESENCE_TRANS		:       1;
-#endif
     uint8_t VBUS_VSAFE0V_TRANS 	        :       1;
-#ifdef STUSB1602_CUT_1_3 
-    uint8_t VBUS_PRESENCE_TRANS		:       1;
-#else
     uint8_t VBUS_VALID_TRANS 	        :       1;
-#endif
     uint8_t PD_TYPEC_HAND_SHAKE		:       4;
   } b;
 } STUSB1602_MONITORING_STATUS_TRANS_RegTypeDef;
@@ -271,7 +259,7 @@ typedef union
   } b;
 } STUSB1602_HW_FAULT_STATUS_RegTypeDef;
 
-#ifdef STUSB1602_CUT_1_3
+
 /************************************************************************************************************
   * @brief:  	STUSB1602 PHY_STATUS register Structure definition
   * @Address: 	17h
@@ -283,12 +271,12 @@ typedef union
   uint8_t d8;
   struct
   {
-        uint8_t _Reserved_0_2		    :	3;    
-        uint8_t BUS_IDLE		        :	1;    
+        uint8_t _Reserved_0_2		        :	3;
+        uint8_t BUS_IDLE		        :	1;    /*this is alway 0 in cut 1.2)*/
         uint8_t _Reserved_4_7   		:	4;
   } b;
 } PHY_STATUS_RegTypeDef;
-#endif 
+ 
 
 /************************************************************************************************************
   * @brief:  	STUSB1602 CC_CAPABILITY_CTRL register Structure definition
@@ -341,12 +329,8 @@ typedef union
   uint8_t d8;
   struct
   {
-#ifndef STUSB1602_CUT_1_0 
+
     uint8_t _Reserved_0_3		:	4;    
-#else           /* STUSB1602_CUT_1_0 */
-    uint8_t _Reserved_0			:	1;    
-    uint8_t POWER_MODE			:	3;
-#endif          /* not STUSB1602_CUT_1_0 */
     uint8_t TYPEC_CTRL			:	4;
   } b;
 } STUSB1602_CC_MODE_CTRL_RegTypeDef;
@@ -489,9 +473,6 @@ typedef union
   } b;
 } STUSB1602_VBUS_ENABLE_STATUS_RegTypeDef;
 
-
-#ifndef STUSB1602_CUT_1_0
-
   /************************************************************************************************************
     * @brief:  	STUSB1602 MODE_CTRL register Structure definition
     * @Address: 	28h
@@ -509,8 +490,6 @@ typedef union
           uint8_t _Reserved_0			:	5;    
     } b;
   } STUSB1602_MODE_CTRL_RegTypeDef;
-
-#endif          /* not def STUSB1602_CUT_1_0 */
 
 /************************************************************************************************************
   * @brief:  	STUSB1602 VBUS_MONITORING_CTRL register Structure definition
@@ -697,29 +676,13 @@ typedef enum
 {
   TypeC_HS_Cleaned                      = 0x00,    /*!< DEFAULT: Cleared                  */
   TypeC_NoAck                           = TypeC_HS_Cleaned,
-#ifdef STUSB1602_CUT_1_3
-  PD_PR_Swap_Ps_Rdy_Ack                 = 0x01,    /*!< PD_PR_PS_RDY_ACK      */    
-#else  
-  PD_VCONN_Powered_Not_Supported_Ack    = 0x01,    /*!< PD_VCONN_POWERED_NOT_SUPPORTED_ACK      */    
-#endif  
+  PD_PR_Swap_Ps_Rdy_Ack                 = 0x01,    /*!< PD_PR_PS_RDY_ACK      */  /* do not use it in cut 1.2 , use workarround instead */
   PD_PR_SWAP_Rp_Assert_Ack              = 0x02,    /*!< PD_PR_SWAP_RP_ASSERT_ACK           */
   PD_PR_SWAP_Rd_Assert_Ack              = 0x03,    /*!< PD_PR_SWAP_RD_ASSERT_ACK   */
   PD_DR_SWAP_Port_Change_2_DFP_Ack      = 0x04,    /*!< PD_DR_SWAP_PORT_CHANGE_2_DFP_ACK   */ 
   PD_DR_SWAP_Port_Change_2_UFP_Ack      = 0x05,    /*!< PD_DR_SWAP_PORT_CHANGE_2_UFP_ACK */
   PD_VCONN_SWAP_Turn_On_VCONN_Ack       = 0x06,    /*!< PD_VCONN_SWAP_TURN_ON_VCONN_ACK */
   PD_VCONN_SWAP_Turn_Off_VCONN_Ack      = 0x07,     /*!< PD_VCONN_SWAP_TURN_OFF_VCONN_ACK */
-
-#ifdef STUSB1602_CUT_1_0 
-  /* this group is not defined in the cut 1.0 */
-  PD_Hard_Reset_Complete_Ack            = TypeC_NoAck, /*!< PD_HARD_RESET_COMPLETE_ACK */
-  PD_Hard_Reset_Turn_Off_Vconn_Ack      = TypeC_NoAck, /*!< PD_HARD_RESET_TURN_OFF_VCONN_ACK */    
-  PD_Hard_Reset_Port_Change_2_DFP_Ack   = TypeC_NoAck, /*!< PD_HARD_RESET_PORT_CHANGE_2_DFP_ACK */
-  PD_Hard_Reset_Port_Change_2_UFP_Ack   = TypeC_NoAck, /*!< PD_HARD_RESET_PORT_CHANGE_2_UFP_ACK */
-  PD_PR_Swap_Snk_Vbus_Off_Ack           = TypeC_NoAck, /*!< PD_PR_SWAP_SNK_VBUS_OFF_ACK */ 
-  PD_PR_Swap_Src_Vbus_Off_Ack           = TypeC_NoAck, /*!< PD_PR_SWAP_SRC_VBUS_OFF_ACK */
-  PD_Hard_Reset_Received_Ack            = TypeC_NoAck, /*!< PD_HARD_RESET_RECEIVED_ACK */
-  PD_Hard_Reset_Send_Ack                = TypeC_NoAck  /*!< PD_HARD_RESET_SEND_ACK */
-#else 
   PD_Hard_Reset_Complete_Ack            = 0x08,    /*!< PD_HARD_RESET_COMPLETE_ACK */
   PD_Hard_Reset_Turn_Off_Vconn_Ack      = 0x09,    /*!< PD_HARD_RESET_TURN_OFF_VCONN_ACK */    
   PD_Hard_Reset_Port_Change_2_DFP_Ack   = 0x0A,    /*!< PD_HARD_RESET_PORT_CHANGE_2_DFP_ACK */
@@ -728,7 +691,6 @@ typedef enum
   PD_PR_Swap_Src_Vbus_Off_Ack           = 0x0D,    /*!< PD_PR_SWAP_SRC_VBUS_OFF_ACK */
   PD_Hard_Reset_Received_Ack            = 0x0E,    /*!< PD_HARD_RESET_RECEIVED_ACK */
   PD_Hard_Reset_Send_Ack                = 0x0F     /*!< PD_HARD_RESET_SEND_ACK */
-#endif /* STUSB1602_CUT_1_0 */    
     
 } PD_TypeC_Handshake_TypeDef;
 
@@ -866,10 +828,12 @@ typedef enum
   AttachWait_SNK                        =  1,
   Attached_SNK                          =  2,
   DebugAccessory_SNK                    =  3,
+  SNK_2_SRC_PR_SWAP                     =  6,
   TryWait_SNK                           =  7,
   Unattached_SRC                        =  8,   /*!< DEFAULT */
   AttachWait_SRC                        =  9,
   Attached_SRC                          = 10,
+  SRC_2_SNK_PR_SWAP                     = 11,
   Try_SRC                               = 12,
   Unattached_Accessory                  = 13,
   AttachWait_Accessory                  = 14,
@@ -882,7 +846,8 @@ typedef enum
   Try_SNK                               = 21,
   TryWait_SRC                           = 23,
   UnattachedWait_SRC                    = 24, /* (VCONN intermediate discharge state) */
-  OrientedDebugAccessory_SRC            = 25 
+  OrientedDebugAccessory_SRC            = 25, 
+  SRC_2_SNK_PR_SWAP_RD                  = 26                  
 } TypeC_FSM_State_TypeDef;
 
 
@@ -1185,24 +1150,6 @@ typedef enum
   */
 typedef enum
 {
-#ifdef STUSB1602_CUT_1_0 
-  NO_REQ                                        = 0,            /*!< DEFAULT */
-  PD_HARD_RESET_TURN_OFF_VCONN_REQ              = 1,
-  PD_HARD_RESET_PORT_CHANGE_2_DFP_REQ           = 2,
-  PD_HARD_RESET_PORT_CHANGE_2_UFP_REQ           = 3,
-  PD_HARD_RESET_COMPLETE_REQ                    = 4,
-  PD_PR_SWAP_SNK_VBUS_OFF_REQ                   = 5,
-  PD_PR_SWAP_SRC_VBUS_OFF_REQ                   = 6,
-  PD_PR_SWAP_RP_ASSERT_REQ                      = 7,
-  PD_PR_SWAP_RD_ASSERT_REQ                      = 8,
-  PD_DR_SWAP_PORT_CHANGE_2_DFP_REQ              = 9,
-  PD_DR_SWAP_PORT_CHANGE_2_UFP_REQ              = 10,
-  PD_VCONN_SWAP_TURN_ON_VCONN_REQ               = 11,
-  PD_VCONN_SWAP_TURN_OFF_VCONN_REQ              = 12,
-  PD_VCONN_POWERED_NOT_SUPPORTED_REQ            = 13,
-  PD_HARD_RESET_RECEIVED_REQ                    = 14,
-  PD_HARD_RESET_SEND_REQ                        = 15
-#else
   NO_REQ                                        = 0,            /*!< DEFAULT */
   PD_HARD_RESET_COMPLETE_REQ                    = 1,
   PD_HARD_RESET_TURN_OFF_VCONN_REQ              = 2,
@@ -1216,14 +1163,9 @@ typedef enum
   PD_DR_SWAP_PORT_CHANGE_2_UFP_REQ              = 10,
   PD_VCONN_SWAP_TURN_ON_VCONN_REQ               = 11,
   PD_VCONN_SWAP_TURN_OFF_VCONN_REQ              = 12,
-#ifdef STUSB1602_CUT_1_3
-  PD_PR_SWAP_PS_RDY_REQ                         = 13,
-#else  
-  PD_VCONN_POWERED_NOT_SUPPORTED_REQ            = 13,
-#endif
+  PD_PR_SWAP_PS_RDY_REQ                         = 13,    /* do not use it in cut 1.2 , use workarround instead */
   PD_HARD_RESET_RECEIVED_REQ                    = 14,
   PD_HARD_RESET_SEND_REQ                        = 15  
-#endif /* STUSB1602_CUT_1_0 */ 
 } Type_C_CTRL_TypeDef;
 
 
@@ -1407,9 +1349,51 @@ typedef enum
   VDD_UVLO_Disable                      = 1               /*!< DEFAULT:Disable UVLO threshold detection on VDD pin */
 } VDD_UVLO_Threshold_TypeDef;
 
+/************************************************************************************************************
+  * @brief:  	STUSB1602 DEVICE CUT register Structure definition
+  * @Address: 	2Fh
+  * @Access: 	RO
+  * @Note: 	This register provides information on current status of the VBUS power path activation 
+  *		through VBUS_EN_SRC pin in Source power role and VBUS_EN_SNK pin in Sink power role.
+  ************************************************************************************************************/ 
+typedef union
+{
+  uint8_t d8;
+  struct
+  {
+        uint8_t Reserved_0_2		        :	2;      
+        uint8_t DEVICE_CUT		        :	3;    
+        uint8_t Reserved_5_6		        :	2;
+        uint8_t WO_VCONN                        :       1;
+  } b;
+} STUSB1602_DEVICE_CUT_RegTypeDef ;
 
+/**
+  * @brief DEVICE_CUT structures definition
+* @Address: 2Fh - Bit4:2
+  * @Access: R/W
+  */
+typedef enum
+{
+  reserved0                       = 0,              /*!< too old cut of 1602 */
+  reserved1                       = 1,              /*!< too old cut of 1602 */
+  reserved2                       = 2,              /*!< too old cut of 1602 */
+  Cut_1                           = 3,              /*!< cut 1.2 of 1602 */
+  Cut_1_A                         = 4,              /*!< cut 1.3 of 1602 */
+} DEVICE_CUT_TypeDef;
 
-
+/**
+  * @brief DEVICE_CUT structures definition
+* @Address: 2Fh - Bit1:0
+  * @Access: R/W
+  */
+typedef enum
+{
+  reserved_0                       = 0,              /*reserved */
+  reserved_1                       = 1,              /*reserved */
+  NVM_OK                           = 2,              /*NVM loaded */
+  reserved_2                       = 3,              /*reserved */
+} NVM_OK_TypeDef;
 /************** Device Register  *******************/
  
 #define STUSB1602_ALERT_STATUS_REG			0x0B
@@ -1421,9 +1405,7 @@ typedef enum
 #define STUSB1602_CC_CONNECTION_STATUS_REG		0x11
 #define STUSB1602_HW_FAULT_STATUS_TRANS_REG		0x12
 #define STUSB1602_HW_FAULT_STATUS_REG			0x13
-#ifdef STUSB1602_CUT_1_3
 #define STUSB1602_PHY_STATUS_REG        		0x17
-#endif
 #define STUSB1602_CC_CAPABILITY_CTRL_REG		0x18
 
 #define STUSB1602_CC_VCONN_SWITCH_CTRL_REG		0x1E
@@ -1436,12 +1418,11 @@ typedef enum
 #define STUSB1602_VBUS_DISCHARGE_TIME_CTRL_REG		0x25
 #define STUSB1602_VBUS_DISCHARGE_CTRL_REG		0x26
 #define STUSB1602_VBUS_ENABLE_STATUS_REG		0x27
-#ifndef STUSB1602_CUT_1_0 
-  #define STUSB1602_MODE_CTRL_REG			0x28
-#endif          /* not STUSB1602_CUT_1_0 */
+#define STUSB1602_MODE_CTRL_REG			        0x28
+
 
 #define STUSB1602_VBUS_MONITORING_CTRL_REG		0x2E
-
+#define STUSB1602_DEVICE_CUT_REG		        0x2F
 
 
 
@@ -1517,11 +1498,8 @@ VCONN_SW_OCP_Fault_CC2_TypeDef STUSB1602_VCONN_SW_OCP_Fault_CC2_Get(uint8_t addr
 VCONN_SW_OVP_Fault_CC1_TypeDef STUSB1602_VCONN_SW_OVP_Fault_CC1_Get(uint8_t addr);
 VCONN_SW_OVP_Fault_CC2_TypeDef STUSB1602_VCONN_SW_OVP_Fault_CC2_Get(uint8_t addr);
 
-#ifdef STUSB1602_CUT_1_3
 /*0x17*/
 Bus_Idle_TypeDef STUSB1602_Bus_Idle_Status_Get(uint8_t addr);
-#endif
-
 
 /*0x18*/
 STUSB1602_CC_DETECTION_STATUS_RegTypeDef STUSB1602_CC_Detection_Status_Get(uint8_t addr);
@@ -1599,7 +1577,8 @@ VBUS_VSAFE0V_Threshold_TypeDef STUSB1602_VBUS_VSAFE0V_Threshold_Get(uint8_t addr
 STUSB1602_StatusTypeDef STUSB1602_VBUS_VSAFE0V_Threshold_Set(uint8_t addr, VBUS_VSAFE0V_Threshold_TypeDef st);
 VDD_UVLO_Threshold_TypeDef STUSB1602_VDD_UVLO_Threshold_Get(uint8_t addr);
 STUSB1602_StatusTypeDef STUSB1602_VDD_UVLO_Threshold_Set(uint8_t addr, VDD_UVLO_Threshold_TypeDef st);
-
+DEVICE_CUT_TypeDef STUSB1602_DEVICE_CUT_Get(uint8_t addr);
+NVM_OK_TypeDef STUSB1602_NVM_OK_Get(uint8_t addr);
 
 STUSB1602_StatusTypeDef STUSB1602_Type_C_Command(uint8_t addr, Type_C_CTRL_TypeDef ctrl);
 

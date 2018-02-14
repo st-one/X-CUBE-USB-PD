@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_pe.h
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   Header file of Policy Engine module.
   ******************************************************************************
   * @attention
@@ -140,11 +138,31 @@ typedef struct
   uint32_t (*USBPD_PE_HardReset)(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status);
 
   /**
+    * @brief  Inform the DPM to enter in ErrorRecovery state.
+    * @param  PortNum Port number
+    * @param  Role of the board
+    * @param  Status ErrorRecovery Status update
+    * @retval None
+    */
+  uint32_t (*USBPD_PE_ErrorRecovery)(uint8_t PortNum);
+
+  /**
     * @brief  Get evaluation of swap request from DPM.
     * @param  PortNum Port number
     * @retval USBPD_OK if PR_swap is possible, else USBPD_ERROR
   */
   USBPD_StatusTypeDef (*USBPD_PE_EvaluatPRSwap)(uint8_t PortNum);
+
+#if defined(_OPTIM_CONSO)
+  /**
+    * @brief  Callback to be used by PE to notify a generic event, clear for the specific DPM
+    * @param  PortNum   Port number
+    * @param  EventType @ref USBPD_NotifyEvent_TypeDef
+    * @param  EventVal  @ref USBPD_NotifyEventValue_TypeDef
+    * @retval none
+    */
+    void (*USBPD_PE_Notify)(uint8_t PortNum, USBPD_NotifyEvent_TypeDef EventType, USBPD_NotifyEventValue_TypeDef EventVal);
+#endif /* _OPTIM_CONSO */
 
   /**
     * @brief  Request the DPM to turn Off power supply.
@@ -176,13 +194,16 @@ typedef struct
   */
   void (*USBPD_PE_AssertRp)(uint8_t PortNum);
   
+#if defined(_OPTIM_CONSO)
+#else
   /**
     * @brief  Inform DPM that an Explicit contract is established.
     * @param  PortNum Port number
     * @retval None
   */
   void (*USBPD_PE_ExplicitContractDone)(uint8_t PortNum);
-
+#endif /*_OPTIM_CONSO*/
+  
   /**
     * @brief  Allow PE to retrieve information from DPM/PWR_IF.
     * @param  PortNum Port number

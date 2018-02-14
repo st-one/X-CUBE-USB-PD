@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    main.c
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   USBPD Provider main file
   ******************************************************************************
   * @attention
@@ -78,41 +76,17 @@ int main(void)
   
   /* Initialize the Device Policy Manager */
   USBPD_DPM_Init();
-    
  
-#ifndef USBPD_LED_SERVER
-  /* Test LED1 */
-  USBPD_BSP_LED_On(ELED1);
-  HAL_Delay(300);
-  USBPD_BSP_LED_Off(ELED1);
-
-  /* Test LED2 */
-  USBPD_BSP_LED_On(ELED2);
-  HAL_Delay(300);
-  USBPD_BSP_LED_Off(ELED2);
-
-  /* Test LED3 */
-  USBPD_BSP_LED_On(ELED3);
-  HAL_Delay(300);
-  USBPD_BSP_LED_Off(ELED3);   
-#endif
-
-  
   /* Start the scheduler */
   osKernelStart();
   
   /* Infinite loop */
   while (1)
   {
-  #ifndef USBPD_LED_SERVER
+#ifndef USBPD_LED_SERVER
     USBPD_BSP_LED_Toggle(ELED1);
     HAL_Delay(300);
-  #endif
-    
-  #ifdef DBG_STUSB1602
-    STUSB1602_Check_Registers_Init(0);
-    STUSB1602_Check_Registers_Monitoring(0);
-  #endif
+#endif
   }
 }
 

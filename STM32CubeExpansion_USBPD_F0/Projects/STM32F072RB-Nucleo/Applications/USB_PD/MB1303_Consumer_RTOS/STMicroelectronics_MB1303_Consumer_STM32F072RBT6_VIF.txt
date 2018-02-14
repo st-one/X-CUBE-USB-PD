@@ -1,17 +1,17 @@
 ; 
-; USB-IF Vendor Info File Generator, Version 1.1.1.0
+; USB-IF Vendor Info File Generator, Version 1.1.2.1
 ; 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Intro tab
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-$VIF_Specification: "Revision 1.10, Version 1.0"
-$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.1.0"
+$VIF_Specification: "Revision 1.21, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.2.1"
 UUT_Device_Type: 0        ; Consumer Only
 $Vendor_Name: "STMicroelectronics"
-$Product_Name: "STM32F072RBT6-SNK"
-$Version_Info: "1.0.3"
-$TID: "10990010"
+$Model_Part_Number: "STUSB1602_SNK"
+$Product_Revision: "A"
+$TID: "0"
 $Port_Label: "0"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

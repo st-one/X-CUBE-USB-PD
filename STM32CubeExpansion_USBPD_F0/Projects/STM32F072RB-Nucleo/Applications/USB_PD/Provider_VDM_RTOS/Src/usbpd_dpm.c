@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -97,6 +95,7 @@ USBPD_PE_Callbacks dpmCallbacks =
   USBPD_DPM_SetupNewPower,
   USBPD_DPM_HardReset,
   NULL,
+  NULL,
   USBPD_DPM_TurnOffPower,
   USBPD_DPM_TurnOnPower,
   NULL,
@@ -107,7 +106,6 @@ USBPD_PE_Callbacks dpmCallbacks =
   USBPD_DPM_EvaluateRequest,
   USBPD_DPM_EvaluateCapabilities,
   USBPD_DPM_Capability,
-  NULL,
   NULL,
 };
 
@@ -195,7 +193,6 @@ void USBPD_PE_Task(void const *argument)
   }
 }
 
-
 /**
   * @brief  Main task for CAD layer
   * @param  argument Not used
@@ -209,7 +206,6 @@ void USBPD_CAD_Task(void const *argument)
     osDelay(CAD_Task_delay);
   }
 }
-
 
 /**
   * @brief  CallBack reporting events on a specified port from CAD layer.
@@ -226,7 +222,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
     {
     case USBPD_CAD_STATE_ATTACHED:
     case USBPD_CAD_STATE_ATTEMC:
-      /* An ufp is attached on the port*/
+    /* An sink is attached on the port */
       osDelay(100);
       
       /* Enable VBUS */
@@ -240,6 +236,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
       /* Led feedback */
 #ifdef USBPD_LED_SERVER
       Led_Set(DPM_Leds[PortNum].CCLine, LED_MODE_BLINK_CC(Cc), 0);
+    Led_Set(DPM_Leds[PortNum].VBus, LED_MODE_BLINK_VBUS, 0);
 #endif /* USBPD_LED_SERVER */
       osDelay(150);
       
@@ -253,7 +250,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
 
       if (State == USBPD_CAD_STATE_ATTACHED)
       {
-        USBPD_PE_SVDM_RequestIdentity(USBPD_PORT_0, USBPD_SOPTYPE_SOP1);
+      USBPD_PE_SVDM_RequestIdentity(USBPD_PORT_0, USBPD_SOPTYPE_SOP1);
       }
       break;
       
@@ -292,9 +289,12 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
       /* Disable VCONN*/
       USBPD_PWR_IF_Enable_VConn(PortNum, CCNONE);
       
+    /* a delay to be sure of the turn power off */
       osDelay(100);
-      /* The ufp is detached */
+    /* The sink is detached */
       USBPD_PE_IsCableConnected(PortNum, 0);
+    
+    /* PE Task termination */
       if (PETaskHandle != NULL)
       {
         osThreadTerminate(PETaskHandle);
@@ -332,19 +332,19 @@ static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef
 {
   uint32_t ret = 1;
   switch (Status)
-  {
+{
   case USBPD_HR_STATUS_START_ACK:
   case USBPD_HR_STATUS_START_REQ:
     if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
-  {
-    /* Reset the power supply */
-    USBPD_DPM_TurnOffPower(PortNum,PE_GetPowerRole(PortNum));
+    {
+      /* Reset the power supply */
+      USBPD_DPM_TurnOffPower(PortNum,PE_GetPowerRole(PortNum));
       ret = 1;
-  }
-  else
-  {
+    }
+    else
+    {
       ret = (uint32_t)USBPD_PWR_IF_IsEnabled(PortNum);
-  }
+    }
     break;
   case USBPD_HR_STATUS_COMPLETED:
     if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
@@ -477,7 +477,7 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
       {
         *(uint32_t*)(Ptr + index) = DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index];
       }
-      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO;
+      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSNKPDO;
       break;
 
     /* Case Requested voltage value Data information */
@@ -654,7 +654,6 @@ static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum)
   return USBPD_OK;
 }
 
-
 /**
   * @brief  Evaluate received Capabilities Message from Source port and prepare the request message  
   * @param  PortNum Port number
@@ -746,7 +745,6 @@ static USBPD_StatusTypeDef USBPD_DPM_EvaluateCapabilities(uint8_t PortNum)
   return USBPD_OK;
 }
 
-
 /**
   * @brief  Prepare sending of a new Request according to Capabilities Message from Source port
   * @param  PortNum   Index of current used port
@@ -812,7 +810,6 @@ USBPD_StatusTypeDef USBPD_DPM_RequestNewPowerProfile(uint8_t PortNum, uint8_t PD
   }
   return USBPD_OK;
 }
-
 
 /**
   * @brief  Find PDO index that offers the most amount of power.
@@ -914,25 +911,6 @@ USBPD_StatusTypeDef DPM_SetSNKRequiredPower(uint8_t PortNum, uint32_t Current, u
   */
 static void USBPD_VDM_Notif(void)
 {
-  if (VDM_Mode_On == 1)
-  {
-    USBPD_BSP_LED_Toggle(ULED0);
-    USBPD_BSP_LED_Toggle(ULED1);
-    USBPD_BSP_LED_Toggle(ULED2);
-    USBPD_BSP_LED_Toggle(ULED3);
-    USBPD_BSP_LED_Toggle(ULED4);
-    USBPD_BSP_LED_Toggle(ULED5);
-  }
-  else if (VDM_Mode_On == 2)
-  {    
-    USBPD_BSP_LED_On(ULED0);
-    USBPD_BSP_LED_On(ULED1);
-    USBPD_BSP_LED_On(ULED2);
-    USBPD_BSP_LED_On(ULED3);
-    USBPD_BSP_LED_On(ULED4);
-    USBPD_BSP_LED_On(ULED5);
-    VDM_Mode_On = 0;
-  }
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

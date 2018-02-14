@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_vdm.h
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_vdm.h.
   ******************************************************************************
   * @attention
@@ -746,6 +744,13 @@ typedef struct
     * @retval status
     */
   uint32_t (*USBPD_VDM_HardReset)(uint8_t Port);
+  
+  /**
+    * @brief  VDM Start billboard driver callback (called after tAMETimeout expiration)
+    * @param  Port current port number
+    * @retval status
+    */
+  USBPD_StatusTypeDef (*USBPD_VDM_StartBillboard)(uint8_t Port);
   
 }USBPD_VDM_Callbacks;
 

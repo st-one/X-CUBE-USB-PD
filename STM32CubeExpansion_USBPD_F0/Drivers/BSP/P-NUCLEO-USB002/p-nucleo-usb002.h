@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    p-nucleo-usb002.h
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of P_NUCLEO_USB002.c.
   ******************************************************************************
   * @attention
@@ -120,8 +118,10 @@ typedef struct
     
 /* Exported variables --------------------------------------------------------*/
 
+#ifdef HAL_UART_MODULE_ENABLED
 /* UART HANDLE */
 extern UART_HandleTypeDef                     huart_USBPD_BSP;
+#endif /* HAL_UART_MODULE_ENABLED */
 
 /* Exported functions --------------------------------------------------------*/
 

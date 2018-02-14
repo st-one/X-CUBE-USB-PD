@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    stm32f0xx_hal_msp.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   This file contains HW interface MSP functions.
   ******************************************************************************
   * @attention
@@ -49,7 +47,7 @@
 #include "stm32f0xx_hal.h"
 #include "usbpd_hw_if.h"
 
-/** @addtogroup STM32F0xx_HAL_Examples
+/** @addtogroup STM32F072xx_USBPD_applications
   * @{
   */
 

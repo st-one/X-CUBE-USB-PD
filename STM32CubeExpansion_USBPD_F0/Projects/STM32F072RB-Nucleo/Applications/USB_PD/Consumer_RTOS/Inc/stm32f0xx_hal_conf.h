@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    stm32f0xx_hal_conf.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   HAL configuration file.
   ******************************************************************************
   * @attention

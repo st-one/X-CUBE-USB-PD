@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    p-nucleo-usb002.c
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file provides set of functions to manage peripherals on
   *          P_NUCLEO_USB002 board.
   ******************************************************************************
@@ -95,7 +93,9 @@ USBPD_BSP_GPIOPins_TypeDef USBPD_BSP_LEDs[USBPD_BSP_LEDn] =
 /**
  * @brief huart handle for P_NUCLEO_USB002
  * */
+#ifdef HAL_UART_MODULE_ENABLED
 extern UART_HandleTypeDef huart_handle;
+#endif /* HAL_UART_MODULE_ENABLED */
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -185,6 +185,7 @@ extern UART_HandleTypeDef huart_handle;
 
   
 
+#ifdef HAL_UART_MODULE_ENABLED
 /**
   * @brief  Configures the UART used by the P_NUCLEO_USB002
   * @retval None
@@ -226,12 +227,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     GPIO_InitStruct.Alternate = USART_PIN_GPIOAF;
     HAL_GPIO_Init(USART_TX_PORT, &GPIO_InitStruct);
     
-	/* Peripheral interrupt init*/
+    /* Peripheral interrupt init*/
     HAL_NVIC_SetPriority(USART_IRQ, 3, 0);
     HAL_NVIC_EnableIRQ(USART_IRQ);
 }
-  
-  
+#endif /* HAL_UART_MODULE_ENABLED */
 
 
 /** }@ */

@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    stm32f0xx_it.c
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   Main Interrupt Service Routines.
   *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
@@ -42,10 +40,10 @@
 #include "stm32f0xx_it.h"
 #include "usbpd_cad.h"
 #include "usbpd_prl.h"
-/** @addtogroup STM32F0xx_HAL_Examples
+
+/** @addtogroup STM32F072xx_USBPD_applications
   * @{
   */
-
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -91,21 +89,17 @@ void HardFault_Handler(void)
 void SysTick_Handler(void)
 {
   HAL_IncTick();
-#ifndef DBG_STUSB1602
   if (uxTaskGetNumberOfTasks() != 0)
   {
     osSystickHandler();
   }
 
-  //USBPD_CAD_TimerCounter(0);
   USBPD_PE_TimerCounter(0);
   USBPD_PRL_TimerCounter(0);
 #if (USBPD_PORT_COUNT == 2)
-  //USBPD_CAD_TimerCounter(1);
   USBPD_PE_TimerCounter(1);
   USBPD_PRL_TimerCounter(1);
 #endif //USBPD_PORT_COUNT == 2
-#endif //DBG_STUSB1602
 }
 
 /******************************************************************************/

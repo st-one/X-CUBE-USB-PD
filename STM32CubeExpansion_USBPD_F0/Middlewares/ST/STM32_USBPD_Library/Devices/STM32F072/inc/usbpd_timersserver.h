@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_timersserver.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_timerserver.h.
   ******************************************************************************
   * @attention

@@ -15,7 +15,7 @@
         <TargetCommonOption>
           <Device>STM32F072RB</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F0xx_DFP.1.2.1</PackID>
+          <PackID>Keil.STM32F0xx_DFP.1.4.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000-0x20003FFF) IROM(0x8000000-0x801FFFF) CLOCK(8000000) CPUTYPE("Cortex-M0")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -47,8 +47,8 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>STM32F072RB-Nucleo\</OutputDirectory>
-          <OutputName>STM32F072RB-Nucleo</OutputName>
+          <OutputDirectory>STM32F072RB-Nucleo\Exe\</OutputDirectory>
+          <OutputName>Project</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -371,7 +371,7 @@
             <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls>--C99</MiscControls>
-              <Define>STM32F072xB,USE_HAL_DRIVER,USE_STM32F0XX_NUCLEO</Define>
+              <Define>STM32F072xB,USE_HAL_DRIVER,USE_STM32F0XX_NUCLEO,__PE_DUALPORT</Define>
               <Undefine></Undefine>
               <IncludePath>../Inc;../../../../../../Drivers/CMSIS/Device/ST/STM32F0xx/Include;../../../../../../Drivers/STM32F0xx_HAL_Driver/Inc;../../../../../../Drivers/BSP/STM32F0xx-Nucleo;../../../../../../Drivers/BSP/P-NUCLEO-USB001;../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM0;../../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../../../../../../Middlewares/Third_Party/FreeRTOS/Source/include;../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/Inc;../../../../../../Middlewares/ST/STM32_USBPD_Library/devices/STM32F072/inc;../../../../../../Utilities/LED_SERVER;../../../../../../Utilities/CLI_USER</IncludePath>
             </VariousControls>
@@ -390,7 +390,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>ROJ_DIR$\..\Inc;ROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\include</IncludePath>
+              <IncludePath>../Inc;../../../../../../Middlewares/Third_Party/FreeRTOS/Source/include</IncludePath>
             </VariousControls>
           </Aads>
           <LDads>
@@ -406,7 +406,7 @@
             <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc>--diag_suppress=L6329</Misc>
+            <Misc></Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -414,66 +414,13 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Utilities/CLI_USER</GroupName>
-          <Files>
-            <File>
-              <FileName>cli_console.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Utilities/CLI_USER/cli_console.c</FilePath>
-            </File>
-            <File>
-              <FileName>cli_user.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Utilities/CLI_USER/cli_user.c</FilePath>
-            </File>
-            <File>
-              <FileName>cli_commands.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Utilities/CLI_USER/cli_commands.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Middlewares/ST/STM32_USBPD_Library</GroupName>
-          <Files>
-            <File>
-              <FileName>USBPD_CORE_CM0_NOVDM_1PORT_KEIL.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\lib\USBPD_CORE_CM0_NOVDM_1PORT_KEIL.lib</FilePath>
-            </File>
-            <File>
-              <FileName>USBPD_DEVICE_STM32072_1PORT_KEIL.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\lib\USBPD_DEVICE_STM32072_1PORT_KEIL.lib</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>::CMSIS</GroupName>
-        </Group>
-        <Group>
-          <GroupName>Utilities/CLI_RTOS</GroupName>
-          <Files>
-            <File>
-              <FileName>FreeRTOS_CLI.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Utilities/CLI_RTOS/FreeRTOS_CLI.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Middlewares/Third_Party/FreeRTOS/CMSIS_RTOS</GroupName>
-          <Files>
-            <File>
-              <FileName>cmsis_os.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Drivers/STM32F0xx_HAL_Driver</GroupName>
           <Files>
+            <File>
+              <FileName>stm32f0xx_hal_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.c</FilePath>
+            </File>
             <File>
               <FileName>stm32f0xx_hal_comp.c</FileName>
               <FileType>1</FileType>
@@ -483,6 +430,16 @@
               <FileName>stm32f0xx_hal_rcc.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_hal_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_hal_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c</FilePath>
             </File>
             <File>
               <FileName>stm32f0xx_hal_tim.c</FileName>
@@ -520,26 +477,6 @@
               <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f0xx_hal_crc_ex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f0xx_hal_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f0xx_hal_dma.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f0xx_hal_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f0xx_hal_adc_ex.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c</FilePath>
@@ -553,6 +490,11 @@
               <FileName>stm32f0xx_hal.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_hal_crc_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.c</FilePath>
             </File>
             <File>
               <FileName>stm32f0xx_hal_spi_ex.c</FileName>
@@ -607,12 +549,42 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Utilities/CLI_USER</GroupName>
+          <Files>
+            <File>
+              <FileName>cli_console.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Utilities/CLI_USER/cli_console.c</FilePath>
+            </File>
+            <File>
+              <FileName>cli_user.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Utilities/CLI_USER/cli_user.c</FilePath>
+            </File>
+            <File>
+              <FileName>cli_commands.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Utilities/CLI_USER/cli_commands.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Utilities/LED_SERVER</GroupName>
           <Files>
             <File>
               <FileName>led_server.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Utilities/LED_SERVER/led_server.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Middlewares/ST/STM32_USBPD_Library</GroupName>
+          <Files>
+            <File>
+              <FileName>USBPD_CORE_CM0_NOVDM_1PORT_Keil.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/lib/USBPD_CORE_CM0_NOVDM_1PORT_Keil.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -640,14 +612,14 @@
           <GroupName>Application/User</GroupName>
           <Files>
             <File>
-              <FileName>usbpd_pwr_if.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/usbpd_pwr_if.c</FilePath>
-            </File>
-            <File>
               <FileName>usbpd_dpm.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/usbpd_dpm.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_pwr_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/usbpd_pwr_if.c</FilePath>
             </File>
             <File>
               <FileName>stm32f0xx_it.c</FileName>
@@ -682,6 +654,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Utilities/CLI_RTOS</GroupName>
+          <Files>
+            <File>
+              <FileName>FreeRTOS_CLI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Utilities/CLI_RTOS/FreeRTOS_CLI.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Middlewares/Third_Party/FreeRTOS/CMSIS_RTOS</GroupName>
+          <Files>
+            <File>
+              <FileName>cmsis_os.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Application/MDK-ARM</GroupName>
           <Files>
             <File>
@@ -690,6 +682,39 @@
               <FilePath>startup_stm32f072xb.s</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>Middlewares/ST/STM32_USBPD_Library/Devices/STM32F072</GroupName>
+          <Files>
+            <File>
+              <FileName>usbpd_cad_hw_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32F072/src/usbpd_cad_hw_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_timersserver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32F072/src/usbpd_timersserver.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_hw_if_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32F072/src/usbpd_hw_if_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_phy_hw_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32F072/src/usbpd_phy_hw_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_pwr_hw_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32F072/src/usbpd_pwr_hw_if.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>

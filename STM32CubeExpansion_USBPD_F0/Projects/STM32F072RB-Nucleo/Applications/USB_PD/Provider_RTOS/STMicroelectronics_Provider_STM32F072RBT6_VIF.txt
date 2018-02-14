@@ -1,16 +1,16 @@
 ; 
-; USB-IF Vendor Info File Generator, Version 1.1.0.1
+; USB-IF Vendor Info File Generator, Version 1.1.1.1
 ; 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Intro tab
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-$VIF_Specification: "Revision 1.00, Version 1.0"
-$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.0.1"
+$VIF_Specification: "Revision 1.12, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.1.1"
 UUT_Device_Type: 3        ; Provider Only
 $Vendor_Name: "STMicroelectronics"
-$Product_Name: "STM32F072RBT6-SRC"
-$Version_Info: "SRC"
+$Model_Part_Number: "STM32F072RBT6-SRC"
+$Product_Revision: "SRC"
 $TID: "10990010"
 $Port_Label: "0"
 

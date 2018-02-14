@@ -5,8 +5,6 @@
   ******************** (C) COPYRIGHT 2016 STMicroelectronics *******************
   * @file    DUAL_PORT_RTOS/readme.txt 
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   Description of the USB-C Power Delivery DUAL_PORT_RTOS application.
   ******************************************************************************
   *
@@ -87,6 +85,7 @@ trigger the power negotiation:
    twice each time, if device behaves as a consumer, 
    or will be blinking once each time, if device behaves as a provider.
 
+ - When connected to an USB-C with DRP, the power role swap is supported. if Port 0, it could be triggered each time user button is pressed.
 
 This application also embeds a Command Line Interface (CLI) feature, which allows user
 to get status of Power Delivery application running on Port 0 and Port 1 and to interact
@@ -154,11 +153,12 @@ take, after being connected to another device (either Provider or Consumer).
     board with P-NUCLEO-USB001 shield (RevB or RevC) connected on CN7 and CN10 connectors 
     and can be easily tailored to any other supported device and development board.
 
-  - Connect the STM32 Nucleo board to the USB-C Power Delivery consumer through
+  - Connect the STM32 Nucleo board to the USB-C Power Delivery consumer, provider or DRP through
     USB typeC cable to either CN0 or CN1 connectors in the X-NUCLEO shield.
     To test this application on Port 0 or Port 1, a 2nd board could be loaded with 
-    the Consumer_RTOS application to be used as a Consumer (Sink) or with 
-    the Provider_RTOS application can be used as a Provider (Source).
+    the Consumer_RTOS application to be used as a Consumer (Sink), with 
+    the Provider_RTOS application to be used as a Provider (Source) or with 
+    the DRP_RTOS or DUAL_PORT_RTOS applications to be used as a DRP (Source or Sink).
 
   - STM32F072RB-Nucleo RevC Set-up
     - Note that some PCB rework is needed to use the P-NUCLEO-USB001 shield

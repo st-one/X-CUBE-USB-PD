@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -92,6 +90,7 @@ USBPD_PE_Callbacks dpmCallbacks =
 {
   USBPD_DPM_SetupNewPower,
   USBPD_DPM_HardReset,
+  NULL,
   NULL,
   USBPD_DPM_TurnOffPower,
   USBPD_DPM_TurnOnPower,
@@ -307,7 +306,6 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
   }
 }
 
-
 /**
   * @brief  Callback function called by PE layer when HardReset message received from PRL
   * @param  PortNum The current port number
@@ -323,15 +321,15 @@ static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef
   case USBPD_HR_STATUS_START_ACK:
   case USBPD_HR_STATUS_START_REQ:
     if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
-  {
-    /* Reset the power supply */
-    USBPD_DPM_TurnOffPower(PortNum,PE_GetPowerRole(PortNum));
+    {
+      /* Reset the power supply */
+      USBPD_DPM_TurnOffPower(PortNum,PE_GetPowerRole(PortNum));
       ret = 1;
-  }
-  else
-  {
+    }
+    else
+    {
       ret = (uint32_t)USBPD_PWR_IF_IsEnabled(PortNum);
-  }
+    }
     break;
   case USBPD_HR_STATUS_COMPLETED:
     if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
@@ -463,7 +461,7 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
       {
         *(uint32_t*)(Ptr + index) = DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index];
       }
-      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO;
+      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSNKPDO;
       break;
 
     /* Case Requested voltage value Data information */

@@ -1,16 +1,16 @@
 ; 
-; USB-IF Vendor Info File Generator, Version 1.1.1.0
+; USB-IF Vendor Info File Generator, Version 1.1.1.1
 ; 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Intro tab
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-$VIF_Specification: "Revision 1.10, Version 1.0"
-$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.1.0"
+$VIF_Specification: "Revision 1.12, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.1.1"
 UUT_Device_Type: 4        ; DRP
 $Vendor_Name: "STMicroelectronics"
-$Product_Name: "STM32F072RBT6-DRP"
-$Version_Info: "1.0.3"
+$Model_Part_Number: "STM32F072RBT6-DRP"
+$Product_Revision: "1.0.3"
 $TID: "xxx"
 $Port_Label: "0"
 

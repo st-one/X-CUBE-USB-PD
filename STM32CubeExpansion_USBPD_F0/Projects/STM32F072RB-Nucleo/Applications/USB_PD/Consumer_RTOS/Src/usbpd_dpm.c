@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -71,7 +69,6 @@ static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum);
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateCapabilities(uint8_t PortNum);
 static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status);
 
-
 /* Private variables ---------------------------------------------------------*/
 static USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT];
 #ifdef USBPD_LED_SERVER
@@ -90,6 +87,7 @@ USBPD_PE_Callbacks dpmCallbacks =
 {
   USBPD_DPM_SetupNewPower,
   USBPD_DPM_HardReset,
+  NULL,
   NULL,
   NULL,
   NULL,
@@ -181,7 +179,6 @@ void USBPD_PE_Task(void const *argument)
   }
 }
 
-
 /**
   * @brief  Main task for CAD layer
   * @param  argument Not used
@@ -195,7 +192,6 @@ void USBPD_CAD_Task(void const *argument)
     osDelay(CAD_Task_delay);
   }
 }
-
 
 /**
   * @brief  CallBack reporting events on a specified port from CAD layer.
@@ -246,7 +242,6 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
   osDelay(10);
 }
 
-
 /**
   * @brief  Callback function called by PE layer when HardReset message received from PRL
   * @param  PortNum The current port number
@@ -294,7 +289,6 @@ static void USBPD_DPM_SetupNewPower(uint8_t PortNum)
     USBPD_PWR_IF_SetProfile(PortNum, 0);
   }
 }
-
 
 /**
   * @brief  Callback function called by PE to inform DPM that an Explicit contract is established.
@@ -355,7 +349,7 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
       {
         *(uint32_t*)(Ptr + index) = DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index];
       }
-      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO;
+      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSNKPDO;
       break;
 
     /* Case Requested voltage value Data information */
@@ -532,7 +526,6 @@ static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum)
   return USBPD_OK;
 }
 
-
 /**
   * @brief  Evaluate received Capabilities Message from Source port and prepare the request message  
   * @param  PortNum Port number
@@ -624,7 +617,6 @@ static USBPD_StatusTypeDef USBPD_DPM_EvaluateCapabilities(uint8_t PortNum)
   return USBPD_OK;
 }
 
-
 /**
   * @brief  Prepare sending of a new Request according to Capabilities Message from Source port
   * @param  PortNum   Index of current used port
@@ -690,7 +682,6 @@ USBPD_StatusTypeDef USBPD_DPM_RequestNewPowerProfile(uint8_t PortNum, uint8_t PD
   }
   return USBPD_OK;
 }
-
 
 /**
   * @brief  Find PDO index that offers the most amount of power.

@@ -1,16 +1,16 @@
 ; 
-; USB-IF Vendor Info File Generator, Version 1.1.0.2
+; USB-IF Vendor Info File Generator, Version 1.1.1.1
 ; 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Intro tab
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-$VIF_Specification: "Revision 1.00, Version 1.0"
-$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.0.2"
+$VIF_Specification: "Revision 1.12, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.1.1.1"
 UUT_Device_Type: 4        ; DRP
 $Vendor_Name: "STMicroelectronics"
-$Product_Name: "MB1303 Demo"
-$Version_Info: "1.0.3"
+$Model_Part_Number: "MB1303 Demo"
+$Product_Revision: "1.0.3"
 $TID: "000"
 $Port_Label: "0"
 

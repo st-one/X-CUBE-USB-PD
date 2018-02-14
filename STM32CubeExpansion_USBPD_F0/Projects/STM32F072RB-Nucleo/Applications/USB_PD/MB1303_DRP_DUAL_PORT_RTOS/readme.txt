@@ -5,8 +5,6 @@
   ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
   * @file    MB1303_DRP_DUAL_PORT_RTOS/readme.txt 
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   Description of the USB-C Power Delivery DUAL_PORT_RTOS application.
   ******************************************************************************
   *
@@ -48,7 +46,7 @@
   
 @par Application Description
 This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) DRP application
+firmware. It describes how to use USB Power Delivery (USB-PD) Dual DRP Ports application
 based on the STM32F072+STUSB1602 devices.
 
 At startup:

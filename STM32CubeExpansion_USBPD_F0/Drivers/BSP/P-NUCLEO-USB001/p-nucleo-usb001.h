@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    p-nucleo-usb001.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
   * @brief   This file contains the headers of p-nucleo-usb001.c file.
   ******************************************************************************
   * @attention
@@ -95,17 +93,16 @@ typedef struct
 /**
   * @brief Leds onboard P-NUCLEO-USB001
   */
+#ifndef P_NUCLEO_USB001_USE_I2C
 typedef enum
 {
   ULED_NA = -1,
   ULED0 = 0,                         /*< LED0 (Blue); D200 of P-NUCLEO-USB001                */
   ULED1 = 1,                         /*< LED1 (Green); D201 of P-NUCLEO-USB001               */
 
-#ifndef P_NUCLEO_USB001_USE_I2C
   ULED2 = 2,                         /*< LED2 (Orange); D202 of P-NUCLEO-USB001              */
   ULED3 = 3,                         /*< LED3 (Red); D203 of P-NUCLEO-USB001                 */
   ULED_RED = ULED3,                  /*< Redefinition of LED2 (Red); D202 of P-NUCLEO-USB001 */
-#endif /*P_NUCLEO_USB001_USE_I2C*/
 
 #ifndef P_NUCLEO_USB001_GPIO13
   ULED4 = 4,                         /*< LED4 (Orange); D204 of P-NUCLEO-USB001              */
@@ -126,6 +123,29 @@ typedef enum
   LED_PORT1_VBUS  = ULED1,
   LED_PORT1_ROLE  = ULED0,
 } USBPD_BSP_Led_TypeDef;
+#else
+typedef enum
+{
+  ULED_NA = -1,
+  ULED0 = 0,                         /*< LED0 (Blue); D200 of P-NUCLEO-USB001                */
+  ULED1 = 1,                         /*< LED1 (Green); D201 of P-NUCLEO-USB001               */
+
+  ULED2 = 2,                         /*< LED4 (Green); D204 of P-NUCLEO-USB001               */
+  ULED3 = 3,                         /*< LED5 (Orange); D205 of P-NUCLEO-USB001              */
+
+  ULED_RED = ULED3,                  /*< Redefinition of LED2 (Red); D202 of P-NUCLEO-USB001 */
+  ULED_BLUE = ULED0,                 /*< Redefinition of LED0 (Blue); D200 of P-NUCLEO-USB001  */
+  ULED_GREEN = ULED1,                /*< Redefinition of LED1 (Green); D201 of P-NUCLEO-USB001 */
+
+  /* BSP name list */
+  LED_PORT0_CC    = ULED3,
+  LED_PORT0_VBUS  = ULED2,
+  LED_PORT0_ROLE  = ULED0,
+  LED_PORT1_CC    = ULED3,
+  LED_PORT1_VBUS  = ULED1,
+  LED_PORT1_ROLE  = ULED0,
+} USBPD_BSP_Led_TypeDef;
+#endif /*P_NUCLEO_USB001_USE_I2C*/
 
 /**
   * @}
@@ -142,7 +162,7 @@ typedef enum
 #ifdef P_NUCLEO_USB001_USE_I2C
 #if defined(P_NUCLEO_USB001_GPIO13) && defined(P_NUCLEO_USB001_GPIO15)
   #define USBPD_BSP_LEDn  2
-#elif defined(P-NUCLEO-USB001_GPIO13) || defined(P_NUCLEO_USB001_GPIO15)
+#elif defined(P_NUCLEO_USB001_GPIO13) || defined(P_NUCLEO_USB001_GPIO15)
   #define USBPD_BSP_LEDn  3
 #else
   #define USBPD_BSP_LEDn  4
@@ -173,8 +193,11 @@ void USBPD_BSP_LED_Off(USBPD_BSP_Led_TypeDef Led);
 void USBPD_BSP_LED_Toggle(USBPD_BSP_Led_TypeDef Led);
 void USBPD_BSP_UART_Init(void);
 
+#ifdef HAL_UART_MODULE_ENABLED
 /* UART IO functions */
 void     USBPD_UART_IO_Init(void);
+#endif /* HAL_UART_MODULE_ENABLED */
+
 /**
   * @}
   */

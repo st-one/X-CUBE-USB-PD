@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_porthandle.h
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_porthandle.h.
   ******************************************************************************
   * @attention
@@ -218,6 +216,7 @@ typedef enum
     USBPD_HW_IF_Callbacks       cbs;             /*!< @ref USBPD_HW_IF callbacks         */
     uint8_t                     AlertEventCount;
     uint8_t                     CommLock;
+    DEVICE_CUT_TypeDef          Device_cut;
   }STUSB16xx_PORT_HandleTypeDef;
   /** 
   * @}
@@ -270,10 +269,6 @@ typedef enum
 #define RX_IRQ_PRIO             0   /*!< Rx priority for first interrupt */
 #define TX_IRQ_PRIO             0   /*!< Communication is half duplex so tx prio = rx prio */
 
-/* force the last cut if not specified */
-#if !defined(STUSB1602_CUT_1_3) && !defined(STUSB1602_CUT_1_2) && !defined(STUSB1602_CUT_1_1) && !defined(STUSB1602_CUT_1_0)
-#define STUSB1602_CUT_1_3
-#endif
   
 /* IRQ priorities for each port
                   PORT0     PORT1

@@ -5,8 +5,6 @@
   ******************** (C) COPYRIGHT 2016 STMicroelectronics *******************
   * @file    Provider_RTOS/readme.txt 
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
   * @brief   Description of the USB-C Power Delivery Provider_RTOS application.
   ******************************************************************************
   *

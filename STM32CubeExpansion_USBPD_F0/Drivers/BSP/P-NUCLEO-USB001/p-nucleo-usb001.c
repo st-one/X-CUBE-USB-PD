@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    p-nucleo-usb001.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
   * @brief   This file provides set of functions to manage peripherals on
   *          P-NUCLEO-USB001 board.
   ******************************************************************************
@@ -169,9 +167,10 @@ void USBPD_BSP_LED_Toggle(USBPD_BSP_Led_TypeDef Led)
   */
 void USBPD_BSP_UART_Init(void)
 {
+#ifdef HAL_UART_MODULE_ENABLED
   /* Init huart_usbpd */
   USBPD_UART_IO_Init();
+#endif /* HAL_UART_MODULE_ENABLED */
 }
-
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_hw_if.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_hw_if.h for USB-PD Hardwer 
              Interface layer. This file is specific for each device.
   ******************************************************************************
@@ -175,17 +173,17 @@ typedef enum
 #define DRP_SET_CONSUMER(X)    HAL_GPIO_WritePin(DRP_PORT, DRP_PIN, GPIO_PIN_RESET)
 
 /**
- * 	             R603+R604	            ADC->DR    379.9k
+ *                R603+R604              ADC->DR    379.9k
  * Vbus(mV) = Vadc * --------- * 3300(mV) * -------
- * 			R604	             4096      49.9k
+ *       R604               4096      49.9k
  * 
  */
-#define MVOLT(X)	( ( ( ( ((uint32_t)X)*3799*33 )/499 )*100 ) >>12 )
+#define MVOLT(X)  ( ( ( ( ((uint32_t)X)*3799*33 )/499 )*100 ) >>12 )
 
 /**
  * 50Vs - VDDA/2 = Vadcin
  * */
-#define MAMP(X)		( ((int32_t)( ( ((uint32_t)X)*3300 )>>10 ) )-6600 )
+#define MAMP(X)    ( ((int32_t)( ( ((uint32_t)X)*3300 )>>10 ) )-6600 )
 
 #if ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 0))
 #define ENCC1_PIN(__PORT__)    ( ENCC1_P0 )
@@ -209,11 +207,11 @@ typedef enum
 #endif
 
 #if ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 0))
-#define IBUS_INDEX(__PORT__)		2
+#define IBUS_INDEX(__PORT__)    2
 #elif ((USBPD_PORT_COUNT == 1) && (USBPD_USED_PORT == 1))
 #define IBUS_INDEX(__PORT__)    3
 #elif (USBPD_PORT_COUNT == 2)
-#define IBUS_INDEX(__PORT__)		((__PORT__ == 0) ? 3 : 6 )
+#define IBUS_INDEX(__PORT__)    ((__PORT__ == 0) ? 3 : 6 )
 #endif
  /*
  Single Port on port 0
@@ -221,7 +219,7 @@ typedef enum
  P0 CC2 = ADC DMA Index  3
 
   ADC DMA Index => ch
-  0     ADC_CHANNEL_0	//P0.CC1    PA0
+  0     ADC_CHANNEL_0  //P0.CC1    PA0
   1     ADC_CHANNEL_1   //RXRef     PA1
   2     ADC_CHANNEL_3   //P0.IBUS   PA3
   3     ADC_CHANNEL_5   //P0.CC2    PA5
@@ -311,7 +309,7 @@ typedef enum
 #define CAD_tPDDebounce_threshold               20              /**< tPDDebounce threshold = 20ms  */   
 #define CAD_tCCDebounce_threshold               100             /**< tCCDebounce threshold = 100ms  */
    
-#define CAD_threshold_VBus                      MV2ADC(650)     /**< Vbus Threshold **/
+#define CAD_threshold_VBus                      MV2ADC(590)     /**< Vbus Threshold **/
 /* END OF NEW CAD DEFS */
 
 #define BIST_MAX_LENGTH                         (BIST_CARRIER_MODE_MS*600)/(TX_BUFFER_LEN*32)
@@ -633,6 +631,8 @@ void USBPD_HW_IF_CheckBusIdleState(uint8_t PortNum, FunctionalState State);
   * @retval none 
   */
 void USBPD_HW_IF_Reset(uint8_t PortNum, USBPD_HardResetMode_TypeDef Mode);
+
+HAL_StatusTypeDef USBPD_HW_IF_ErrorRecovery(uint8_t PortNum);
 
 #ifdef __cplusplus
 }

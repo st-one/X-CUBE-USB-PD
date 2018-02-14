@@ -43,14 +43,39 @@ static portCHAR xRxBuffer[2]; /** Buffer to receive the chars */
 void prvSerialInit(xComPortHandle * pxPort, USART_TypeDef * usart, portLONG lBaudRate);
 void prvSerialReceiveStart(void);
 
+#if 0
+#if defined(USBPD_CLI_IDENT)
+#if defined(USBPD_CLI_DEMO)
+#define USBPD_CLI_WELCOME_MESSAGE_HEAD "\r\n" ## USBPD_CLI_IDENT ## " " ## USBPD_CLI_DEMO ## "\r\n"
+#else
+#define USBPD_CLI_WELCOME_MESSAGE_HEAD "\r\n" ## USBPD_CLI_IDENT ## " Demo\r\n"
+#endif
+#else
+#define USBPD_CLI_WELCOME_MESSAGE_HEAD "\r\nUSBPD Demo\r\n"
+#endif
+
+#define USBPD_CLI_WELCOME_MESSAGE_TEST_ONLY "\r\n\r\n*** THIS FW IS ONLY FOR INTERNAL TEST. DON'T DISTRIBUTE IT!!! ***\r\n"
+
+/* Exported variables --------------------------------------------------------*/
 /* Const messages output for the command console. */
-const char * const CLI_ConfigWelcomeMessage[CLI_WELCOME_MESSAGE_LEN] = { 
-  /** Welcome message string */
-  "\r\nP-NUCLEO-USB002 Demo v1.2.1\r\n",
+const char * const CLI_ConfigWelcomeMessage[CLI_WELCOME_MESSAGE_LEN] = { /** Welcome message string */
+#if defined(USBPD_CLI_TEST_ONLY)
+  USBPD_CLI_WELCOME_MESSAGE_TEST_ONLY,
+#endif
+  USBPD_CLI_WELCOME_MESSAGE_HEAD,
   "Console v0.4\r\n",
   "Type help for a list of commands.\r\nSTMicroelectronics\r\n",
   "Copyright (c) 2017 - All Rights Reserved.\r\n"
 };
+#else
+/* Const messages output for the command console. */
+const char * const CLI_ConfigWelcomeMessage[CLI_WELCOME_MESSAGE_LEN] = { /** Welcome message string */
+  "\r\nP-NUCLEO-USB00x Demo v1.0.3\r\n",
+  "Console v0.4\r\n",
+  "Type help for a list of commands.\r\nSTMicroelectronics\r\n",
+  "Copyright (c) 2017 - All Rights Reserved.\r\n"
+};
+#endif
 const char * const CLI_ConfigEndOfOutputMessage = ">"; /** String after the message */
 const char * const CLI_ConfigNewLine = "\r\n"; /** New line */
 

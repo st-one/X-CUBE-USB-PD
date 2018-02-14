@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -81,10 +79,12 @@ static void USBPD_DPM_TurnOffPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef 
 static void USBPD_DPM_AssertRd(uint8_t PortNum);
 static void USBPD_DPM_AssertRp(uint8_t PortNum);
 static void USBPD_DPM_ExplicitContractDone(uint8_t PortNum);
+static void USBPD_DPM_RequestPowerRoleSwap(uint8_t PortNum);
 static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId , uint32_t *Ptr, uint32_t *Size);  
 static void USBPD_DPM_SetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId , uint32_t *Ptr, uint32_t Size);  
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum);
 static USBPD_StatusTypeDef USBPD_DPM_EvaluateCapabilities(uint8_t PortNum);
+static void USBPD_DPM_PowerRoleSwap(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_PRS_Status_TypeDef Status);
 static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status);
 
 
@@ -106,6 +106,7 @@ USBPD_PE_Callbacks dpmCallbacks =
 {
   USBPD_DPM_SetupNewPower,
   USBPD_DPM_HardReset,
+  NULL,
   USBPD_DPM_EvaluatPRSwap,
   USBPD_DPM_TurnOffPower,
   USBPD_DPM_TurnOnPower,
@@ -117,6 +118,7 @@ USBPD_PE_Callbacks dpmCallbacks =
   USBPD_DPM_EvaluateRequest,
   USBPD_DPM_EvaluateCapabilities,
   USBPD_DPM_Capability,
+  USBPD_DPM_PowerRoleSwap,
   NULL,
 };
 
@@ -232,7 +234,7 @@ void USBPD_PE_Task(void const *argument)
   {
     /* PE DRP process */
     USBPD_PE_DRPProcess(PortNum);
-    osDelay(1);
+    osDelay(2);
   }
 }
 
@@ -276,16 +278,10 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
 #endif /* USBPD_LED_SERVER */
 
     /* In case Port role is provider only, Turn on power is executed in DPM callback */
-    if (PE_GetDefaultPortPowerRole(PortNum) == USBPD_PORTPOWERROLE_SRC)
-    { 
+    if (((PE_GetPowerRole(PortNum)) & USBPD_PORTPOWERROLE_SRC))
+    {
       /* An ufp is attached on the port*/
-      osDelay(100);
-
-      /* Enable VBUS */
-      USBPD_DPM_TurnOnPower(PortNum, PE_GetPowerRole(PortNum));
-
-      /* Enable VCONN*/
-      USBPD_PWR_IF_Enable_VConn(PortNum, Cc);
+      osDelay(10);
     }
     
     DPM_Ports[PortNum].DPM_IsConnected = 1;
@@ -306,18 +302,6 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
     
   case USBPD_CAD_STATE_EMC:
   case USBPD_CAD_STATE_DETACHED:
-    /* In case Port role is provider only, Turn on power is executed in DPM callback */
-    if (PE_GetDefaultPortPowerRole(PortNum) == USBPD_PORTPOWERROLE_SRC)
-    { 
-      /* Disable VBUS */
-      USBPD_DPM_TurnOffPower(PortNum, PE_GetPowerRole(PortNum));
-
-      /* Disable VCONN*/
-      USBPD_PWR_IF_Enable_VConn(PortNum, CCNONE);
-
-      osDelay(100);
-    }
-    
     /* The ufp is detached */
     USBPD_PE_IsCableConnected(PortNum, 0);
     /* Terminate PE task */
@@ -386,15 +370,15 @@ static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef
   case USBPD_HR_STATUS_START_ACK:
   case USBPD_HR_STATUS_START_REQ:
     if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
-  {
-    /* Reset the power supply */
-    USBPD_DPM_TurnOffPower(PortNum,PE_GetPowerRole(PortNum));
+    {
+      /* Reset the power supply */
+      USBPD_DPM_TurnOffPower(PortNum,PE_GetPowerRole(PortNum));
       ret = 1;
-  }
-  else
-  {
+    }
+    else
+    {
       ret = (uint32_t)USBPD_PWR_IF_IsEnabled(PortNum);
-  }
+    }
     break;
   case USBPD_HR_STATUS_COMPLETED:
     if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
@@ -438,7 +422,7 @@ static void USBPD_DPM_SetupNewPower(uint8_t PortNum)
   * @brief  Evaluate the swap request from PE.
   * @param  PortNum: The current port number
   * @retval USBPD_OK if PR_swap is possible, else USBPD_ERROR
-*/
+  */
 static USBPD_StatusTypeDef USBPD_DPM_EvaluatPRSwap(uint8_t PortNum)
 {
   return USBPD_OK;
@@ -519,9 +503,6 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
 {
   uint32_t index = 0;
 
-  assert_param(Ptr);
-  assert_param(Size);
-  
   /* Check type of information targeted by request */
   switch (DataId)
   {
@@ -549,7 +530,7 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
       {
         *(uint32_t*)(Ptr + index) = DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index];
       }
-      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO;
+      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSNKPDO;
       break;
 
     /* Case Requested voltage value Data information */
@@ -707,7 +688,7 @@ static void USBPD_DPM_AssertRd(uint8_t PortNum)
   * @param  PortNum: The current port number
   * @retval None
 */
-void USBPD_DPM_RequestPowerRoleSwap(uint8_t PortNum)
+static void USBPD_DPM_RequestPowerRoleSwap(uint8_t PortNum)
 {
   USBPD_PE_RequestPowerRoleSwap(PortNum);
 }
@@ -1035,6 +1016,43 @@ USBPD_StatusTypeDef DPM_SetSNKRequiredPower(uint8_t PortNum, uint32_t Current, u
   
   return USBPD_OK;
 }
+
+/**
+  * @brief  Power role swap status update
+  * @param  PortNum Port number
+  * @param  CurrentRole the current role
+  * @param  Status status on power role swap event
+  */
+static void USBPD_DPM_PowerRoleSwap(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_PRS_Status_TypeDef Status)
+{
+  if (CurrentRole == USBPD_PORTPOWERROLE_SRC || CurrentRole == USBPD_PORTPOWERROLE_SNK)
+  {
+    switch (Status)
+    {
+    case USBPD_PRS_STATUS_VBUS_OFF:
+      USBPD_DPM_TurnOffPower(PortNum, CurrentRole);
+      break;
+    case USBPD_PRS_STATUS_SRC_RP2RD:
+      USBPD_DPM_AssertRd(PortNum);
+      break;
+    case USBPD_PRS_STATUS_SNK_RD2RP:
+      USBPD_DPM_AssertRp(PortNum);
+      break;
+    case USBPD_PRS_STATUS_VBUS_ON:
+      USBPD_DPM_TurnOnPower(PortNum, CurrentRole);
+      break;
+    case USBPD_PRS_STATUS_FAILED:
+      if(USBPD_PORTPOWERROLE_SNK == CurrentRole)
+      {
+        USBPD_DPM_TurnOffPower(PortNum, CurrentRole);
+      }
+      break;
+    default:
+      break;
+    }
+  }
+}
+
 #ifdef USBPD_CLI
 /**
   * @brief  

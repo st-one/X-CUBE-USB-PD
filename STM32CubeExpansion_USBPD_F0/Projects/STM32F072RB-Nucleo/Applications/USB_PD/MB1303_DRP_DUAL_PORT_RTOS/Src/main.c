@@ -2,13 +2,11 @@
   ******************************************************************************
   * @file    main.c
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   USBPD DUAL_PORT_RTOS application main file
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
+  * <h2><center>Copyright (c) 2017 STMicroelectronics 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -73,6 +71,9 @@ int main(void)
   /* Initialize BSP functionalities */
   USBPD_BSP_LED_Init();
 
+  /* Initialize UART functionalities */
+  USBPD_BSP_UART_Init();
+
   /* Push Button initialization */
   BSP_PB_Init(BUTTON_USER , BUTTON_MODE_EXTI);
   
@@ -81,24 +82,6 @@ int main(void)
   
   /* Initialize the Device Policy Manager */
   USBPD_DPM_Init();
- 
-#ifndef USBPD_LED_SERVER
-  /* Test LED1 */
-  USBPD_BSP_LED_On(ELED1);
-  HAL_Delay(300);
-  USBPD_BSP_LED_Off(ELED1);
-
-  /* Test LED2 */
-  USBPD_BSP_LED_On(ELED2);
-  HAL_Delay(300);
-  USBPD_BSP_LED_Off(ELED2);
-
-  /* Test LED3 */
-  USBPD_BSP_LED_On(ELED3);
-  HAL_Delay(300);
-  USBPD_BSP_LED_Off(ELED3);   
-#endif
-
   
   /* Start the scheduler */
   osKernelStart();
@@ -106,15 +89,10 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-  #ifndef USBPD_LED_SERVER
+#ifndef USBPD_LED_SERVER
     USBPD_BSP_LED_Toggle(ELED1);
     HAL_Delay(300);
-  #endif
-    
-  #ifdef DBG_STUSB1602
-    STUSB1602_Check_Registers_Init(0);
-    STUSB1602_Check_Registers_Monitoring(0);
-  #endif
+#endif
   }
 }
 

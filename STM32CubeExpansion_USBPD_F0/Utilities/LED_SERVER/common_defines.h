@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    common_defines.h
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of common_defines.h
   ******************************************************************************
   * @attention

@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    STUSB1602_Driver_Conf.h
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_hw_if.h.
   ******************************************************************************
   * @attention

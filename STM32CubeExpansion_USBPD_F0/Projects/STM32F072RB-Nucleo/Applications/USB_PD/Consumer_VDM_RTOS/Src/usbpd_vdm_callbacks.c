@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_vdm_callback.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -204,11 +202,11 @@ USBPD_SVIDInfo_TypeDef sSVID_Info;
 const USBPD_DPModeTypeDef vdo_dp_modes[2] =  
 {
   {
-    .b.UFP_D_Pin        = 0,              /* UFP pin cfg supported : none         */
+    .b.UFP_D_Pin        = 0,             /* UFP pin cfg supported : none     */
     .b.DFP_D_Pin        = MODE_DP_PIN_C | MODE_DP_PIN_E, /* DFP pin cfg supported */
-    .b.USB20            = 0,              /* USB2.0 signalling even in AMode      */
-    .b.PlugOrRecept     = CABLE_TO_PLUG,  /* its a plug                           */
-    .b.Supports         = MODE_DP_V13,    /* DPv1.3 Support, no Gen2              */
+    .b.USB20            = 0,             /* USB2.0 signalling even in AMode  */
+    .b.PlugOrRecept     = CABLE_TO_PLUG, /* its a plug                 */
+    .b.Supports         = MODE_DP_V13,   /* DPv1.3 Support, no Gen2          */
     .b.SignalDirection  = MODE_DP_SNK    /* Its a sink / src                 */
   },
 };
@@ -425,10 +423,12 @@ static USBPD_StatusTypeDef USBPD_VDM_InformAttention(uint8_t PortNum, USBPD_Atte
   */
 USBPD_StatusTypeDef VDM_Initialization(void)
 {
+  uint32_t index = 0;
+
   /* Initialize SVID supported by consumer */
   SVIDInfo.NumSVIDs = MAX_SVID_USER;
   
-  for (uint32_t index = 0; index < MAX_SVID_USER; index++)
+  for (index = 0; index < MAX_SVID_USER; index++)
   {
     SVIDInfo.SVIDs[index] = DISPLAY_PORT_SVID + index;
   }

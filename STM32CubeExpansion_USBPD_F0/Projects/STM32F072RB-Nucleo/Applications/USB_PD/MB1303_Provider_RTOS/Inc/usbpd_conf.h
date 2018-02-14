@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_conf.h
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains general configuration
   ******************************************************************************
   * @attention
@@ -62,26 +60,6 @@
 /* Exported typedef ----------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /**
- * @brief This should be defined to use ECT I2C
- * */
-#undef P_NUCLEO_USB001_USE_I2C
-
-/**
-* @brief This should be defined to use GPIO13 on PC12
-* */
-#undef P_NUCLEO_USB001_GPIO13
-
- /**
- * @brief This should be defined to use GPIO15 on PC12
- * */
-#undef P_NUCLEO_USB001_GPIO15
-
- /**
- * @brief This should be defined to use USB 2 peripheral
- * */
-#undef P_NUCLEO_USB001_USE_USB2
-
-/**
 * @brief The number of USBPD ports
 * */
 #define USBPD_PORT_COUNT        1  /*!< Number of supported ports */
@@ -100,14 +78,13 @@
 //#define USBPD_CLI
    
 /* Uncomment this define to use debug functionalities */
-//#define DBG_STUSB1602  
 #define USBPD_STUSB1602
 
 /* MB1303 configuration */
 /* Uncomment only one */
 #define CONF_NORMAL
 //#define CONF_DEMO
-//#define CONF_DEMO_FPGA   
+//#define CONF_STCH02
    
 /* Define board operating power and max power */
 /* Request 5V and 500mA */
@@ -150,12 +127,6 @@
                             printf("\n");
 #else
 #define USBPD_DbgLog(...)
-#endif
-
-#ifdef USBPD_CLI
-#define USBPD_CLI_IDENT  "P-NUCLEO-USB002"
-#define USBPD_CLI_DEMO   "Demo v1.0.3"
-//#define USBPD_CLI_TEST_ONLY
 #endif
 
 /** @} */

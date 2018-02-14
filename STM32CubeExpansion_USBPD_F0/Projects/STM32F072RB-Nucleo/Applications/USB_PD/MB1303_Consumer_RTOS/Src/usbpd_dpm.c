@@ -2,13 +2,11 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   DPM file for USBPD Consumer application
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
+  * <h2><center>Copyright (c) 2017 STMicroelectronics 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -64,6 +62,9 @@
 #include "STUSB1602_Driver_Conf.h"
 #include "STUSB1602_Driver.h"
 
+#include "usbpd_porthandle.h"
+extern STUSB16xx_PORT_HandleTypeDef Ports[USBPD_PORT_COUNT];
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define DPM_PORT0_PORTPOWERROLE USBPD_PORTPOWERROLE_SNK
@@ -78,8 +79,9 @@ void USBPD_CAD_Task(void const *argument);
 void HW_IF_RESET_Assert(uint8_t PortNum);
 void HW_IF_RESET_Desert(uint8_t PortNum);
 
-/* List of callbacks for PF layer */
+/* List of callbacks for PE layer */
 static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status);
+static uint32_t USBPD_DPM_ErrorRecovery(uint8_t PortNum);
 static void USBPD_DPM_SetupNewPower(uint8_t PortNum);
 static void USBPD_DPM_TurnOnPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef Role);
 static void USBPD_DPM_TurnOffPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef Role);
@@ -108,10 +110,32 @@ static LED_Roles DPM_Leds[USBPD_PORT_COUNT] =
 #endif
 USBPD_CAD_Callbacks CAD_cbs = { USBPD_CAD_Callback };
 osThreadId CADTaskHandle;
+#ifdef USBPD_DPM_PRS
 USBPD_PE_Callbacks dpmCallbacks =
 {
   USBPD_DPM_SetupNewPower,
   USBPD_DPM_HardReset,
+  USBPD_DPM_ErrorRecovery,
+  USBPD_DPM_EvaluatPRSwap,
+  USBPD_DPM_TurnOffPower,
+  USBPD_DPM_TurnOnPower,
+  USBPD_DPM_AssertRd,
+  USBPD_DPM_AssertRp,
+  USBPD_DPM_ExplicitContractDone,
+  USBPD_DPM_GetDataInfo,
+  USBPD_DPM_SetDataInfo,
+  USBPD_DPM_EvaluateRequest,
+  USBPD_DPM_EvaluateCapabilities,
+  USBPD_DPM_Capability,
+  USBPD_DPM_PowerRoleSwap,
+  USBPD_DPM_GetVBusStatus,
+};
+#else
+USBPD_PE_Callbacks dpmCallbacks =
+{
+  USBPD_DPM_SetupNewPower,
+  USBPD_DPM_HardReset,
+  USBPD_DPM_ErrorRecovery,
   NULL,
   USBPD_DPM_TurnOffPower,
   USBPD_DPM_TurnOnPower,
@@ -126,6 +150,8 @@ USBPD_PE_Callbacks dpmCallbacks =
   NULL,
   USBPD_DPM_GetVBusStatus,
 };
+#endif /* USBPD_DPM_PRS */
+
 #ifdef USBPD_CLI
 static char cli_text[CLI_OUTPUT_MAX_SIZE];
 #endif
@@ -279,12 +305,12 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
 
   /* get the current role from PE */    
   USBPD_PortPowerRole_TypeDef current_role = PE_GetPowerRole(PortNum);
-  
+
   switch(State)
   {
   case USBPD_CAD_STATE_ATTACHED:
   case USBPD_CAD_STATE_ATTEMC:
-    
+
 #ifdef USBPD_LED_SERVER
     /* Led feedback */
     Led_Set(DPM_Leds[PortNum].CCLine, LED_MODE_BLINK_CC(Cc), 0);
@@ -294,13 +320,13 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
 
     /* In case Port role is provider only, Turn on power is executed in DPM callback */
     if (current_role == USBPD_PORTPOWERROLE_SRC)
-    { 
+    {
     }
-    
+
     DPM_Ports[PortNum].DPM_IsConnected = 1;
     USBPD_PE_IsCableConnected(PortNum, 1);
     
-    PE_Reset(PortNum);
+    USBPD_PRL_Reset(PortNum);
     
     /* Create PE task */
     if(DPM_Ports[PortNum].PE_TaskHandle == NULL)
@@ -350,10 +376,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
     
     /* perform a reset of all layer in any case */
     USBPD_PE_Reset(PortNum);
-    
-    /* Assert STUSB1602 software RESET */
-    //HW_IF_RESET_CTRL(PortNum);
-    
+
     /* Set the disconnection status */
     DPM_Ports[PortNum].DPM_IsConnected = 0;
 
@@ -365,7 +388,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
     }
 #endif /* USBPD_CLI */
     
-#ifdef USBPD_LED_SERVER      
+#ifdef USBPD_LED_SERVER
     /* Led feedback */
     Led_Set(DPM_Leds[PortNum].CCLine, LED_MODE_OFF, 0);
     Led_Set(DPM_Leds[PortNum].VBus, LED_MODE_OFF, 0);
@@ -406,7 +429,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
   */
 static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
 {
-  HAL_StatusTypeDef res = HAL_ERROR;
+  HAL_StatusTypeDef res = HAL_OK;
   switch(Status)
   {
   case USBPD_HR_STATUS_START_ACK:
@@ -419,13 +442,16 @@ static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef
     break;
   case USBPD_HR_STATUS_WAIT_VBUS_VSAFE0V:
     res = USBPD_HW_IF_HR_CheckVbusVSafe0V(PortNum, CurrentRole);
-#ifndef STUSB1602_CUT_1_3
-    if (res == HAL_OK && CurrentRole == USBPD_PORTPOWERROLE_SNK)
+
+    /* STUSB1602_CUT_1_2 */
+    if (Ports[PortNum].Device_cut == Cut_1)
     {
-    /* Workaround: To emulate VBus0Safe condition starting from VBus_Presence condition */ 
-      osDelay(200);
+      if (res == HAL_OK && CurrentRole == USBPD_PORTPOWERROLE_SNK)
+      {
+        /* Workaround: To emulate VBus0Safe condition starting from VBus_Presence condition */ 
+        osDelay(300);
+      }
     }
-#endif
     break;
   case USBPD_HR_STATUS_COMPLETED:
     res = USBPD_HW_IF_HR_End(PortNum, CurrentRole);
@@ -438,6 +464,18 @@ static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef
       break;
   }
   
+  return res;
+}
+
+/**
+  * @brief  Request the DPM to go to Error Recovery.
+  * @param  PortNum The current port number
+  * @retval None
+  */
+static uint32_t USBPD_DPM_ErrorRecovery (uint8_t PortNum)
+{
+  HAL_StatusTypeDef res = HAL_ERROR;
+  res = USBPD_HW_IF_ErrorRecovery(PortNum);
   return res;
 }
 
@@ -469,7 +507,7 @@ static void USBPD_DPM_SetupNewPower(uint8_t PortNum)
   * @brief  Turn Off power supply.
   * @param  PortNum The current port number
   * @retval None
-*/
+  */
 static void USBPD_DPM_TurnOffPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef Role)
 {
   USBPD_PWR_IF_Enable(PortNum, DISABLE, Role);
@@ -483,7 +521,7 @@ static void USBPD_DPM_TurnOffPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef 
   * @brief  Turn On power supply.
   * @param  PortNum The current port number
   * @retval None
-*/
+  */
 static void USBPD_DPM_TurnOnPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef Role)
 {
   /* Enable the output */
@@ -499,7 +537,7 @@ static void USBPD_DPM_TurnOnPower(uint8_t PortNum, USBPD_PortPowerRole_TypeDef R
   * @brief  Callback function called by PE to inform DPM that an Explicit contract is established.
   * @param  PortNum The current port number
   * @retval None
-*/
+  */
 static void USBPD_DPM_ExplicitContractDone(uint8_t PortNum)
 {
   /* Turn On VBUS LED when an explicit contract is established */
@@ -574,7 +612,7 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
       {
         *(uint32_t*)(Ptr + index) = DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index];
       }
-      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO;
+      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSNKPDO;
       break;
 
     /* Case Requested voltage value Data information */
@@ -741,6 +779,7 @@ static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum)
   /* Set RDO position and requested voltage in DPM port structure */
   pdhandle->DPM_RequestedVoltage = ((pdo >> 10) & 0x3ff) * 50;
   pdhandle->DPM_RDOPosition = rdoobjposition;
+  STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, DPM_Ports[PortNum].DPM_RequestedVoltage, 10, 10);
 
   /* Accept the requested power */
   USBPD_UsrLog("USBPD_DPM_EvaluateRequest: Sink requested %d mV %d mA for operating current from %d to %d mA\r",
@@ -752,13 +791,13 @@ static USBPD_StatusTypeDef USBPD_DPM_EvaluateRequest(uint8_t PortNum)
 }
 
 /**
-  * @brief  Update the status of the capability  
+  * @brief  Capability status update
   * @param  PortNum Port number
-  * @retval USBPD status
+  * @param  CurrentRole the current role
+  * @param  Status status on capability event
   */
 static void USBPD_DPM_Capability(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_CAP_Status_TypeDef Status)
 {
-//    DPM_Ports[PortNum].DPM_RDOPosition = (DPM_Ports[PortNum].DPM_RequestDOMsg>>28);
   switch(Status)
   {
   case USBPD_CAP_STATUS_REQUESTING:
@@ -824,7 +863,7 @@ static USBPD_StatusTypeDef USBPD_DPM_EvaluateCapabilities(uint8_t PortNum)
     pdhandle->DPM_RequestedVoltage = 5000;
     pdhandle->DPM_SNKRDOPosition = 1;
     STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, DPM_Ports[PortNum].DPM_RequestedVoltage, 10, 10);
-    
+
     return USBPD_ERROR;
   }
   
@@ -914,7 +953,7 @@ USBPD_StatusTypeDef USBPD_DPM_RequestNewPowerProfile(uint8_t PortNum, uint8_t PD
     pdo = 0xFF;
     if (PDOIndex <= pdhandle->DPM_NumberOfRcvSRCPDO)
     {
-     pdo = pdhandle->DPM_ListOfRcvSRCPDO[PDOIndex - 1];
+      pdo = pdhandle->DPM_ListOfRcvSRCPDO[PDOIndex - 1];
     }
     
     mv = ((pdo >> 10) & 0x3FF) * 50; /* mV */
@@ -961,6 +1000,7 @@ USBPD_StatusTypeDef USBPD_DPM_RequestNewPowerProfile(uint8_t PortNum, uint8_t PD
     /* Get the requested voltage */
     pdhandle->DPM_RequestedVoltage = mv;
     pdhandle->DPM_SNKRDOPosition = PDOIndex;
+    STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, DPM_Ports[PortNum].DPM_RequestedVoltage, 10, 10);
     ret = USBPD_PE_RequestNewPowerProfile(PortNum, PDOIndex);
   }
   else

@@ -77,7 +77,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.60.1.11206</state>
+          <state>7.80.4.12487</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -186,7 +186,6 @@
         <option>
           <name>CCDefines</name>
           <state>MB1303</state>
-          <state>STUSB1602_CUT_1_2</state>
           <state>__PE_DUALPORT</state>
           <state>USE_HAL_DRIVER</state>
           <state>USE_FULL_LL_DRIVER</state>
@@ -328,7 +327,7 @@
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM0</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\include</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\Inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Utilities\LED_SERVER</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Utilities\CLI_USER</state>
@@ -590,7 +589,9 @@
         </option>
         <option>
           <name>AUserIncludes</name>
+          <state></state>
           <state>$PROJ_DIR$\..\Inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\include</state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -624,7 +625,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>PNUCLEO-USB002-DEMO1.bin</state>
+          <state>MB1303_Demo_DRP_CLI.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -662,7 +663,7 @@
       <name>ILINK</name>
       <archiveVersion>0</archiveVersion>
       <data>
-        <version>17</version>
+        <version>18</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -934,7 +935,7 @@
         </option>
         <option>
           <name>CrcAlgorithm</name>
-          <version>0</version>
+          <version>1</version>
           <state>1</state>
         </option>
         <option>
@@ -949,6 +950,10 @@
         <option>
           <name>IlinkLogCallGraph</name>
           <state>0</state>
+        </option>
+        <option>
+          <name>IlinkIcfFile_AltDefault</name>
+          <state></state>
         </option>
       </data>
     </settings>
@@ -1117,11 +1122,29 @@
       <name>ST</name>
       <group>
         <name>STM32_USBPD_Library</name>
+        <group>
+          <name>Devices</name>
+          <group>
+            <name>STUSB1602</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_hw_if_it.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_phy_hw_if.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_pwr_hw_if.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_stusb16xx_hw_if.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_timersserver.c</name>
+            </file>
+          </group>
+        </group>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\lib\USBPD_CORE1602_CM0_NOVDM_2PORTS_IAR.a</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\lib\USBPD_DEVICE_STUSB1602_2PORTS_IAR.a</name>
         </file>
       </group>
     </group>

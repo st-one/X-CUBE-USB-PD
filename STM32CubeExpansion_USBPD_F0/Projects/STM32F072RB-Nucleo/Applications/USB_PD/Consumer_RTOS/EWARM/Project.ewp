@@ -188,6 +188,7 @@
           <state>STM32F072xB</state>
           <state>USE_HAL_DRIVER</state>
           <state>USE_STM32F0XX_NUCLEO</state>
+          <state>__PE_DUALPORT</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -324,8 +325,8 @@
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM0</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\include</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\Inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\devices\STM32F072\inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Utilities\LED_SERVER</state>
         </option>
         <option>
@@ -1092,11 +1093,29 @@
       <name>ST</name>
       <group>
         <name>STM32_USBPD_Library</name>
+        <group>
+          <name>Devices</name>
+          <group>
+            <name>STM32F072</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_cad_hw_if.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_hw_if_it.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_phy_hw_if.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_pwr_hw_if.c</name>
+            </file>
+        <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_timersserver.c</name>
+        </file>
+          </group>
+        </group>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\lib\USBPD_CORE_CM0_NOVDM_1PORT_IAR.a</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\lib\USBPD_DEVICE_STM32072_1PORT_IAR.a</name>
         </file>
       </group>
     </group>

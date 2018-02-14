@@ -2,13 +2,11 @@
   ******************************************************************************
   * @file    usbpd_pwr_if.c
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains power interface control functions.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
+  * <h2><center>Copyright (c) 2017 STMicroelectronics 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -275,7 +273,13 @@ USBPD_StatusTypeDef USBPD_PWR_IF_Init(void)
 
 #endif
 #if PORT0_NB_SINKPDO >= 2
-#error "Missing Sink PDOs definition for Port 0"
+  PORT0_PDO_ListSNK[1] = _PWR_SNKFixedPDO(USBPD_BOARD_MAX_CURRENT_MA/1000.0,
+                                          USBPD_BOARD_REQUESTED_VOLTAGE_1500MV/1000.0,
+                                          USBPD_CORE_PDO_DRD_NOT_SUPPORTED,
+                                          USBPD_CORE_PDO_USBCOMM_NOT_CAPABLE,
+                                          USBPD_CORE_PDO_EXT_POWERED,
+                                          USBPD_CORE_PDO_NO_HIGHER_CAPABILITY,
+                                          USBPD_CORE_PDO_DRP_NOT_SUPPORTED);
 #endif
   
   /* Set links to PDO values and number for Port 0 in PWR_IF array.
@@ -439,7 +443,7 @@ USBPD_StatusTypeDef USBPD_PWR_IF_SetProfile(uint8_t PortNum, uint8_t profile)
   }
 
   /* Check if profile nb is valid for this port */
-  if (profile < PWR_Port_PDO_Storage[PortNum].SinkPDO.NumberOfPDO)
+  if (profile >= PWR_Port_PDO_Storage[PortNum].SinkPDO.NumberOfPDO)
   {
     return USBPD_ERROR;
   }
@@ -776,6 +780,7 @@ void USBPD_PWR_IF_GetPortPDOs(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef D
     *Size = nbpdo;
   }
 }
+
 /**
   * @brief  Find out SRC PDO pointed out by a position provided in a Request DO (from Sink).
   * @param  PortNum Port number

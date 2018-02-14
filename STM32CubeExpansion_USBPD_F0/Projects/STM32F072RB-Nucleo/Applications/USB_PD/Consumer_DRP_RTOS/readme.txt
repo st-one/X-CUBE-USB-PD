@@ -5,8 +5,6 @@
   ******************** (C) COPYRIGHT 2016 STMicroelectronics *******************
   * @file    Consumer_DRP_RTOS/readme.txt 
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    17-Jan-2017
   * @brief   Description of the USB-C Power Delivery Consumer_DRP_RTOS application.
   ******************************************************************************
   *
@@ -156,7 +154,7 @@ options is provided in application directory in STMicroelectronics_Consumer_DRP_
     To test this application, the Consumer_RTOS application can be used as a 
     Consumer (Sink) or Provider_RTOS application can be used as a Provider (Source),
     on a 2nd board.
-    
+
   - STM32F072RB-Nucleo RevC Set-up
     - Note that some PCB rework is needed to use the P-NUCLEO-USB001 shield
       - SB48, SB49, SB62 and SB63 must be closed

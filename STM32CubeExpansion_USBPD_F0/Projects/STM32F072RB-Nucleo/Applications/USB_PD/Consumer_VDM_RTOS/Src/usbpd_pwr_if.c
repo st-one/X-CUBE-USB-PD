@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_pwr_if.c
   * @author  System Lab
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   This file contains power interface control functions.
   ******************************************************************************
   * @attention
@@ -233,8 +231,9 @@ USBPD_StatusTypeDef USBPD_PWR_IF_SetProfile(uint8_t PortNum, uint8_t profile)
 */
 USBPD_StatusTypeDef USBPD_PWR_IF_PowerResetGlobal(void)
 { 
+  int i;
   /* Resets all the ports */
-  for(int i = 0; i < USBPD_PORT_COUNT; i++)
+  for(i = 0; i < USBPD_PORT_COUNT; i++)
   {
     USBPD_PWR_IF_PowerReset(i);
   }

@@ -2,13 +2,11 @@
   ******************************************************************************
   * @file    usbpd_pwr_if.c
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains power interface control functions.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
+  * <h2><center>Copyright (c) 2017 STMicroelectronics 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 

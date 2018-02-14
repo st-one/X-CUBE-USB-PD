@@ -2,13 +2,11 @@
   ******************************************************************************
   * @file    usbpd_pwr_if.c
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains power interface control functions.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
+  * <h2><center>Copyright (c) 2017 STMicroelectronics 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -207,7 +205,7 @@ USBPD_StatusTypeDef USBPD_PWR_IF_Init(void)
                                           USBPD_CORE_PDO_DRP_SUPPORTED);
 #endif
 #if PORT0_NB_SOURCEPDO >= 2
-  PORT0_PDO_ListSRC[1] = _PWR_SRCFixedPDO(2.0, 9.0,
+  PORT0_PDO_ListSRC[1] = _PWR_SRCFixedPDO(2.0, 12.0,
                                           USBPD_CORE_PDO_PEAKEQUAL,
                                           USBPD_CORE_PDO_DRD_NOT_SUPPORTED,
                                           USBPD_CORE_PDO_USBCOMM_NOT_CAPABLE,
@@ -217,7 +215,7 @@ USBPD_StatusTypeDef USBPD_PWR_IF_Init(void)
                                           & PDO_SRC_RESERVED_MASK;
 #endif
 #if PORT0_NB_SOURCEPDO >= 3
-  PORT0_PDO_ListSRC[2] = _PWR_SRCFixedPDO(2.0, 12.0,
+  PORT0_PDO_ListSRC[2] = _PWR_SRCFixedPDO(2.0, 15.0,
                                           USBPD_CORE_PDO_PEAKEQUAL,
                                           USBPD_CORE_PDO_DRD_NOT_SUPPORTED,
                                           USBPD_CORE_PDO_USBCOMM_NOT_CAPABLE,

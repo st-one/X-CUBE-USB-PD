@@ -1,3 +1,0 @@
-based on zip file:
-STM32CubeExpansion_USBPD_F0_V1.3.0
-

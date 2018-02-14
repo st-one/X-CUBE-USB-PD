@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -93,6 +91,7 @@ USBPD_PE_Callbacks dpmCallbacks =
 {
   USBPD_DPM_SetupNewPower,
   USBPD_DPM_HardReset,
+  NULL,
   NULL,
   NULL,
   NULL,
@@ -275,7 +274,7 @@ void USBPD_CAD_Callback(uint8_t PortNum, USBPD_CAD_STATE State, CCxPin_TypeDef C
   * @param  CurrentRole the current role
   * @param  Status status on hard reset event
   * @retval 0 if continue 1 otherwise
-*/
+  */
 static uint32_t USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
 {
   uint32_t ret = 1;
@@ -337,7 +336,7 @@ static void USBPD_DPM_SetupNewPower(uint8_t PortNum)
   if (DPM_Ports[PortNum].DPM_IsConnected)
   {
     sprintf(buffer, "\r\n*** Explicit Contract Done: Port %d Role %s @%d.%.2dV\r\n>", PortNum, source ? "Provider" : "Consumer",
-	        (uint16_t)voltage, ((uint16_t)((uint16_t)(voltage*100)%100)));
+    (uint16_t)voltage, ((uint16_t)((uint16_t)(voltage*100)%100)));
     CLI_Async_Notify(buffer);
   }
 #endif /* USBPD_CLI */ 
@@ -403,7 +402,7 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
       {
         *(uint32_t*)(Ptr + index) = DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index];
       }
-      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO;
+      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSNKPDO;
       break;
 
     /* Case Requested voltage value Data information */
@@ -738,7 +737,6 @@ USBPD_StatusTypeDef USBPD_DPM_RequestNewPowerProfile(uint8_t PortNum, uint8_t PD
   }
   return USBPD_OK;
 }
-
 
 /**
   * @brief  Request the PE to perform a Power Role Swap.

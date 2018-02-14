@@ -3,10 +3,8 @@
 
   @verbatim
   ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
-  * @file    MB1303_Demo/readme.txt 
+  * @file    MB1303_Demo_DRP_CLI/readme.txt 
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   Description of the USB-C Power Delivery Demo application ( DUAL_PORT / DRP / CLI ).
   ******************************************************************************
   *
@@ -108,18 +106,18 @@ On the expansion board:
 
 @par Directory contents
 
-  - MB1303_Demo/Src/main.c                  Main program
-  - MB1303_Demo/Src/stm32f0xx_hal_msp.c     STM32F0xx hal msp
-  - MB1303_Demo/Src/stm32f0xx_it.c          Interrupt handlers
-  - MB1303_Demo/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - MB1303_Demo/Src/usbpd_dpm.c             DPM layer implementation
-  - MB1303_Demo/Src/usbpd_pwr_if.c          General power interface configuration
-  - MB1303_Demo/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
-  - MB1303_Demo/Inc/main.h                  Main program header file
-  - MB1303_Demo/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - MB1303_Demo/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - MB1303_Demo/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - MB1303_Demo/Inc/usbpd_dpm.h             DPM Layer header file
+  - MB1303_Demo_DRP_CLI/Src/main.c                  Main program
+  - MB1303_Demo_DRP_CLI/Src/stm32f0xx_hal_msp.c     STM32F0xx hal msp
+  - MB1303_Demo_DRP_CLI/Src/stm32f0xx_it.c          Interrupt handlers
+  - MB1303_Demo_DRP_CLI/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
+  - MB1303_Demo_DRP_CLI/Src/usbpd_dpm.c             DPM layer implementation
+  - MB1303_Demo_DRP_CLI/Src/usbpd_pwr_if.c          General power interface configuration
+  - MB1303_Demo_DRP_CLI/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
+  - MB1303_Demo_DRP_CLI/Inc/main.h                  Main program header file
+  - MB1303_Demo_DRP_CLI/Inc/stm32f0xx_hal_conf.h    HAL configuration file
+  - MB1303_Demo_DRP_CLI/Inc/stm32f0xx_it.h          Interrupt handlers header file
+  - MB1303_Demo_DRP_CLI/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
+  - MB1303_Demo_DRP_CLI/Inc/usbpd_dpm.h             DPM Layer header file
  
 
 @par Hardware and Software environment

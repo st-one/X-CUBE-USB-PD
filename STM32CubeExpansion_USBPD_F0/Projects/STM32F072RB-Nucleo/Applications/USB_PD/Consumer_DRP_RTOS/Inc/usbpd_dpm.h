@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_dpm.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   Header file for usbpd_dpm.c file
   ******************************************************************************
   * @attention
@@ -93,12 +91,6 @@ typedef struct
 /* Exported variables --------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
 USBPD_StatusTypeDef USBPD_DPM_Init(void);
-USBPD_StatusTypeDef USBPD_DPM_RequestNewPowerProfile(uint8_t PortNum, uint8_t PDOIndex);
-void USBPD_DPM_RequestPowerRoleSwap(uint8_t PortNum);
-
-#ifdef USBPD_CLI
-USBPD_StatusTypeDef DPM_CLI_GetStatusInfo(uint8_t PortNum, uint8_t *pProfile, float *pVoltage, uint32_t *pCurrentPDO);
-#endif /* USBPD_CLI */
 
 
 #ifdef __cplusplus

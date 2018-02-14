@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_dpm.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   USBPD provider demo file
   ******************************************************************************
   * @attention
@@ -94,6 +92,7 @@ USBPD_PE_Callbacks dpmCallbacks =
 {
   USBPD_DPM_SetupNewPower,
   USBPD_DPM_HardReset,
+  NULL,
   NULL,
   NULL,
   NULL,
@@ -371,7 +370,7 @@ static void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeD
       {
         *(uint32_t*)(Ptr + index) = DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index];
       }
-      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO;
+      *Size = DPM_Ports[PortNum].DPM_NumberOfRcvSNKPDO;
       break;
 
     /* Case Requested voltage value Data information */
@@ -815,25 +814,6 @@ USBPD_StatusTypeDef DPM_SetSNKRequiredPower(uint8_t PortNum, uint32_t Current, u
   */
 static void USBPD_VDM_Notif(void)
 {
-  if (VDM_Mode_On == 1)
-  {
-    USBPD_BSP_LED_Toggle(ULED0);
-    USBPD_BSP_LED_Toggle(ULED1);
-    USBPD_BSP_LED_Toggle(ULED2);
-    USBPD_BSP_LED_Toggle(ULED3);
-    USBPD_BSP_LED_Toggle(ULED4);
-    USBPD_BSP_LED_Toggle(ULED5);
-  }
-  else if (VDM_Mode_On == 2)
-  {    
-    USBPD_BSP_LED_On(ULED0);
-    USBPD_BSP_LED_On(ULED1);
-    USBPD_BSP_LED_On(ULED2);
-    USBPD_BSP_LED_On(ULED3);
-    USBPD_BSP_LED_On(ULED4);
-    USBPD_BSP_LED_On(ULED5);
-    VDM_Mode_On = 0;
-  }
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

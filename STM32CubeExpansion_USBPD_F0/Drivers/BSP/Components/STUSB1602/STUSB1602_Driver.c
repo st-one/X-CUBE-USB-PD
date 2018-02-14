@@ -2,8 +2,6 @@
   **************************************************************************************************
   * @file    STUSB1602_Driver.c
   * @author  System Lab - Sensing & Connectivity Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file provides a set of functions needed to manage the STUSB1602 Driver.
   **************************************************************************************************
   * @attention
@@ -29,7 +27,7 @@
 /**
  * @addtogroup STUSB16xx_Device
  * @{
- * */
+ */
 
 /* Includes ------------------------------------------------------------------*/
 #include "STUSB1602_Driver_Conf.h"
@@ -40,35 +38,12 @@
 /* Private define ------------------------------------------------------------*/
 #define TIMEOUT_MAX             2000 /*<! The value of the maximal timeout for BUS waiting loops */
 
-#define _DEBUG_SKIP_PORT_1       0
-#define _DEBUG_ACK_ENABLE        1       /* '1' means that the check of ack follows the i2c command */
-#define _DEBUG_ACK_LOCK_ON_TO    0       /* '1' means that the firmware stopts if a timeount accours*/
-#define _DEBUG_ACK_LOCK_ON_WA    0       /* '1' means that the firmware stopts if a wrong acknowledge is detected */
-
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef STUSB16xx_I2CxHandle;
 
 /* Mapping table command to ack */
 PD_TypeC_Handshake_TypeDef C_CTRL_Ack_Map[] = {
-#ifdef STUSB1602_CUT_1_0 
-  TypeC_NoAck,                         // NO_REQ                              = 0,  /*!< DEFAULT */
-  PD_Hard_Reset_Turn_Off_Vconn_Ack,    // PD_HARD_RESET_TURN_OFF_VCONN_REQ    = 1,
-  PD_Hard_Reset_Port_Change_2_DFP_Ack, // PD_HARD_RESET_PORT_CHANGE_2_DFP_REQ = 2,
-  PD_Hard_Reset_Port_Change_2_UFP_Ack, // PD_HARD_RESET_PORT_CHANGE_2_UFP_REQ = 3,
-  PD_Hard_Reset_Complete_Ack,          // PD_HARD_RESET_COMPLETE_REQ          = 4,
-  PD_PR_Swap_Snk_Vbus_Off_Ack,         // PD_PR_SWAP_SNK_VBUS_OFF_REQ         = 5,
-  PD_PR_Swap_Src_Vbus_Off_Ack,         // PD_PR_SWAP_SRC_VBUS_OFF_REQ         = 6,
-  PD_PR_SWAP_Rp_Assert_Ack,            // PD_PR_SWAP_RP_ASSERT_REQ            = 7,
-  PD_PR_SWAP_Rd_Assert_Ack,            // PD_PR_SWAP_RD_ASSERT_REQ            = 8,
-  PD_DR_SWAP_Port_Change_2_DFP_Ack,    // PD_DR_SWAP_PORT_CHANGE_2_DFP_REQ    = 9,
-  PD_DR_SWAP_Port_Change_2_UFP_Ack,    // PD_DR_SWAP_PORT_CHANGE_2_UFP_REQ    = 10,
-  PD_VCONN_SWAP_Turn_On_VCONN_Ack,     // PD_VCONN_SWAP_TURN_ON_VCONN_REQ     = 11,
-  PD_VCONN_SWAP_Turn_Off_VCONN_Ack,    // PD_VCONN_SWAP_TURN_OFF_VCONN_REQ    = 12,
-  PD_VCONN_Powered_Not_Supported_Ack,  // PD_VCONN_POWERED_NOT_SUPPORTED_REQ   = 13,
-  PD_Hard_Reset_Received_Ack,          // PD_HARD_RESET_RECEIVED_REQ           = 14,
-  PD_Hard_Reset_Send_Ack,              // PD_HARD_RESET_SEND_REQ               = 15  
-#else
   TypeC_NoAck,                         // NO_REQ                              = 0,  /*!< DEFAULT */
   PD_Hard_Reset_Complete_Ack,          // PD_HARD_RESET_COMPLETE_REQ          = 1,
   PD_Hard_Reset_Turn_Off_Vconn_Ack,    // PD_HARD_RESET_TURN_OFF_VCONN_REQ    = 2,
@@ -82,14 +57,9 @@ PD_TypeC_Handshake_TypeDef C_CTRL_Ack_Map[] = {
   PD_DR_SWAP_Port_Change_2_UFP_Ack,    // PD_DR_SWAP_PORT_CHANGE_2_UFP_REQ    = 10,
   PD_VCONN_SWAP_Turn_On_VCONN_Ack,     // PD_VCONN_SWAP_TURN_ON_VCONN_REQ     = 11,
   PD_VCONN_SWAP_Turn_Off_VCONN_Ack,    // PD_VCONN_SWAP_TURN_OFF_VCONN_REQ    = 12,
-#ifdef STUSB1602_CUT_1_3
-  PD_PR_Swap_Ps_Rdy_Ack,               // PD_PR_SWAP_PS_RDY_REQ                = 13,
-#else  
-  PD_VCONN_Powered_Not_Supported_Ack,  // PD_VCONN_POWERED_NOT_SUPPORTED_REQ   = 13,
-#endif
-  PD_Hard_Reset_Received_Ack,          // PD_HARD_RESET_RECEIVED_REQ           = 14,
-  PD_Hard_Reset_Send_Ack,              // PD_HARD_RESET_SEND_REQ               = 15  
-#endif /* STUSB1602_CUT_1_0 */ 
+  PD_PR_Swap_Ps_Rdy_Ack,               // PD_PR_SWAP_PS_RDY_REQ               = 13,
+  PD_Hard_Reset_Received_Ack,          // PD_HARD_RESET_RECEIVED_REQ          = 14,
+  PD_Hard_Reset_Send_Ack,              // PD_HARD_RESET_SEND_REQ              = 15  
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -127,13 +97,7 @@ STUSB1602_StatusTypeDef STUSB1602_ReadReg(uint8_t* pBuffer, uint8_t Addr, uint8_
       return STUSB1602_OK;
     }
 #endif
-    
-#ifdef STUSB1602_CUT_1_1 
-    status = (STUSB1602_StatusTypeDef) HAL_I2C_Master_Transmit(&STUSB16xx_I2CxHandle,(Addr<<1), &Reg, 1 ,TIMEOUT_MAX);
-    status = (STUSB1602_StatusTypeDef) HAL_I2C_Master_Receive(&STUSB16xx_I2CxHandle,(Addr<<1), pBuffer, Size ,TIMEOUT_MAX);
-#else           /* not STUSB1602_CUT_1_1 */
     status = (STUSB1602_StatusTypeDef) HAL_I2C_Mem_Read(&STUSB16xx_I2CxHandle, (Addr<<1), (uint16_t)Reg, I2C_MEMADD_SIZE_8BIT, pBuffer, Size, TIMEOUT_MAX);
-#endif          /* STUSB1602_CUT_1_1 */
     return status;
   }
   
@@ -928,7 +892,6 @@ VCONN_SW_OVP_Fault_CC2_TypeDef STUSB1602_VCONN_SW_OVP_Fault_CC2_Get(uint8_t addr
 }
 
 
-#ifdef STUSB1602_CUT_1_3
 /************************************************************************************************************
   * @brief  STUSB1602 Checks the PHY status REG (0x17 -- RC)
   * @param  
@@ -948,7 +911,7 @@ Bus_Idle_TypeDef STUSB1602_Bus_Idle_Status_Get(uint8_t addr)
     
     return (Bus_Idle_TypeDef)(reg.b.BUS_IDLE);
 }
-#endif
+
 
 
 
@@ -1283,44 +1246,6 @@ STUSB1602_StatusTypeDef STUSB1602_Type_C_Control_Set(uint8_t addr, Type_C_CTRL_T
              
     return status;
 }
-
-#ifdef STUSB1602_CUT_1_0 
-
-  /**
-    * @brief STUSB1602 checks the Power_Mode (bit3-1 0x1F -- R/W)
-    * @param addr: address of the used port
-    * @retval Power_Mode_TypeDef
-    */   
-  Power_Mode_TypeDef STUSB1602_Power_Mode_Get(uint8_t addr)
-  {
-      STUSB1602_CC_MODE_CTRL_RegTypeDef reg;
-          
-      STUSB1602_ReadReg(&reg.d8, addr, STUSB1602_CC_MODE_CTRL_REG, 1); 
-      
-      return (Power_Mode_TypeDef)(reg.b.POWER_MODE);
-  }
-
-
-  /**
-    * @brief STUSB1602 sets the Power_Mode (bit3-1 0x1F -- R/W)
-    * @param addr: address of the used port
-    * @param pwr: power mode to be set
-    * @retval STUSB1602_StatusTypeDef
-    */   
-  STUSB1602_StatusTypeDef STUSB1602_Power_Mode_Set(uint8_t addr, Power_Mode_TypeDef pwr)
-  {
-      STUSB1602_StatusTypeDef status = STUSB1602_OK;
-      
-      STUSB1602_CC_MODE_CTRL_RegTypeDef reg; 
-      STUSB1602_ReadReg(&reg.d8, addr, STUSB1602_CC_MODE_CTRL_REG, 1); 
-    
-      reg.b.POWER_MODE = pwr;
-      status = STUSB1602_WriteReg(&reg.d8, addr, STUSB1602_CC_MODE_CTRL_REG, 1);
-               
-      return status;
-  }
-  
-#endif          /* only for STUSB1602_CUT_1_0 */
 
 /************************************************************************************************************
   * @brief  STUSB1602 Checks VCONN_MONITORING_CTRL REG (0x20 -- R/W)
@@ -1801,7 +1726,7 @@ VBUS_SRC_State_TypeDef STUSB1602_VBUS_SRC_State_Get(uint8_t addr)
 }
 
 
-#ifndef STUSB1602_CUT_1_0 
+
 
 /************************************************************************************************************
   * @brief  STUSB1602 Checks the POWER_MODE REG (0x28 -- R/W)
@@ -1843,7 +1768,6 @@ STUSB1602_StatusTypeDef STUSB1602_Power_Mode_Set(uint8_t addr, Power_Mode_TypeDe
     return status;
 }
 
-#endif          /* not STUSB1602_CUT_1_0 */
 
 /************************************************************************************************************
   * @brief  STUSB1602 Checks VBUS_MONITORING_CTRL REG (0x2E -- R/W)
@@ -1865,6 +1789,23 @@ VDD_OVLO_Threshold_TypeDef STUSB1602_VDD_OVLO_Threshold_Get(uint8_t addr)
    return (VDD_OVLO_Threshold_TypeDef)(reg.b.VDD_OVLO_DISABLE);   
 }
 
+NVM_OK_TypeDef STUSB1602_NVM_OK_Get(uint8_t addr)
+{
+   STUSB1602_DEVICE_CUT_RegTypeDef reg;
+        
+    STUSB1602_ReadReg(&reg.d8, addr, STUSB1602_DEVICE_CUT_REG, 1);
+      
+    return (NVM_OK_TypeDef)(reg.b.Reserved_0_2);
+}
+
+DEVICE_CUT_TypeDef STUSB1602_DEVICE_CUT_Get(uint8_t addr)
+{
+   STUSB1602_DEVICE_CUT_RegTypeDef reg;
+        
+    STUSB1602_ReadReg(&reg.d8, addr, STUSB1602_DEVICE_CUT_REG, 1);
+      
+    return (DEVICE_CUT_TypeDef)(reg.b.DEVICE_CUT);
+}
 
 /**
   * @brief STUSB1602 checks the VBUS_RANGE_DISABLE State (EN or DIS) (bit4 0x2E -- R/W)
@@ -2012,7 +1953,6 @@ STUSB1602_StatusTypeDef STUSB1602_Type_C_Command(uint8_t addr, Type_C_CTRL_TypeD
     {
       while (--timeout)
       {
-        HAL_Delay(1);
         value = STUSB1602_Monitoring_Status_Trans_Reg_Get(addr);
 #if _DEBUG_ACK_LOCK_ON_WA        /* Defined on top of this file */
         if (value.b.PD_TYPEC_HAND_SHAKE != 0 && value.b.PD_TYPEC_HAND_SHAKE != ackValue)

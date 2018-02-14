@@ -1,13 +1,11 @@
 /**
-  @page USB-C Power Delivery Demonstration Image for STUSB1602 (P-NUCLEO-USB002 kit)
+  @page USB-C Power Delivery Demonstrations Images for P-NUCLEO-USB002/ P-NUCLEO-USB001 kits
 
   @verbatim
   ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
   * @file    Demonstrations/readme.txt 
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
-  * @brief   Description of the USB-C Power Delivery Demonstration ( DUAL_PORT / DRP / CLI ).
+  * @brief   Description of the USB-C Power Delivery Demonstrations.
   ******************************************************************************
   *
   * Copyright (c) 2017 STMicroelectronics International N.V. All rights reserved.

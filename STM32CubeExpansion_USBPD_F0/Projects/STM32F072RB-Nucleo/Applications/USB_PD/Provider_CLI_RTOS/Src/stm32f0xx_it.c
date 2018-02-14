@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    stm32f0xx_it.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    24-Apr-2017
   * @brief   Main Interrupt Service Routines.
   *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
@@ -42,10 +40,10 @@
 #include "stm32f0xx_it.h"
 #include "usbpd_cad.h"
 #include "usbpd_prl.h"
-/** @addtogroup STM32F0xx_HAL_Examples
+
+/** @addtogroup STM32F072xx_USBPD_applications
   * @{
   */
-
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

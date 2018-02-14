@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_def.h
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   Global defines for USB-PD libarary
   ******************************************************************************
   * @attention
@@ -82,8 +80,8 @@
  
  /* Macros for integer division with various rounding variants default integer 
     division rounds down. */
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MIN(a, b)  (((a) < (b)) ? (a) : (b))
+#define MAX(a, b)  (((a) > (b)) ? (a) : (b))
 
 #define OTHER_CC(__CC__)                ( ((CCxPin_TypeDef)(__CC__))==CC1 ? CC2 : ( (((CCxPin_TypeDef)(__CC__))==CC2) ? CC1 : CCNONE ) ) 
 
@@ -102,6 +100,9 @@
                                               (((uint32_t)(*(((uint8_t *)(addr)) + 1))) << 8) + \
                                               (((uint32_t)(*(((uint8_t *)(addr)) + 2))) << 16) + \
                                               (((uint32_t)(*(((uint8_t *)(addr)) + 3))) << 24)))
+
+#define USBPD_TRUE  1
+#define USBPD_FALSE 0
 
 /* USB PD DEBUG macros */
 #if (USBPD_DEBUG_LEVEL > 0)
@@ -919,6 +920,59 @@ typedef enum {
   USBPD_CORE_PDO_NO_HIGHER_CAPABILITY  = 0x00,      /*!< No need for more than vSafe5V to provide full functionality */
   USBPD_CORE_PDO_HIGHER_CAPABILITY     = 0x01,      /*!< Sink needs more than vSafe5V to provide full functionality  */
 } USBPD_CORE_PDO_HigherCapability_TypeDef; 
+/**
+  * @}
+  */
+
+/** @defgroup USBPD_NotifyEvent_TypeDef USBPD notification event type
+  * @brief notification envent used inside PE callbacks (USBPD_PE_NotifyDPM) to inform DPM
+  * @{
+  */
+typedef enum {
+  USBPD_NOTIFY_POWER,
+  USBPD_NOTIFY_RESITOR,
+  USBPD_NOTIFY_SVDM,
+  USBPD_NOTIFY_HARDRESET,
+  USBPD_NOTIFY_STATE,
+  
+  USBPD_NOTIFY_REQUEST_ANSWER,
+  USBPD_NOTIFY_GETSNKCAP_ANSWER,
+  USBPD_NOTIFY_GETSRCCAP_ANSWER,
+} USBPD_NotifyEvent_TypeDef; 
+/**
+  * @}
+  */
+
+
+/** @defgroup USBPD_NotifyEventValue_TypeDef USBPD notification event type value
+  * @brief notification envent used inside PE callbacks (USBPD_PE_NotifyDPM) to inform DPM
+  * @{
+  */
+typedef enum {
+
+  USBPD_NOTIFY_ANSWER_ACCEPT     = USBPD_CONTROLMSG_ACCEPT,
+  USBPD_NOTIFY_ANSWER_WAIT       = USBPD_CONTROLMSG_WAIT,
+  USBPD_NOTIFY_ANSWER_GOTOMIN    = USBPD_CONTROLMSG_GOTOMIN,
+  USBPD_NOTIFY_ANSWER_REJECT     = USBPD_CONTROLMSG_REJECT,
+
+  USBPD_NOTIFY_POWER_EXPLICIT_CONTRACT,
+  USBPD_NOTIFY_POWER_SRC_READY,
+  USBPD_NOTIFY_POWER_SRC_DISABLED,
+  USBPD_NOTIFY_POWER_SNK_READY,
+  USBPD_NOTIFY_POWER_SNK_STOP,
+
+  USBPD_NOTIFY_RESISTOR_ASSERT_RP,
+  USBPD_NOTIFY_RESISTOR_ASSERT_RD,
+  
+  USBPD_NOTIFY_SVDM_ACK,
+  USBPD_NOTIFY_SVDM_NACK,
+  USBPD_NOTIFY_SVDM_BUSY,
+  USBPD_NOTIFY_SVDM_TIMEOUT,
+
+  USBPD_NOTIFY_HARDRESET_RX,
+  USBPD_NOTIFY_HARDRESET_TX,
+
+} USBPD_NotifyEventValue_TypeDef; 
 /**
   * @}
   */

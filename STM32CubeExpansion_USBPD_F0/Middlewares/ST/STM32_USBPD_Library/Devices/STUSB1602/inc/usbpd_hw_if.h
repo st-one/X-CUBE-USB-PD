@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_hw_if.h
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   This file contains the headers of usbpd_hw_if.h.
   ******************************************************************************
   * @attention
@@ -195,6 +193,7 @@ HAL_StatusTypeDef USBPD_HW_IF_PRS_End(uint8_t PortNum, USBPD_PortPowerRole_TypeD
 HAL_StatusTypeDef USBPD_HW_IF_HR_Start(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HRPRS_Mode_TypeDef Mode);
 HAL_StatusTypeDef USBPD_HW_IF_HR_CheckVbusVSafe0V(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole);
 HAL_StatusTypeDef USBPD_HW_IF_HR_End(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole);
+HAL_StatusTypeDef USBPD_HW_IF_ErrorRecovery(uint8_t PortNum); 
 
 void USBPD_HW_IF_GPIO_Set(USBPD_BSP_GPIOPins_TypeDef gpio, GPIO_PinState PinState);
 void USBPD_HW_IF_GPIO_On(USBPD_BSP_GPIOPins_TypeDef gpio);

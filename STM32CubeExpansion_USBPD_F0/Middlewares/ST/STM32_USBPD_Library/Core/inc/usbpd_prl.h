@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    usbpd_prl.h
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   Header file for Protocol Layer module.
   ******************************************************************************
   * @attention

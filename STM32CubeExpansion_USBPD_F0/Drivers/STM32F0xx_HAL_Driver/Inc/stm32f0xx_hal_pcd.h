@@ -177,6 +177,8 @@ typedef struct
   HAL_LockTypeDef         Lock;           /*!< PCD peripheral status              */
   __IO PCD_StateTypeDef   State;          /*!< PCD communication state            */
   uint32_t                Setup[12];      /*!< Setup packet buffer                */
+  uint32_t battery_charging_active;     /*!< Enable or disable Battery charging.                                  
+                                        This parameter can be set to ENABLE or DISABLE                      */
   void                    *pData;         /*!< Pointer to upper stack Handler     */    
   
 } PCD_HandleTypeDef;

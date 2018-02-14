@@ -2,15 +2,13 @@
   ******************************************************************************
   * @file    stm32f0xx_it.c
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   Main Interrupt Service Routines.
   *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -42,10 +40,10 @@
 #include "stm32f0xx_it.h"
 #include "usbpd_cad.h"
 #include "usbpd_prl.h"
-/** @addtogroup STM32F0xx_HAL_Examples
+
+/** @addtogroup STM32F072xx_USBPD_applications
   * @{
   */
-
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -91,21 +89,18 @@ void HardFault_Handler(void)
 void SysTick_Handler(void)
 {
   HAL_IncTick();
-#ifndef DBG_STUSB1602
+
   if (uxTaskGetNumberOfTasks() != 0)
   {
     osSystickHandler();
   }
 
-  //USBPD_CAD_TimerCounter(0);
   USBPD_PE_TimerCounter(0);
   USBPD_PRL_TimerCounter(0);
 #if (USBPD_PORT_COUNT == 2)
-  //USBPD_CAD_TimerCounter(1);
   USBPD_PE_TimerCounter(1);
   USBPD_PRL_TimerCounter(1);
 #endif //USBPD_PORT_COUNT == 2
-#endif //DBG_STUSB1602
 }
 
 /******************************************************************************/
@@ -159,7 +154,6 @@ void EXTI4_15_IRQHandler(void)
 
 }
 
-
 #if defined (MB1303) && (USBPD_PORT_COUNT == 2)
 
 /**
@@ -184,26 +178,6 @@ void DMA1_Channel4_5_6_7_IRQHandler(void)
 }
 
 /**
-  * @brief  This function handles TIM1 CC interrupt..
-  * @param  None
-  * @retval None
-  */
-//void TIM1_CC_IRQHandler(void)
-//{
-//  USBPD_RX_PORT1_Interrupt_IRQHandler();
-//}
-
-/**
-  * @brief  This function handles TIM3 interrupt.
-  * @param  None
-  * @retval None
-  */
-//void TIM3_IRQHandler(void)
-//{
-//  USBPD_RX_PORT0_Interrupt_IRQHandler();
-//}
-
-/**
   * @brief  This function handles TIM6 interrupt.
   * @param  None
   * @retval None
@@ -225,14 +199,16 @@ void TIM17_IRQHandler(void)
 }
 #endif
 
-///**
-//  * @brief  This function handles TIM2 interrupt.
-//  * @param  None
-//  * @retval None
-//  */
-//void TIM2_IRQHandler(void)
-//{
-//  USBPD_PE_PRL_TIMER_IRQHandler();
-//}
 
+#ifdef HAL_UART_MODULE_ENABLED
+/**
+  * @brief  This function handles USART1 exception.
+  * @param  None
+  * @retval None
+  */
+void BSP_USART_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(BSP_USART_GetHandle());
+}
+#endif /* HAL_UART_MODULE_ENABLED */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
