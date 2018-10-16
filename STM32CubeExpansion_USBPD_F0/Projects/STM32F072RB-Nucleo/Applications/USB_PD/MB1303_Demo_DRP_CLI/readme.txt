@@ -1,4 +1,4 @@
-﻿/**
+/**
   @page USB-C Power Delivery MB1303_Demo application for STUSB1602 (P-NUCLEO-USB002 kit)
 
   @verbatim
@@ -45,9 +45,9 @@
   @endverbatim
   
 @par Application Description
-This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) demo application
-based on the STM32F072+STUSB1602 devices.
+Use of the USB Power Delivery (USB-PD) Dual-Role Power (DRP) application running on STM32F072+STUSB1602 devices.
+Project configuration is based on USB Power Delivery Specification revision 2.0.
+In this configuration, both ports are enabled, with support of Command Line Interface.
 
 At startup:
  - Status LED (Blue LED D106) is on.
@@ -58,7 +58,7 @@ At startup:
 Because of the P-NUCLEO-USB002 acts the DRP role, the user can connect to port 0 or port 1 receptacle an application 
 which plays the consumer role as well as the provider role.
 When a consumer is connected:
- - Role LED will blink one time to show that the device swiched to Provider.
+ - Role LED will blink one time to show that the device swiches to Provider.
  - CC LED will blink once if connected on CC1, twice if connected on CC2.
  - The STM32 MCU behaves as a Provider (Source mode), it exchanges Power profiles with 
    the connected device and waits for Power Request message from the attached consumer.
@@ -67,7 +67,7 @@ When a consumer is connected:
    by a PS_RDY message.
    Once the Explicit Contract is achieved, VBUS LED is on to indicate that the Power Contract was established.
 When a provider is connected:
- - Role LED will blink twice to show that the device swiched to Consumer.
+ - Role LED will blink twice to show that the device swiches to Consumer.
  - CC LED will blink once if connected on CC1, twice if connected on CC2.
  - The STM32 MCU behaves as a Consumer (Sink mode),it waits for Power Capabilities message 
    from the attached provider. When a Source Capabilities message is received, the STM32 
@@ -86,12 +86,12 @@ The power role swap is also supported:
    DRP board will act automatically as a source.
  - When connected to an USB-C with DRP, the power role swap could be triggered by CLI command.
 
-The demo application can be managed with two different supply options according to the fact that the board is supplied by
+The DRP role can be managed with two different supply options according to the fact that the board is supplied by
 the on-board STM32F072RB-Nucleo RevC voltage regulator by mean of a USB Type-A to Mini-B cable plugged to the CN1 connector and then to a PC
 as well as it is supplied by mean of the VBUS delivered by the Provider attached or The P-NUCLEO-USB002 is connected to an external
 power board by the connector CN4.
 
-if the demo application is supplied by the on-board STM32F072RB-Nucleo RevC voltage regulator, by mean of a USB Type-A to Mini-B cable
+if the DRP is supplied by the on-board STM32F072RB-Nucleo RevC voltage regulator, by mean of a USB Type-A to Mini-B cable
 plugged to the CN1 connector and then to a PC:
   - On STM32F072RB-Nucleo RevC board, verify that the jumper JP1 is open, jumper JP5 (PWR) is closed on U5V 
   (fitting the pins 1-2), and jumper JP6 (IDD) is closed.
@@ -106,19 +106,22 @@ On the expansion board:
 
 @par Directory contents
 
-  - MB1303_Demo_DRP_CLI/Src/main.c                  Main program
-  - MB1303_Demo_DRP_CLI/Src/stm32f0xx_hal_msp.c     STM32F0xx hal msp
-  - MB1303_Demo_DRP_CLI/Src/stm32f0xx_it.c          Interrupt handlers
-  - MB1303_Demo_DRP_CLI/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - MB1303_Demo_DRP_CLI/Src/usbpd_dpm.c             DPM layer implementation
-  - MB1303_Demo_DRP_CLI/Src/usbpd_pwr_if.c          General power interface configuration
-  - MB1303_Demo_DRP_CLI/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
-  - MB1303_Demo_DRP_CLI/Inc/main.h                  Main program header file
-  - MB1303_Demo_DRP_CLI/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - MB1303_Demo_DRP_CLI/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - MB1303_Demo_DRP_CLI/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - MB1303_Demo_DRP_CLI/Inc/usbpd_dpm.h             DPM Layer header file
- 
+  - MB1303_Demo_DRP_CLI/Src/main.c                      Main program
+  - MB1303_Demo_DRP_CLI/Src/system_stm32f0xx.c          STM32F0xx system clock configuration file
+  - MB1303_Demo_DRP_CLI/Src/stm32f0xx_hal_msp.c         HAL MSP file
+  - MB1303_Demo_DRP_CLI/Src/stm32f0xx_it.c              Interrupt handlers
+  - MB1303_Demo_DRP_CLI/Src/usbpd_dpm_user.c            DPM layer implementation
+  - MB1303_Demo_DRP_CLI/Src/usbpd_pwr_if.c              General power interface configuration
+  - MB1303_Demo_DRP_CLI/Inc/main.h                      Main program header file
+  - MB1303_Demo_DRP_CLI/Inc/stm32f0xx_it.h              Interrupt handlers header file
+  - MB1303_Demo_DRP_CLI/Inc/stm32f0xx_hal_conf.h        HAL configuration file
+  - MB1303_Demo_DRP_CLI/Inc/usbpd_dpm_conf.h            USB-C Power Delivery application Configuration file
+  - MB1303_Demo_DRP_CLI/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - MB1303_Demo_DRP_CLI/Inc/FreeRTOSConfig.h            FreeRTOS module configuration file
+  - MB1303_Demo_DRP_CLI/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - MB1303_Demo_DRP_CLI/Inc/usbpd_pdo_defs.h            PDO definition central header file
+  - MB1303_Demo_DRP_CLI/Inc/usbpd_pdo_defs_Drp_2Ports.h 2 Ports DRP PDO definition file
+
 
 @par Hardware and Software environment
 
@@ -129,7 +132,7 @@ On the expansion board:
     The provided example can be easily tailored to any other supported device and development board.
 
   - Connect the P-NUCLEO-USB002 kit to the a USB-C Power Delivery consumer, provider or DRP attaching the
-    USB typeC cable to the receptacle CN0 /CN1 on the expansion board.
+    USB typeC cable to the receptacle CN0/CN1 on the expansion board.
     To test this application, another P-NUCLEO-USB002 kit running the Consumer_RTOS, Provider_RTOS or DRP_RTOS role can be used.
 
   - STM32F072RB-Nucleo RevC Set-up

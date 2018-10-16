@@ -1,8 +1,6 @@
 ;******************** (C) COPYRIGHT 2016 STMicroelectronics ********************
 ;* File Name          : startup_stm32f072xb.s
 ;* Author             : MCD Application Team
-;* Version            : V2.3.0
-;* Date               : 27-May-2016
 ;* Description        : STM32F072x8/STM32F072xB devices vector table for MDK-ARM toolchain.
 ;*                      This module performs:
 ;*                      - Set the initial SP
@@ -45,7 +43,7 @@
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Stack_Size		EQU     0x5A0
+Stack_Size		EQU     0x400
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem       SPACE   Stack_Size
@@ -56,7 +54,7 @@ __initial_sp
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Heap_Size      EQU     0x350
+Heap_Size      EQU     0x600
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base

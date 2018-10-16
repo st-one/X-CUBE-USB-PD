@@ -91,30 +91,30 @@
 #define configCPU_CLOCK_HZ                       ( SystemCoreClock )
 #define configTICK_RATE_HZ                       ((TickType_t)1000)
 #define configMAX_PRIORITIES                     ( 7 )
-#define configMINIMAL_STACK_SIZE                 ((uint16_t)64) //CLI 64
-#define configTOTAL_HEAP_SIZE                    ((size_t)7000) //CLI 7000
+#define configMINIMAL_STACK_SIZE                 ((uint16_t)40)
+#define configTOTAL_HEAP_SIZE                    ((size_t)4200)
 #define configMAX_TASK_NAME_LEN                  ( 16 )
 #define configUSE_TRACE_FACILITY                 0
 #define configUSE_16_BIT_TICKS                   0
-#define configIDLE_SHOULD_YIELD                  1
-#define configUSE_MUTEXES                        0 //CLI 1
+#define configIDLE_SHOULD_YIELD                 1
+#define configUSE_MUTEXES                        0
 #define configQUEUE_REGISTRY_SIZE               30
-#define configCHECK_FOR_STACK_OVERFLOW           0
-#define configUSE_RECURSIVE_MUTEXES              0
-#define configUSE_MALLOC_FAILED_HOOK             0
-#define configUSE_APPLICATION_TASK_TAG           0
+#define configCHECK_FOR_STACK_OVERFLOW          0
+#define configUSE_RECURSIVE_MUTEXES             0
+#define configUSE_MALLOC_FAILED_HOOK            0
+#define configUSE_APPLICATION_TASK_TAG          0
 #define configUSE_COUNTING_SEMAPHORES            0
-#define configGENERATE_RUN_TIME_STATS            0
+#define configGENERATE_RUN_TIME_STATS           0
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES                    0
 #define configMAX_CO_ROUTINE_PRIORITIES          ( 2 )
 
 /* Software timer definitions. */
-#define configUSE_TIMERS                         0
-#define configTIMER_TASK_PRIORITY                ( 2 )
-#define configTIMER_QUEUE_LENGTH                 10
-#define configTIMER_TASK_STACK_DEPTH             ( configMINIMAL_STACK_SIZE * 2 )
+#define configUSE_TIMERS                        0
+#define configTIMER_TASK_PRIORITY               ( 2 )
+#define configTIMER_QUEUE_LENGTH                10
+#define configTIMER_TASK_STACK_DEPTH            ( configMINIMAL_STACK_SIZE * 2 )
 
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
@@ -125,9 +125,9 @@ to exclude the API function. */
 #define INCLUDE_vTaskSuspend                1
 #define INCLUDE_vTaskDelayUntil             0
 #define INCLUDE_vTaskDelay                  1
-#define INCLUDE_xQueueGetMutexHolder        1
+#define INCLUDE_xQueueGetMutexHolder            1
 #define INCLUDE_xTaskGetSchedulerState      0
-#define INCLUDE_eTaskGetState               1
+#define INCLUDE_eTaskGetState                   1
 
 /* Cortex-M specific definitions. */
 #ifdef __NVIC_PRIO_BITS
@@ -166,10 +166,6 @@ standard names. */
 /* IMPORTANT: This define MUST be commented when used with STM32Cube firmware, 
               to prevent overwriting SysTick_Handler defined within STM32Cube HAL */
 /* #define xPortSysTickHandler SysTick_Handler */
-
-/* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
-#define configCOMMAND_INT_MAX_OUTPUT_SIZE 80
-
 
 #endif /* FREERTOS_CONFIG_H */
 

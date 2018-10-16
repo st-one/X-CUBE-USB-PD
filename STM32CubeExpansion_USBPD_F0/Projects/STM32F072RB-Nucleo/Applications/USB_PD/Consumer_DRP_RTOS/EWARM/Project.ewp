@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <project>
   <fileVersion>2</fileVersion>
   <configuration>
-    <name>STM32F072RB-Nucleo</name>
+    <name>STM32F072RB-Nucleo_Consumer_DRP_RTOS</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>
@@ -12,7 +11,7 @@
       <name>General</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <version>24</version>
+        <version>30</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -32,22 +31,12 @@
           <state>0</state>
         </option>
         <option>
-          <name>Input variant</name>
-          <version>3</version>
-          <state>6</state>
-        </option>
-        <option>
           <name>Input description</name>
-          <state>No specifier n, no float nor long long, no scan set, no assignment suppressing.</state>
-        </option>
-        <option>
-          <name>Output variant</name>
-          <version>2</version>
-          <state>5</state>
+          <state>No specifier n, no float nor long long, no scan set, no assignment suppressing, with multibyte support.</state>
         </option>
         <option>
           <name>Output description</name>
-          <state>No specifier a, A, no specifier n, no float nor long long.</state>
+          <state>No specifier a, A, no specifier n, no float nor long long, with multibyte support.</state>
         </option>
         <option>
           <name>GOutputBinary</name>
@@ -77,7 +66,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.60.1.11206</state>
+          <state>8.20.2.14834</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -127,7 +116,7 @@
         </option>
         <option>
           <name>GBECoreSlave</name>
-          <version>24</version>
+          <version>26</version>
           <state>34</state>
         </option>
         <option>
@@ -144,7 +133,7 @@
         </option>
         <option>
           <name>CoreVariant</name>
-          <version>24</version>
+          <version>26</version>
           <state>34</state>
         </option>
         <option>
@@ -167,8 +156,53 @@
         </option>
         <option>
           <name>GFPUCoreSlave2</name>
-          <version>24</version>
+          <version>26</version>
           <state>34</state>
+        </option>
+        <option>
+          <name>OGCMSISPackSelectDevice</name>
+        </option>
+        <option>
+          <name>OgLibHeap</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>OGLibAdditionalLocale</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>OGPrintfVariant</name>
+          <version>0</version>
+          <state>3</state>
+        </option>
+        <option>
+          <name>OGPrintfMultibyteSupport</name>
+          <state>1</state>
+        </option>
+        <option>
+          <name>OGScanfVariant</name>
+          <version>0</version>
+          <state>3</state>
+        </option>
+        <option>
+          <name>OGScanfMultibyteSupport</name>
+          <state>1</state>
+        </option>
+        <option>
+          <name>GenLocaleTags</name>
+          <state></state>
+        </option>
+        <option>
+          <name>GenLocaleDisplayOnly</name>
+          <state></state>
+        </option>
+        <option>
+          <name>DSPExtension</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>TrustZone</name>
+          <state>0</state>
         </option>
       </data>
     </settings>
@@ -176,7 +210,7 @@
       <name>ICCARM</name>
       <archiveVersion>2</archiveVersion>
       <data>
-        <version>31</version>
+        <version>34</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -188,7 +222,13 @@
           <state>STM32F072xB</state>
           <state>USE_HAL_DRIVER</state>
           <state>USE_STM32F0XX_NUCLEO</state>
-          <state>__PE_DUALPORT</state>
+          <state>_RTOS</state>
+          <state>USBPD_LED_SERVER</state>
+          <state>USBPD_PORT_COUNT=1</state>
+          <state>_DRP</state>
+          <state>_SNK</state>
+          <state>USBPDCORE_LIB_PD2_CONFIG_1</state>
+          <state>_TRACE_NA</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -284,10 +324,6 @@
           <state>1</state>
         </option>
         <option>
-          <name>CCMultibyteSupport</name>
-          <state>0</state>
-        </option>
-        <option>
           <name>CCDiagWarnAreErr</name>
           <state>0</state>
         </option>
@@ -322,6 +358,7 @@
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F0xx_HAL_Driver\Inc</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\STM32F0xx-Nucleo</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\P-NUCLEO-USB001</state>
+          <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\CMSIS\Include</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM0</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\include</state>
@@ -336,10 +373,6 @@
         <option>
           <name>CCCodeSection</name>
           <state>.text</state>
-        </option>
-        <option>
-          <name>IInterwork2</name>
-          <state>0</state>
         </option>
         <option>
           <name>IProcessorMode2</name>
@@ -393,18 +426,6 @@
           <state>0</state>
         </option>
         <option>
-          <name>IccCppDialect</name>
-          <state>1</state>
-        </option>
-        <option>
-          <name>IccExceptions</name>
-          <state>1</state>
-        </option>
-        <option>
-          <name>IccRTTI</name>
-          <state>1</state>
-        </option>
-        <option>
           <name>IccStaticDestr</name>
           <state>1</state>
         </option>
@@ -433,13 +454,37 @@
           <name>CCGuardCalls</name>
           <state>1</state>
         </option>
+        <option>
+          <name>CCEncSource</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>CCEncOutput</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>CCEncOutputBom</name>
+          <state>1</state>
+        </option>
+        <option>
+          <name>CCEncInput</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>IccExceptions2</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>IccRTTI2</name>
+          <state>0</state>
+        </option>
       </data>
     </settings>
     <settings>
       <name>AARM</name>
       <archiveVersion>2</archiveVersion>
       <data>
-        <version>9</version>
+        <version>10</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -568,10 +613,6 @@
           <state>$FILE_BNAME$.o</state>
         </option>
         <option>
-          <name>AMultibyteSupport</name>
-          <state>0</state>
-        </option>
-        <option>
           <name>ALimitErrorsCheck</name>
           <state>0</state>
         </option>
@@ -659,7 +700,7 @@
       <name>ILINK</name>
       <archiveVersion>0</archiveVersion>
       <data>
-        <version>17</version>
+        <version>20</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -708,7 +749,8 @@
         </option>
         <option>
           <name>IlinkConfigDefines</name>
-          <state></state>
+          <state>__ICFEDIT_size_cstack__=0x300</state>
+          <state>__ICFEDIT_size_heap__=0x800</state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -772,11 +814,11 @@
         </option>
         <option>
           <name>IlinkUseExtraOptions</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IlinkExtraOptions</name>
-          <state></state>
+          <state>--basic_heap</state>
         </option>
         <option>
           <name>IlinkLowLevelInterfaceSlave</name>
@@ -931,7 +973,7 @@
         </option>
         <option>
           <name>CrcAlgorithm</name>
-          <version>0</version>
+          <version>1</version>
           <state>1</state>
         </option>
         <option>
@@ -946,6 +988,30 @@
         <option>
           <name>IlinkLogCallGraph</name>
           <state>0</state>
+        </option>
+        <option>
+          <name>IlinkIcfFile_AltDefault</name>
+          <state></state>
+        </option>
+        <option>
+          <name>IlinkEncInput</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>IlinkEncOutput</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>IlinkEncOutputBom</name>
+          <state>1</state>
+        </option>
+        <option>
+          <name>IlinkHeapSelect</name>
+          <state>1</state>
+        </option>
+        <option>
+          <name>IlinkLocaleSelect</name>
+          <state>1</state>
         </option>
       </data>
     </settings>
@@ -977,13 +1043,13 @@
     </settings>
   </configuration>
   <group>
+    <name>Doc</name>
+    <file>
+      <name>$PROJ_DIR$\..\readme.txt</name>
+    </file>
+  </group>
+  <group>
     <name>Application</name>
-    <group>
-      <name>EWARM</name>
-      <file>
-        <name>$PROJ_DIR$\startup_stm32f072xb.s</name>
-      </file>
-    </group>
     <group>
       <name>User</name>
       <file>
@@ -996,18 +1062,18 @@
         <name>$PROJ_DIR$\..\Src\stm32f0xx_it.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\usbpd_dpm.c</name>
+        <name>$PROJ_DIR$\..\Src\usbpd_dpm_user.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\usbpd_pwr_if.c</name>
       </file>
     </group>
-  </group>
-  <group>
-    <name>Doc</name>
-    <file>
-      <name>$PROJ_DIR$\..\readme.txt</name>
-    </file>
+    <group>
+      <name>EWARM</name>
+      <file>
+        <name>$PROJ_DIR$\startup_stm32f072xb.s</name>
+      </file>
+    </group>
   </group>
   <group>
     <name>Drivers</name>
@@ -1024,13 +1090,10 @@
         <file>
           <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\STM32F0xx-Nucleo\stm32f0xx_nucleo.c</name>
         </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\STM32F0xx-Nucleo\usbpd_bsp_trace.c</name>
+        </file>
       </group>
-    </group>
-    <group>
-      <name>CMSIS</name>
-      <file>
-        <name>$PROJ_DIR$\..\Src\system_stm32f0xx.c</name>
-      </file>
     </group>
     <group>
       <name>STM32F0xx_HAL_Driver</name>
@@ -1085,40 +1148,19 @@
       <file>
         <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_uart_ex.c</name>
       </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_ll_utils.c</name>
+      </file>
+    </group>
+    <group>
+      <name>CMSIS</name>
+      <file>
+        <name>$PROJ_DIR$\..\Src\system_stm32f0xx.c</name>
+      </file>
     </group>
   </group>
   <group>
     <name>Middlewares</name>
-    <group>
-      <name>ST</name>
-      <group>
-        <name>STM32_USBPD_Library</name>
-        <group>
-          <name>Devices</name>
-          <group>
-            <name>STM32F072</name>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_cad_hw_if.c</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_hw_if_it.c</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_phy_hw_if.c</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_pwr_hw_if.c</name>
-            </file>
-        <file>
-              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_timersserver.c</name>
-        </file>
-          </group>
-        </group>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\lib\USBPD_CORE_CM0_NOVDM_1PORT_IAR.a</name>
-        </file>
-      </group>
-    </group>
     <group>
       <name>Third_Party</name>
       <group>
@@ -1152,6 +1194,51 @@
         </file>
       </group>
     </group>
+    <group>
+      <name>ST</name>
+      <group>
+        <name>STM32_USBPD_Library</name>
+        <group>
+          <name>Core</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_trace.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\lib\USBPDCORE_PD2_CONFIG_1_CM0_wc32.a</name>
+          </file>
+        </group>
+        <group>
+          <name>Devices</name>
+          <group>
+            <name>STM32F072</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_cad_hw_if.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_hw_if_it.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_phy_hw_if.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_pwr_hw_if.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_timersserver.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\bmc.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_phy.c</name>
+            </file>
+          </group>
+        </group>
+      </group>
+    </group>
   </group>
   <group>
     <name>Utilities</name>
@@ -1163,5 +1250,3 @@
     </group>
   </group>
 </project>
-
-

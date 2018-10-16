@@ -2,13 +2,13 @@
   @page USB-C Power Delivery Provider_VDM_RTOS application
   
   @verbatim
-  ******************** (C) COPYRIGHT 2016 STMicroelectronics *******************
+  ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
   * @file    Provider_VDM_RTOS/readme.txt 
   * @author  MCD Application Team
   * @brief   Description of the USB-C Power Delivery Provider_VDM_RTOS application.
   ******************************************************************************
   *
-  * Copyright (c) 2016 STMicroelectronics International N.V. All rights reserved.
+  * Copyright (c) 2017 STMicroelectronics International N.V. All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
   * modification, are permitted, provided that the following conditions are met:
@@ -45,9 +45,9 @@
   @endverbatim
   
 @par Application Description
-This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) provider application
-based on the STM32F072 devices, with support of Vendor Defined Messages.
+Use of the USB Power Delivery (USB-PD) provider application running on STM32F072 devices,
+with support of Vendor Defined Messages.
+Project configuration is based on USB Power Delivery Specification revision 2.0, with support of Provider application on Port 0.
 
 This application provides an example for managing the Port 0 as a Provider Only port,
 and provides an example of VDM messages use to allow information exchanges between
@@ -66,7 +66,7 @@ When the application starts, connecting an USB-C Power Delivery consumer device
  - When attached, and before Explicit contract is established, VBUS LED (D204) will be blinking.
  - If the requested power can be met, the STM32 MCU shall send the Accept message followed 
    by PS_RDY message.
- - Once the Explicit Contract established, VBUS LED (D204) is on to indicate that the 
+ - Once the Explicit Contract established, VBUS LED (D 204) is on to indicate that the 
    Power Contract was established.
 
 This application has been implemented to generate SVDM messages. VDM callbacks are provided as example.
@@ -102,26 +102,28 @@ is provided in application directory in STMicroelectronics_Provider_VDM_STM32F07
       a peripheral ISR process, then the SysTick interrupt must have higher priority (numerically lower)
       than the peripheral interrupt. Otherwise the caller ISR process will be blocked.
       To change the SysTick interrupt priority you have to use HAL_NVIC_SetPriority() function.
-
+      
 @note The application needs to ensure that the SysTick time base is always set to 1 millisecond
       to have correct operation.
 
 @par Directory contents
 
-  - Provider_VDM_RTOS/Src/main.c                  Main program
-  - Provider_VDM_RTOS/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - Provider_VDM_RTOS/Src/stm32f0xx_hal_msp.c     HAL MSP file
-  - Provider_VDM_RTOS/Src/stm32f0xx_it.c          Interrupt handlers
-  - Provider_VDM_RTOS/Src/usbpd_dpm.c             DPM layer implementation
-  - Provider_VDM_RTOS/Src/usbpd_vdm_callbacks.c   VDM Callbacks implementation
-  - Provider_VDM_RTOS/Src/usbpd_pwr_if.c          General power interface configuration
-  - Provider_VDM_RTOS/Inc/main.h                  Main program header file
-  - Provider_VDM_RTOS/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - Provider_VDM_RTOS/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - Provider_VDM_RTOS/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - Provider_VDM_RTOS/Inc/usbpd_dpm.h             DPM Layer header file
-  - Provider_VDM_RTOS/Inc/usbpd_vdm_callbacks.h   VDM Callback header file
-  - Provider_VDM_RTOS/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
+  - Provider_VDM_RTOS/Src/main.c                      Main program
+  - Provider_VDM_RTOS/Src/system_stm32f0xx.c          STM32F0xx system clock configuration file
+  - Provider_VDM_RTOS/Src/stm32f0xx_hal_msp.c         HAL MSP file
+  - Provider_VDM_RTOS/Src/stm32f0xx_it.c              Interrupt handlers
+  - Provider_VDM_RTOS/Src/usbpd_dpm_user.c            DPM layer implementation
+  - Provider_VDM_RTOS/Src/usbpd_vdm_callbacks.c       VDM Callbacks implementation
+  - Provider_VDM_RTOS/Src/usbpd_pwr_if.c              General power interface configuration
+  - Provider_VDM_RTOS/Inc/main.h                      Main program header file
+  - Provider_VDM_RTOS/Inc/stm32f0xx_it.h              Interrupt handlers header file
+  - Provider_VDM_RTOS/Inc/stm32f0xx_hal_conf.h        HAL configuration file
+  - Provider_VDM_RTOS/Inc/usbpd_dpm_conf.h            USB-C Power Delivery application Configuration file
+  - Provider_VDM_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - Provider_VDM_RTOS/Inc/usbpd_pdo_defs.h            PDO definition central header file
+  - Provider_VDM_RTOS/Inc/usbpd_pdo_defs_Src_1Port.h  1 Port SRC PDO definition file
+  - Provider_VDM_RTOS/Inc/usbpd_vdm_callbacks.h       VDM Callback header file
+  - Provider_VDM_RTOS/Inc/FreeRTOSConfig.h            FreeRTOS module configuration file
  
 
 @par Hardware and Software environment

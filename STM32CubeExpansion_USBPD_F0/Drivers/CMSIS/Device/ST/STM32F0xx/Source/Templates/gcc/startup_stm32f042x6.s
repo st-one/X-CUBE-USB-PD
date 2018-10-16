@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file      startup_stm32f042x6.s
   * @author    MCD Application Team
-  * @version   V2.3.0
-  * @date      27-May-2016
   * @brief     STM32F042x4/STM32F042x6 devices vector table for Atollic TrueSTUDIO toolchain.
   *            This module performs:
   *                - Set the initial SP

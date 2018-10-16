@@ -24,8 +24,11 @@
   ******************************************************************************
   */
   
- /* Includes ------------------------------------------------------------------*/
-  #include "p-nucleo-usb002.h"
+/* Includes ------------------------------------------------------------------*/
+#if defined(USBPD_STUSB1605)
+#include "usbpd_prl_hw.h"
+#endif /* USBPD_STUSB1605 */
+#include "p-nucleo-usb002.h"
   
 
 /**
@@ -34,7 +37,13 @@
  * */
 
 /* Private typedef -----------------------------------------------------------*/
+#if defined(USBPD_STUSB1605)
+#else
 extern SPI_HandleTypeDef hspi2;
+#endif /* USBPD_STUSB1605 */
+#ifdef HAL_UART_MODULE_ENABLED
+extern UART_HandleTypeDef huart_handle;
+#endif /* HAL_UART_MODULE_ENABLED */
 
 /* Private define ------------------------------------------------------------*/
 
@@ -72,6 +81,15 @@ extern SPI_HandleTypeDef hspi2;
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+#if defined(USBPD_STUSB1605)
+TCPC_DrvTypeDef* DevicesDrivers[USBPD_PORT_COUNT] = {
+  &stusb1605_tcpc_drv,
+#if USBPD_PORT_COUNT == 2
+  &fusb305_tcpc_drv,
+#endif /*USBPD_PORT_COUNT == 2*/
+};
+#endif /* USBPD_STUSB1605 */
+
 /**
  * @brief Vector storing informations on pins controlling leds of P_NUCLEO_USB002
  * */
@@ -90,19 +108,8 @@ USBPD_BSP_GPIOPins_TypeDef USBPD_BSP_LEDs[USBPD_BSP_LEDn] =
     } ;
 
 
-/**
- * @brief huart handle for P_NUCLEO_USB002
- * */
-#ifdef HAL_UART_MODULE_ENABLED
-extern UART_HandleTypeDef huart_handle;
-#endif /* HAL_UART_MODULE_ENABLED */
-
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-
-
-
-
 
 /* ************************************************************************* */
 /* Led Procedures and functions                                              */
@@ -185,7 +192,7 @@ extern UART_HandleTypeDef huart_handle;
 
   
 
-#ifdef HAL_UART_MODULE_ENABLED
+#if defined(HAL_UART_MODULE_ENABLED)
 /**
   * @brief  Configures the UART used by the P_NUCLEO_USB002
   * @retval None
@@ -233,7 +240,48 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 }
 #endif /* HAL_UART_MODULE_ENABLED */
 
+#if defined(USBPD_STUSB1605)
+void USBPD_HW_IF_GPIO_Set(USBPD_BSP_GPIOPins_TypeDef gpio, GPIO_PinState PinState)
+{
+  HAL_GPIO_WritePin(gpio.GPIOx, gpio.GPIO_Pin, PinState);
+}
+void USBPD_HW_IF_GPIO_On(USBPD_BSP_GPIOPins_TypeDef gpio)
+{
+  /* Sets the pin */
+  USBPD_HW_IF_GPIO_Set(gpio, GPIO_PIN_SET);
+}
 
-/** }@ */
+void USBPD_HW_IF_GPIO_Off(USBPD_BSP_GPIOPins_TypeDef gpio)
+{
+  /* Resets the pin */
+  USBPD_HW_IF_GPIO_Set(gpio, GPIO_PIN_RESET);
+}
+
+void USBPD_HW_IF_GPIO_Toggle(USBPD_BSP_GPIOPins_TypeDef gpio)
+{
+  /* Toggle the pin */
+  HAL_GPIO_TogglePin(gpio.GPIOx, gpio.GPIO_Pin);
+}
+
+void BSP_USBPD_SetVoltage(uint32_t Port, uint32_t Voltage)
+{
+#warning "[YMA] TBD"
+}
+/**
+  * @brief  Get the TCPC Drivers
+  * @param  PortNum     Index of current used port
+  * @param  TCPC_Driver Pointer on the TCPC drivers
+  * @retval USBPD status
+  */
+USBPD_StatusTypeDef USBPD_TCPCI_GetDevicesDrivers(uint8_t PortNum, TCPC_DrvTypeDef **TCPC_Driver)
+{
+  *TCPC_Driver = DevicesDrivers[PortNum];
+
+  return USBPD_OK;
+}
+#endif /* USBPD_STUSB1605 */
+/*
+ *  }@ 
+ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

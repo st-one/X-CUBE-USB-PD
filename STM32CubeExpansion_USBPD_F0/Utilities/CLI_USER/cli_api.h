@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    cli_user.h
   * @author  System Lab
-  * @version V1.2.1
-  * @date    24-Apr-2017
   * @brief   Header file of CLI API
   ******************************************************************************
   * @attention
@@ -32,18 +30,17 @@
 /**
  * @brief  Include configuration from usbpd library
  */
-#include "usbpd_conf.h"
+
 /* USBPD_CLI have to be located between the usbpd_conf and the PE header file */
 #ifdef USBPD_CLI 
+#include "stm32f0xx.h"
 
 /* Macros --------------------------------------------------------------------*/
 /**
  * @brief  Dimensions the buffer into which input characters are placed.
  */
 #define CLI_OUTPUT_MAX_SIZE configCOMMAND_INT_MAX_OUTPUT_SIZE 
-#define CLI_INPUT_MAX_SIZE configCOMMAND_INT_MAX_OUTPUT_SIZE
-//#define CLI_OUTPUT_MAX_SIZE 50
-//#define CLI_INPUT_MAX_SIZE 50
+#define CLI_INPUT_MAX_SIZE 80
 
 /**
  * @brief  Definition of the handle type used for the communication
@@ -52,7 +49,7 @@
 
 void CLI_Init( xComPortHandle * pxPortHandle);
 void CLI_Run( void );
-void CLI_Async_Notify(const char *string);
+void CLI_Async_Notify(char *string);
 #endif /* USBPD_CLI */
 
 #endif /* __CLI_API_H */

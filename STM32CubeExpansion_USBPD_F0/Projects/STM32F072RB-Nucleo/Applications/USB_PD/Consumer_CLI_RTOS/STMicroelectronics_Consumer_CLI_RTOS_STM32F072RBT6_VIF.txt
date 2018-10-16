@@ -1,0 +1,74 @@
+; 
+; USB-IF Vendor Info File Generator, Version 1.2.0.0
+; 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Intro tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$VIF_Specification: "Revision 1.30, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.2.0.0"
+$Vendor_Name: "STMicroelectronics"
+$Model_Part_Number: "STM32F072_PD2_SNK"
+$Product_Revision: "1.0"
+$TID: "0"
+VIF_Product_Type: 0        ; Port
+$Port_Label: "0"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   VIF Product tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Connector_Type: 2        ; USB Type-C
+USB_PD_Support: YES
+PD_Port_Type: 0        ; Consumer Only
+Type_C_State_Machine: 1        ; SNK
+Port_Battery_Powered: NO
+BC_1_2_Support: 0        ; None
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   General PD Settings tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Specification_Revision: 1        ; Revision 2.0
+SOP_Capable: YES
+SOP_P_Capable: NO
+SOP_PP_Capable: NO
+SOP_P_Debug_Capable: NO
+SOP_PP_Debug_Capable: NO
+USB_Comms_Capable: NO
+DR_Swap_To_DFP_Supported: YES
+DR_Swap_To_UFP_Supported: YES
+Unconstrained_Power: NO
+VCONN_Swap_To_On_Supported: NO
+VCONN_Swap_To_Off_Supported: NO
+Responds_To_Discov_SOP: NO
+Attempts_Discov_SOP: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Type-C tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type_C_Supports_VCONN_Powered_Accessory: NO
+Type_C_Is_VCONN_Powered_Accessory: NO
+Type_C_Is_Debug_Target_SNK: NO
+Type_C_Can_Act_As_Host: NO
+Type_C_Can_Act_As_Device     : NO
+Type_C_Is_Alt_Mode_Adapter   : NO
+Type_C_Is_Alt_Mode_Controller: NO
+Type_C_Power_Source: 0        ; Self-Powered
+Type_C_Port_On_Hub: NO
+Type_C_Supports_Audio_Accessory: NO
+Captive_Cable: NO
+Type_C_Sources_VCONN: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Sink tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Sink: 7500        ; (7500 mW)
+No_USB_Suspend_May_Be_Set: YES
+GiveBack_May_Be_Set: NO
+Higher_Capability_Set: NO
+Num_Snk_PDOs: 1
+
+    Snk_PDO_Supply_Type1: 0        ; Fixed
+    Snk_PDO_Voltage1: 100        ; (5000 mV)
+    Snk_PDO_Op_Current1: 150        ; (1500 mA)
+
+

@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    stm32f0xx_hal_pcd_ex.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    27-May-2016
   * @brief   Extended PCD HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the USB Peripheral Controller:
@@ -105,9 +103,9 @@ HAL_StatusTypeDef  HAL_PCDEx_PMAConfig(PCD_HandleTypeDef *hpcd,
   PCD_EPTypeDef *ep;
   
   /* initialize ep structure*/
-  if ((0x80 & ep_addr) == 0x80)
+  if ((0x80U & ep_addr) == 0x80U)
   {
-    ep = &hpcd->IN_ep[ep_addr & 0x7F];
+    ep = &hpcd->IN_ep[ep_addr & 0x7FU];
   }
   else
   {
@@ -118,17 +116,17 @@ HAL_StatusTypeDef  HAL_PCDEx_PMAConfig(PCD_HandleTypeDef *hpcd,
   if (ep_kind == PCD_SNG_BUF)
   {
     /*Single Buffer*/
-    ep->doublebuffer = 0;
+    ep->doublebuffer = 0U;
     /*Configure the PMA*/
     ep->pmaadress = (uint16_t)pmaadress;
   }
   else /*USB_DBL_BUF*/
   {
     /*Double Buffer Endpoint*/
-    ep->doublebuffer = 1;
+    ep->doublebuffer = 1U;
     /*Configure the PMA*/
-    ep->pmaaddr0 =  pmaadress & 0xFFFF;
-    ep->pmaaddr1 =  (pmaadress & 0xFFFF0000U) >> 16;
+    ep->pmaaddr0 =  pmaadress & 0xFFFFU;
+    ep->pmaaddr1 =  (pmaadress & 0xFFFF0000U) >> 16U;
   }
   
   return HAL_OK;
@@ -175,7 +173,7 @@ HAL_StatusTypeDef HAL_PCDEx_DeActivateBCD(PCD_HandleTypeDef *hpcd)
 void HAL_PCDEx_BCD_VBUSDetect(PCD_HandleTypeDef *hpcd)
 {
   USB_TypeDef *USBx = hpcd->Instance;
-//  uint32_t tickstart = HAL_GetTick();
+  uint32_t tickstart = HAL_GetTick();
    
   /* Wait Detect flag or a timeout is happen*/
 //  while ((USBx->BCDR & USB_BCDR_DCDET) == 0)

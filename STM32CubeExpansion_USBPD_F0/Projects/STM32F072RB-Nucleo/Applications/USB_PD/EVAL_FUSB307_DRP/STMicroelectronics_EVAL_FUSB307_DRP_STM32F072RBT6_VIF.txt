@@ -1,0 +1,108 @@
+; 
+; USB-IF Vendor Info File Generator, Version 1.2.0.0
+; 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Intro tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$VIF_Specification: "Revision 1.30, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.2.0.0"
+$Vendor_Name: "STMicroelectronics"
+$Model_Part_Number: "STM32F072_PD3_DRP"
+$Product_Revision: "1.0"
+$TID: "0"
+VIF_Product_Type: 0        ; Port
+$Port_Label: "0"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   VIF Product tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Connector_Type: 2        ; USB Type-C
+USB_PD_Support: YES
+PD_Port_Type: 4        ; DRP
+Type_C_State_Machine: 2        ; DRP
+Port_Battery_Powered: NO
+BC_1_2_Support: 0        ; None
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   General PD Settings tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Specification_Revision: 2        ; Revision 3.0
+SOP_Capable: YES
+SOP_P_Capable: NO
+SOP_PP_Capable: NO
+SOP_P_Debug_Capable: NO
+SOP_PP_Debug_Capable: NO
+Manufacturer_Info_Supported_Port: YES
+Manufacturer_Info_VID_Port: 0x0483
+Manufacturer_Info_PID_Port: 0x0002
+Num_Fixed_Batteries: 0
+Num_Swappable_Battery_Slots: 0
+USB_Comms_Capable: NO
+DR_Swap_To_DFP_Supported: YES
+DR_Swap_To_UFP_Supported: YES
+Unconstrained_Power: NO
+VCONN_Swap_To_On_Supported: NO
+VCONN_Swap_To_Off_Supported: NO
+Responds_To_Discov_SOP: NO
+Attempts_Discov_SOP: NO
+Chunking_Implemented_SOP: YES
+Unchunked_Extended_Messages_Supported: NO
+Security_Msgs_Supported_SOP: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Type-C tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type_C_Implements_Try_SRC: NO
+Type_C_Implements_Try_SNK: NO
+RP_Value: 1        ; 1.5A
+Type_C_Supports_VCONN_Powered_Accessory: NO
+Type_C_Is_VCONN_Powered_Accessory: NO
+Type_C_Is_Debug_Target_SRC: YES
+Type_C_Is_Debug_Target_SNK: NO
+Type_C_Can_Act_As_Host: NO
+Type_C_Can_Act_As_Device     : NO
+Type_C_Is_Alt_Mode_Adapter   : NO
+Type_C_Is_Alt_Mode_Controller: NO
+Type_C_Power_Source: 0        ; Self-Powered
+Type_C_Port_On_Hub: NO
+Type_C_Supports_Audio_Accessory: NO
+Captive_Cable: NO
+Type_C_Sources_VCONN: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Source tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Source: 7500         ; (7500 mW)
+USB_Suspend_May_Be_Cleared: YES
+Sends_Pings: NO
+FR_Swap_Supported_As_Source: NO
+Num_Src_PDOs: 1
+
+    Src_PDO_Supply_Type1: 0        ; Fixed
+    Src_PDO_Peak_Current1: 0        ; 100% IOC
+    Src_PDO_Voltage1: 100        ; (5000 mV)
+    Src_PDO_Max_Current1: 150        ; (1500 mA)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Sink tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Sink: 7500        ; (7500 mW)
+No_USB_Suspend_May_Be_Set: YES
+GiveBack_May_Be_Set: NO
+Higher_Capability_Set: NO
+FR_Swap_Reqd_Type_C_Current: 0        ; FR_Swap not supported
+Num_Snk_PDOs: 1
+
+    Snk_PDO_Supply_Type1: 0        ; Fixed
+    Snk_PDO_Voltage1: 100        ; (5000 mV)
+    Snk_PDO_Op_Current1: 150        ; (1500 mA)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Dual Role tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Accepts_PR_Swap_As_Src: YES
+Accepts_PR_Swap_As_Snk: YES
+Requests_PR_Swap_As_Src: NO
+Requests_PR_Swap_As_Snk: NO
+

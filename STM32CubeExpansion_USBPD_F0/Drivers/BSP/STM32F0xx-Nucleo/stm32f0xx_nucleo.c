@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    stm32f0xx_nucleo.c
   * @author  MCD Application Team
-  * @version V1.1.3_USBPD
-  * @date    17-Jan-2017
   * @brief   This file provides set of firmware functions to manage:
   *          - LEDs and push-button available on STM32F0XX-Nucleo Kit 
   *            from STMicroelectronics
@@ -131,11 +129,9 @@ void              SD_IO_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, u
 void              SD_IO_ReadData(uint8_t *DataOut, uint16_t DataLength);
 void              SD_IO_WriteData(const uint8_t *Data, uint16_t DataLength);
 uint8_t           SD_IO_WriteByte(uint8_t Data);
-uint8_t           SD_IO_ReadByte(void);
 
 /* LCD IO functions */
 void              LCD_IO_Init(void);
-void              LCD_IO_WriteData(uint8_t Data);
 void              LCD_IO_WriteMultipleData(uint8_t *pData, uint32_t Size);
 void              LCD_IO_WriteReg(uint8_t LCDReg);
 void              LCD_Delay(uint32_t delay);

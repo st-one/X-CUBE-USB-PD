@@ -2,13 +2,13 @@
   @page USB-C Power Delivery Consumer_DRP_RTOS application
   
   @verbatim
-  ******************** (C) COPYRIGHT 2016 STMicroelectronics *******************
+  ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
   * @file    Consumer_DRP_RTOS/readme.txt 
   * @author  MCD Application Team
   * @brief   Description of the USB-C Power Delivery Consumer_DRP_RTOS application.
   ******************************************************************************
   *
-  * Copyright (c) 2016 STMicroelectronics International N.V. All rights reserved.
+  * Copyright (c) 2017 STMicroelectronics International N.V. All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
   * modification, are permitted, provided that the following conditions are met:
@@ -45,9 +45,8 @@
   @endverbatim
   
 @par Application Description
-This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) Dual-Role Power (DRP) application
-based on the STM32F072 devices.
+Use of the USB Power Delivery (USB-PD) Dual-Role Power (DRP) application running on STM32F072 devices.
+Project configuration is based on USB Power Delivery Specification revision 2.0.
 
 This application provides an example for managing the Port 0 as a Dual-Role Power (DRP) port.
 DRP application behavior highlights capability for a Port to handle either provider or consumer 
@@ -127,18 +126,20 @@ options is provided in application directory in STMicroelectronics_Consumer_DRP_
 
 @par Directory contents
 
-  - Consumer_DRP_RTOS/Src/main.c                  Main program
-  - Consumer_DRP_RTOS/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - Consumer_DRP_RTOS/Src/stm32f0xx_hal_msp.c     HAL MSP file
-  - Consumer_DRP_RTOS/Src/stm32f0xx_it.c          Interrupt handlers
-  - Consumer_DRP_RTOS/Src/usbpd_dpm.c             DPM layer implementation
-  - Consumer_DRP_RTOS/Src/usbpd_pwr_if.c          General power interface configuration
-  - Consumer_DRP_RTOS/Inc/main.h                  Main program header file
-  - Consumer_DRP_RTOS/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - Consumer_DRP_RTOS/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - Consumer_DRP_RTOS/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - Consumer_DRP_RTOS/Inc/usbpd_dpm.h             DPM Layer header file
-  - Consumer_DRP_RTOS/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
+  - Consumer_DRP_RTOS/Src/main.c                      Main program
+  - Consumer_DRP_RTOS/Src/system_stm32f0xx.c          STM32F0xx system clock configuration file
+  - Consumer_DRP_RTOS/Src/stm32f0xx_hal_msp.c         HAL MSP file
+  - Consumer_DRP_RTOS/Src/stm32f0xx_it.c              Interrupt handlers
+  - Consumer_DRP_RTOS/Src/usbpd_dpm_user.c            DPM layer implementation
+  - Consumer_DRP_RTOS/Src/usbpd_pwr_if.c              General power interface configuration
+  - Consumer_DRP_RTOS/Inc/main.h                      Main program header file
+  - Consumer_DRP_RTOS/Inc/stm32f0xx_it.h              Interrupt handlers header file
+  - Consumer_DRP_RTOS/Inc/stm32f0xx_hal_conf.h        HAL configuration file
+  - Consumer_DRP_RTOS/Inc/usbpd_dpm_conf.h            USB-C Power Delivery application Configuration file
+  - Consumer_DRP_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - Consumer_DRP_RTOS/Inc/usbpd_pdo_defs.h            PDO definition central header file
+  - Consumer_DRP_RTOS/Inc/usbpd_pdo_defs_Drp_1Port.h  1 Port DRP PDO definition file
+  - Consumer_DRP_RTOS/Inc/FreeRTOSConfig.h            FreeRTOS module configuration file
  
 
 @par Hardware and Software environment

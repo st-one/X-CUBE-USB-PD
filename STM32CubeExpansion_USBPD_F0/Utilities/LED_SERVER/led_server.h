@@ -52,7 +52,6 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "usbpd_conf.h"
 
 #ifdef USBPD_LED_SERVER
 #define LED_BSP_TypeDef USBPD_BSP_Led_TypeDef

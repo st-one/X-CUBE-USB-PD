@@ -45,6 +45,11 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#if defined(MB1303)
+#include "p-nucleo-usb002.h"
+#else
+#include "p-nucleo-usb001.h"
+#endif /*MB1303*/
 #include "led_server.h"
 #include "cmsis_os.h"
 

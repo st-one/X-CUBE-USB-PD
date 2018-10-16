@@ -1,11 +1,11 @@
 /**
-  @page USB-C Power Delivery Provider_RTOS application for STUSB1602 (P-NUCLEO-USB002 kit)
-
+  @page USB-C Power Delivery MB1303_Provider_RTOS application for STUSB1602 (Kit P-NUCLEO-USB002)
+  
   @verbatim
   ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
   * @file    MB1303_Provider_RTOS/readme.txt 
   * @author  MCD Application Team
-  * @brief   Description of the USB-C Power Delivery Provider_RTOS application.
+  * @brief   Description of the USB-C Power Delivery MB1303_Provider_RTOS application.
   ******************************************************************************
   *
   * Copyright (c) 2017 STMicroelectronics International N.V. All rights reserved.
@@ -45,11 +45,8 @@
   @endverbatim
   
 @par Application Description
-This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) provider application
-based on the STM32F072+STUSB1602 devices.
-In the default configuration only port 0 is enabled, however the firmware is able 
-to support both the ports.
+Use of the USB Power Delivery (USB-PD) provider application running on STM32F072+STUSB1602 devices.
+Project configuration is based on USB Power Delivery Specification revision 2.0, with support of Provider application on Port 0.
 
 At startup:
  - Status LED (Blue LED D106) is on.
@@ -91,19 +88,21 @@ This application has been tested with MQP certification tool in PD interactive m
 
 @par Directory contents
 
-  - MB1303_Provider_RTOS/Src/main.c                  Main program
-  - MB1303_Provider_RTOS/Src/stm32f0xx_hal_msp.c     STM32F0xx hal msp
-  - MB1303_Provider_RTOS/Src/stm32f0xx_it.c          Interrupt handlers
-  - MB1303_Provider_RTOS/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - MB1303_Provider_RTOS/Src/usbpd_dpm.c             DPM layer implementation
-  - MB1303_Provider_RTOS/Src/usbpd_pwr_if.c          General power interface configuration
-  - MB1303_Provider_RTOS/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
-  - MB1303_Provider_RTOS/Inc/main.h                  Main program header file
-  - MB1303_Provider_RTOS/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - MB1303_Provider_RTOS/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - MB1303_Provider_RTOS/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - MB1303_Provider_RTOS/Inc/usbpd_dpm.h             DPM Layer header file
- 
+  - MB1303_Provider_RTOS/Src/main.c                      Main program
+  - MB1303_Provider_RTOS/Src/stm32f0xx_hal_msp.c         HAL MSP file
+  - MB1303_Provider_RTOS/Src/stm32f0xx_it.c              Interrupt handlers
+  - MB1303_Provider_RTOS/Src/system_stm32f0xx.c          STM32F0xx system clock configuration file
+  - MB1303_Provider_RTOS/Src/usbpd_dpm_user.c            DPM layer implementation
+  - MB1303_Provider_RTOS/Src/usbpd_pwr_if.c              General power interface configuration
+  - MB1303_Provider_RTOS/Inc/FreeRTOSConfig.h            FreeRTOS module configuration file
+  - MB1303_Provider_RTOS/Inc/main.h                      Main program header file
+  - MB1303_Provider_RTOS/Inc/stm32f0xx_hal_conf.h        HAL configuration file
+  - MB1303_Provider_RTOS/Inc/stm32f0xx_it.h              Interrupt handlers header file
+  - MB1303_Provider_RTOS/Inc/usbpd_dpm_conf.h            USB-C Power Delivery application Configuration file
+  - MB1303_Provider_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - MB1303_Provider_RTOS/Inc/usbpd_pdo_defs.h            PDO definition central header file
+  - MB1303_Provider_RTOS/Inc/usbpd_pdo_defs_Snk_1Port.h  1 Port SNK PDO definition file
+
 
 @par Hardware and Software environment
 
@@ -115,7 +114,7 @@ This application has been tested with MQP certification tool in PD interactive m
 
   - Connect the P-NUCLEO-USB002 kit to the a USB-C Power Delivery consumer attaching the
     USB typeC cable to the receptacle CN0 on the expansion board.
-    To test this application, the Consumer_RTOS application can be used as a consumer.
+    To test this application, the MB1303_Consumer_RTOS application can be used as a Consumer.
 
   - STM32F072RB-Nucleo RevC Set-up
       - SB48, SB49, SB62 and SB63 must be closed

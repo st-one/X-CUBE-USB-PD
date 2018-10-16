@@ -2,8 +2,6 @@
   ******************************************************************************
   * @file    stm32f0xx_nucleo.h
   * @author  MCD Application Team
-  * @version V1.1.3_USBPD
-  * @date    17-Jan-2017
   * @brief   This file contains definitions for:
   *          - LEDs and push-button available on STM32F0XX-Nucleo Kit 
   *            from STMicroelectronics
@@ -234,9 +232,11 @@ typedef enum
 #endif /* HAL_ADC_MODULE_ENABLED */
 
 /******************************* USB PD UART ********************************/
-#ifdef HAL_UART_MODULE_ENABLED
+#if defined(_TRACE) || defined(_GUI_INTERFACE) || defined (USBPD_CLI)
 #define BSP_USART_IRQHandler USART1_IRQHandler
+#endif /* _TRACE || _GUI_INTERFACE  || USBPD_CLI */
 
+#ifdef HAL_UART_MODULE_ENABLED
 #define BSP_USART_BAUDRATE  115200    /* BaudRate for the UART */
 
 /**
@@ -262,6 +262,7 @@ typedef enum
 #define USART_IRQ                            USART1_IRQn
 
 UART_HandleTypeDef * BSP_USART_GetHandle(void);
+void                 USBPD_UART_IO_Init(void);
 
 #endif /* HAL_UART_MODULE_ENABLED */
 

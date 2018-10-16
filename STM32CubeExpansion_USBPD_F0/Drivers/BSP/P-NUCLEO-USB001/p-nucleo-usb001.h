@@ -63,8 +63,13 @@ extern "C"
   * */
 
 /* Includes ------------------------------------------------------------------*/
-#include "usbpd_def.h"
-#include "usbpd_conf.h"
+#if defined(STM32F072xB) || defined(STM32F051x8)
+#include "stm32f0xx.h"
+#elif defined(STM32F334x8)
+#include "stm32f3xx.h"
+#else
+#error "Add include for the family!"
+#endif
 
 /** @defgroup P-NUCLEO-USB001_Exported_Macros Exported Macros
   * @{

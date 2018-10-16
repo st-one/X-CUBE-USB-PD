@@ -2,13 +2,13 @@
   @page USB-C Power Delivery Consumer_CLI_RTOS application
   
   @verbatim
-  ******************** (C) COPYRIGHT 2016 STMicroelectronics *******************
+  ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
   * @file    Consumer_CLI_RTOS/readme.txt 
   * @author  MCD Application Team
   * @brief   Description of the USB-C Power Delivery Consumer_CLI_RTOS application.
   ******************************************************************************
   *
-  * Copyright (c) 2016 STMicroelectronics International N.V. All rights reserved.
+  * Copyright (c) 2017 STMicroelectronics International N.V. All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
   * modification, are permitted, provided that the following conditions are met:
@@ -45,9 +45,9 @@
   @endverbatim
   
 @par Application Description
-This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) consumer application
-based on the STM32F072 devices and embeds support of a Command Line Interface.
+Use of the USB Power Delivery (USB-PD) consumer application running on STM32F072 devices
+with support of a Command Line Interface. Project configuration is based on USB Power Delivery 
+Specification revision 2.0, with support of Consumer on Port 0.
 
 This application provides an example for managing the Port 0 as a Consumer Only port.
 When the application starts, connecting an USB-C Power Delivery provider device
@@ -111,18 +111,20 @@ options is provided in application directory in STMicroelectronics_Consumer_STM3
 
 @par Directory contents
 
-  - Consumer_CLI_RTOS/Src/main.c                  Main program
-  - Consumer_CLI_RTOS/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - Consumer_CLI_RTOS/Src/stm32f0xx_hal_msp.c     HAL MSP file
-  - Consumer_CLI_RTOS/Src/stm32f0xx_it.c          Interrupt handlers
-  - Consumer_CLI_RTOS/Src/usbpd_dpm.c             DPM layer implementation
-  - Consumer_CLI_RTOS/Src/usbpd_pwr_if.c          General power interface configuration
-  - Consumer_CLI_RTOS/Inc/main.h                  Main program header file
-  - Consumer_CLI_RTOS/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - Consumer_CLI_RTOS/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - Consumer_CLI_RTOS/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - Consumer_CLI_RTOS/Inc/usbpd_dpm.h             DPM Layer header file
-  - Consumer_CLI_RTOS/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
+  - Consumer_CLI_RTOS/Src/main.c                      Main program
+  - Consumer_CLI_RTOS/Src/system_stm32f0xx.c          STM32F0xx system clock configuration file
+  - Consumer_CLI_RTOS/Src/stm32f0xx_hal_msp.c         HAL MSP file
+  - Consumer_CLI_RTOS/Src/stm32f0xx_it.c              Interrupt handlers
+  - Consumer_CLI_RTOS/Src/usbpd_dpm_user.c            DPM layer implementation
+  - Consumer_CLI_RTOS/Src/usbpd_pwr_if.c              General power interface configuration
+  - Consumer_CLI_RTOS/Inc/main.h                      Main program header file
+  - Consumer_CLI_RTOS/Inc/stm32f0xx_it.h              Interrupt handlers header file
+  - Consumer_CLI_RTOS/Inc/stm32f0xx_hal_conf.h        HAL configuration file
+  - Consumer_CLI_RTOS/Inc/usbpd_dpm_conf.h            USB-C Power Delivery application Configuration file
+  - Consumer_CLI_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - Consumer_CLI_RTOS/Inc/usbpd_pdo_defs.h            PDO definition central header file
+  - Consumer_CLI_RTOS/Inc/usbpd_pdo_defs_Snk_1Port.h  1 Port SNK PDO definition file
+  - Consumer_CLI_RTOS/Inc/FreeRTOSConfig.h            FreeRTOS module configuration file
  
 
 @par Hardware and Software environment
@@ -134,7 +136,7 @@ options is provided in application directory in STMicroelectronics_Consumer_STM3
     and can be easily tailored to any other supported device and development board.
 
   - Use a USB-C Power Delivery cable to connect the STM32 Nucleo board 
-   (connector CN0 in the X-NUCLEO shield) to a USB-C Power Delivery Source device.
+    (connector CN0 in the X-NUCLEO shield) to a USB-C Power Delivery Source device.
     To test this application, the Provider_RTOS application can be used as a 
     Provider (Source), on a 2nd board.
 

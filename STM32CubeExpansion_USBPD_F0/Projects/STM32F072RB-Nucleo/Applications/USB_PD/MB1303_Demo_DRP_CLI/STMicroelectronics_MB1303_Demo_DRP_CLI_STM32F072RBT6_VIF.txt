@@ -1,0 +1,117 @@
+; 
+; USB-IF Vendor Info File Generator, Version 1.2.0.0
+; 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Intro tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$VIF_Specification: "Revision 1.30, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.2.0.0"
+$Vendor_Name: "STMicroelectronics"
+$Model_Part_Number: "STUSB1602_PD2_DRP"
+$Product_Revision: "1.0"
+$TID: "0"
+VIF_Product_Type: 0        ; Port
+$Port_Label: "0"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   VIF Product tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Connector_Type: 2        ; USB Type-C
+USB_PD_Support: YES
+PD_Port_Type: 4        ; DRP
+Type_C_State_Machine: 2        ; DRP
+Port_Battery_Powered: NO
+BC_1_2_Support: 0        ; None
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   General PD Settings tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Specification_Revision: 1        ; Revision 2.0
+SOP_Capable: YES
+SOP_P_Capable: NO
+SOP_PP_Capable: NO
+SOP_P_Debug_Capable: NO
+SOP_PP_Debug_Capable: NO
+USB_Comms_Capable: NO
+DR_Swap_To_DFP_Supported: NO
+DR_Swap_To_UFP_Supported: NO
+Unconstrained_Power: YES
+VCONN_Swap_To_On_Supported: NO
+VCONN_Swap_To_Off_Supported: NO
+Responds_To_Discov_SOP: NO
+Attempts_Discov_SOP: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Type-C tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type_C_Implements_Try_SRC: NO
+Type_C_Implements_Try_SNK: NO
+Rp_Value                                        : 1               ; 1.5A @ 5V
+Type_C_Supports_VCONN_Powered_Accessory: NO
+Type_C_Is_VCONN_Powered_Accessory: NO
+Type_C_Is_Debug_Target_SRC: YES
+Type_C_Is_Debug_Target_SNK: NO
+Type_C_Can_Act_As_Host: NO
+Type_C_Can_Act_As_Device     : NO
+Type_C_Is_Alt_Mode_Adapter   : NO
+Type_C_Is_Alt_Mode_Controller: NO
+Type_C_Power_Source: 0        ; Self-Powered
+Type_C_Port_On_Hub: NO
+Type_C_Supports_Audio_Accessory: NO
+Captive_Cable: NO
+Type_C_Sources_VCONN: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Source tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Source: 40000        ; (40000 mW)
+USB_Suspend_May_Be_Cleared: YES
+Sends_Pings: NO
+Num_Src_PDOs: 5
+
+    Src_PDO_Supply_Type1: 0        ; Fixed
+    Src_PDO_Peak_Current1: 0        ; 100% IOC
+    Src_PDO_Voltage1: 100        ; (5000 mV)
+    Src_PDO_Max_Current1: 300        ; (3000 mA)
+
+    Src_PDO_Supply_Type2: 0        ; Fixed
+    Src_PDO_Peak_Current2: 0        ; 100% IOC
+    Src_PDO_Voltage2: 180        ; (9000 mV)
+    Src_PDO_Max_Current2: 200        ; (2000 mA)
+
+    Src_PDO_Supply_Type3: 0        ; Fixed
+    Src_PDO_Peak_Current3: 0        ; 100% IOC
+    Src_PDO_Voltage3: 240        ; (12000 mV)
+    Src_PDO_Max_Current3: 200        ; (2000 mA)
+
+    Src_PDO_Supply_Type4: 0        ; Fixed
+    Src_PDO_Peak_Current4: 0        ; 100% IOC
+    Src_PDO_Voltage4: 300        ; (15000 mV)
+    Src_PDO_Max_Current4: 200        ; (2000 mA)
+
+    Src_PDO_Supply_Type5: 0        ; Fixed
+    Src_PDO_Peak_Current5: 0        ; 100% IOC
+    Src_PDO_Voltage5: 400        ; (20000 mV)
+    Src_PDO_Max_Current5: 200        ; (2000 mA)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Sink tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Sink: 7500        ; (7500 mW)
+No_USB_Suspend_May_Be_Set: YES
+GiveBack_May_Be_Set: NO
+Higher_Capability_Set: NO
+Num_Snk_PDOs: 1
+
+    Snk_PDO_Supply_Type1: 0        ; Fixed
+    Snk_PDO_Voltage1: 100        ; (5000 mV)
+    Snk_PDO_Op_Current1: 150        ; (1500 mA)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Dual Role tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Accepts_PR_Swap_As_Src: YES
+Accepts_PR_Swap_As_Snk: YES
+Requests_PR_Swap_As_Src: NO
+Requests_PR_Swap_As_Snk: NO
+

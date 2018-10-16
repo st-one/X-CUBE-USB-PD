@@ -62,6 +62,7 @@
 #define  USB_LEN_OTG_DESC                               0x03
 #define  USB_LEN_LANGID_STR_DESC                        0x04
 #define  USB_LEN_OTHER_SPEED_DESC_SIZ                   0x09
+#define  USB_LEN_BB_BOS_DESC                            0x115 /* 0x5 + 0x14 + 0xFC */
 
 #define  USBD_IDX_LANGID_STR                            0x00 
 #define  USBD_IDX_MFC_STR                               0x01 
@@ -109,6 +110,10 @@
 #define USB_FEATURE_TEST_MODE                              2
 
 #define USB_DEVICE_CAPABITY_TYPE                           0x10
+
+/* Device Capability types */
+#define USBD_CONTAINERID_CAPABILITY                       0x04
+#define USBD_BILLBOARD_CAPABILITY                         0x0D
 
 #define USB_HS_MAX_PACKET_SIZE                            512
 #define USB_FS_MAX_PACKET_SIZE                            64

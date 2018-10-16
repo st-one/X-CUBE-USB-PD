@@ -51,10 +51,6 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(_GUI_INTERFACE)
-#include "GUI_API.h"
-#endif /* _GUI_INTERFACE */
-
 /** @addtogroup STM32_USBPD_LIBRARY
   * @{
   */
@@ -67,53 +63,62 @@ extern "C" {
   * @{
   */
 
-
 /* Exported types ------------------------------------------------------------*/
 /** @defgroup USBPD_CORE_TRACE_Exported_Types USBPD CORE TRACE Exported Types
   * @{
   */
 typedef enum {
-  USBPD_TRACE_GUI         = 0,
+  USBPD_TRACE_FORMAT_TLV  = 0,
   USBPD_TRACE_MESSAGE_IN  = 1,
-  USBPD_TRACE_MESSAGE_OUT,
-  USBPD_TRACE_CADEVENT,
-  USBPD_TRACE_PE_STATE,
-  USBPD_TRACE_CAD_LOW
+  USBPD_TRACE_MESSAGE_OUT = 2,
+  USBPD_TRACE_CADEVENT    = 3,
+  USBPD_TRACE_PE_STATE    = 4,
+  USBPD_TRACE_CAD_LOW     = 5,
+  USBPD_TRACE_DEBUG       = 6,
+  USBPD_TRACE_SRC         = 7,
+  USBPD_TRACE_SNK         = 8,
+  USBPD_TRACE_NOTIF       = 9,
+  USBPD_TRACE_POWER       =10
 }
 TRACE_EVENT;
 
-/**
-  * @}
-  */
+typedef void (*TRACE_ENTRY_POINT)(TRACE_EVENT type, uint8_t port, uint8_t sop, uint8_t *ptr, uint32_t size);
+
 /**
   * @}
   */
 
 /* Exported define -----------------------------------------------------------*/
-/** @defgroup USBPD_CORE_TRACE_Exported_Defines USBPD CORE TRACE Exported Defines
-  * @{
-  */
-/**
-  * @}
-  */
-
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported variables --------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
 
-/** @addtogroup USBPD_CORE_CAD_Exported_Functions
+/** @defgroup USBPD_CORE_TRACE_Exported_Functions USBPD TRACE Exported Functions
   * @{
   */
+/**
+  * @brief  Initialize the TRACE module
+  * @retval None
+  */
 void            USBPD_TRACE_Init(void);
-void            USBPD_TRACE_Add(TRACE_EVENT type, uint8_t port, uint8_t sop, uint8_t *ptr, uint32_t size);
+
+/**
+  * @brief  Add information in debug trace buffer
+  * @param  Type    Trace Type based on @ref TRACE_EVENT
+  * @param  PortNum Port number value
+  * @param  Sop     SOP type
+  * @param  Ptr     Pointer on the data to send
+  * @param  Size    Size of the data to send
+  * @retval None.
+  */
+void            USBPD_TRACE_Add(TRACE_EVENT Type, uint8_t PortNum, uint8_t Sop, uint8_t *Ptr, uint32_t Size);
+
+/**
+  * @brief  Main Trace TX process to push data on the media.
+  * @retval Timing
+  */
 uint32_t        USBPD_TRACE_TX_Process(void);
-#if defined(_GUI_INTERFACE)
-uint32_t        USBPD_TRACE_RX_Process(void);
-uint32_t        USBPD_TRACE_SendNotification(uint32_t PortNum, uint32_t TypeNotification, uint32_t Value);
-#endif /* _GUI_INTERFACE */
-
-
 
 /**
   * @}
@@ -138,4 +143,3 @@ uint32_t        USBPD_TRACE_SendNotification(uint32_t PortNum, uint32_t TypeNoti
 #endif /* __USBPD_CAD_H_ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

@@ -1,11 +1,11 @@
-﻿/**
-  @page USB-C Power Delivery DUAL_PORT_RTOS application for STUSB1602 (P-NUCLEO-USB002 kit)
-
+/**
+  @page USB-C Power Delivery MB1303_DRP_DUAL_PORT_RTOS application for STUSB1602 (P-NUCLEO-USB002 kit)
+  
   @verbatim
   ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
   * @file    MB1303_DRP_DUAL_PORT_RTOS/readme.txt 
   * @author  MCD Application Team
-  * @brief   Description of the USB-C Power Delivery DUAL_PORT_RTOS application.
+  * @brief   Description of the USB-C Power Delivery MB1303_DRP_DUAL_PORT_RTOS application.
   ******************************************************************************
   *
   * Copyright (c) 2017 STMicroelectronics International N.V. All rights reserved.
@@ -45,9 +45,9 @@
   @endverbatim
   
 @par Application Description
-This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) Dual DRP Ports application
-based on the STM32F072+STUSB1602 devices.
+Use of the USB Power Delivery (USB-PD) Dual-Role Power (DRP) application running on STM32F072+STUSB1602 devices.
+Project configuration is based on USB Power Delivery Specification revision 3.0.
+In this configuration, both ports are enabled.
 
 At startup:
  - Status LED (Blue LED D106) is on.
@@ -107,19 +107,22 @@ On the expansion board:
 
 @par Directory contents
 
-  - MB1303_DRP_DUAL_PORT_RTOS/Src/main.c                  Main program
-  - MB1303_DRP_DUAL_PORT_RTOS/Src/stm32f0xx_hal_msp.c     STM32F0xx hal msp
-  - MB1303_DRP_DUAL_PORT_RTOS/Src/stm32f0xx_it.c          Interrupt handlers
-  - MB1303_DRP_DUAL_PORT_RTOS/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - MB1303_DRP_DUAL_PORT_RTOS/Src/usbpd_dpm.c             DPM layer implementation
-  - MB1303_DRP_DUAL_PORT_RTOS/Src/usbpd_pwr_if.c          General power interface configuration
-  - MB1303_DRP_DUAL_PORT_RTOS/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
-  - MB1303_DRP_DUAL_PORT_RTOS/Inc/main.h                  Main program header file
-  - MB1303_DRP_DUAL_PORT_RTOS/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - MB1303_DRP_DUAL_PORT_RTOS/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - MB1303_DRP_DUAL_PORT_RTOS/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - MB1303_DRP_DUAL_PORT_RTOS/Inc/usbpd_dpm.h             DPM Layer header file
- 
+  - MB1303_DRP_DUAL_PORT_RTOS/Src/main.c                      Main program
+  - MB1303_DRP_DUAL_PORT_RTOS/Src/system_stm32f0xx.c          STM32F0xx system clock configuration file
+  - MB1303_DRP_DUAL_PORT_RTOS/Src/stm32f0xx_hal_msp.c         HAL MSP file
+  - MB1303_DRP_DUAL_PORT_RTOS/Src/stm32f0xx_it.c              Interrupt handlers
+  - MB1303_DRP_DUAL_PORT_RTOS/Src/usbpd_dpm_user.c            DPM layer implementation
+  - MB1303_DRP_DUAL_PORT_RTOS/Src/usbpd_pwr_if.c              General power interface configuration
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/main.h                      Main program header file
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/stm32f0xx_it.h              Interrupt handlers header file
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/stm32f0xx_hal_conf.h        HAL configuration file
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/usbpd_dpm_conf.h            USB-C Power Delivery application Configuration file
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/FreeRTOSConfig.h            FreeRTOS module configuration file
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/usbpd_pdo_defs.h            PDO definition central header file
+  - MB1303_DRP_DUAL_PORT_RTOS/Inc/usbpd_pdo_defs_Drp_2Ports.h 2 Ports DRP PDO definition file
+
 
 @par Hardware and Software environment
 

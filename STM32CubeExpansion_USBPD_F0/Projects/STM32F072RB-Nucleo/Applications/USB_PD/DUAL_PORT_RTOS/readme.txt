@@ -2,13 +2,13 @@
   @page USB-C Power Delivery DUAL_PORT_RTOS application
   
   @verbatim
-  ******************** (C) COPYRIGHT 2016 STMicroelectronics *******************
+  ******************** (C) COPYRIGHT 2017 STMicroelectronics *******************
   * @file    DUAL_PORT_RTOS/readme.txt 
   * @author  MCD Application Team
   * @brief   Description of the USB-C Power Delivery DUAL_PORT_RTOS application.
   ******************************************************************************
   *
-  * Copyright (c) 2016 STMicroelectronics International N.V. All rights reserved.
+  * Copyright (c) 2017 STMicroelectronics International N.V. All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
   * modification, are permitted, provided that the following conditions are met:
@@ -45,11 +45,10 @@
   @endverbatim
   
 @par Application Description
-This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) Dual Port application
-based on the STM32F072 devices.
+Use of the USB Power Delivery (USB-PD) Dual Port application running on STM32F072 devices.
 
 This application provides an example for managing both Port 0 and Port 1 simultaneously.
+Project configuration is based on USB Power Delivery Specification revision 2.0.
 Both ports are Dual-Role Power (DRP) ports, and behave independently.
 User should plug the USB-C cable on the dedicated connector (Port 0: CN0 or Port 1: CN1).
 When the application starts, each Port has Capability of operating as either a Source or Sink.
@@ -90,7 +89,7 @@ trigger the power negotiation:
 This application also embeds a Command Line Interface (CLI) feature, which allows user
 to get status of Power Delivery application running on Port 0 and Port 1 and to interact
 with application through a serial communication.
-Please refer to UM2051 (Getting started with the STM32 Nucleo pack for USB Type-C™ and Power Delivery)
+Please refer to UM2051 (Getting started with the STM32 Nucleo pack for USB Type-C and Power Delivery)
 for more details on :
  - Boards configuration for allowing CLI use
  - HyperTerminal configuration
@@ -119,7 +118,6 @@ take, after being connected to another device (either Provider or Consumer).
   In Consumer case, Consumer is supplied by mean of the VBUS delivered by the Provider attached 
   by the USB Type-C cable.
 
-
 @note Care must be taken when using HAL_Delay(), this function provides accurate delay (in milliseconds)
       based on variable incremented in SysTick ISR. This implies that if HAL_Delay() is called from
       a peripheral ISR process, then the SysTick interrupt must have higher priority (numerically lower)
@@ -131,18 +129,20 @@ take, after being connected to another device (either Provider or Consumer).
 
 @par Directory contents
 
-  - DUAL_PORT_RTOS/Src/main.c                  Main program
-  - DUAL_PORT_RTOS/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - DUAL_PORT_RTOS/Src/stm32f0xx_hal_msp.c     HAL MSP file
-  - DUAL_PORT_RTOS/Src/stm32f0xx_it.c          Interrupt handlers
-  - DUAL_PORT_RTOS/Src/usbpd_dpm.c             DPM layer implementation
-  - DUAL_PORT_RTOS/Src/usbpd_pwr_if.c          General power interface configuration
-  - DUAL_PORT_RTOS/Inc/main.h                  Main program header file
-  - DUAL_PORT_RTOS/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - DUAL_PORT_RTOS/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - DUAL_PORT_RTOS/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - DUAL_PORT_RTOS/Inc/usbpd_dpm.h             DPM Layer header file
-  - DUAL_PORT_RTOS/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
+  - DUAL_PORT_RTOS/Src/main.c                      Main program
+  - DUAL_PORT_RTOS/Src/system_stm32f0xx.c          STM32F0xx system clock configuration file
+  - DUAL_PORT_RTOS/Src/stm32f0xx_hal_msp.c         HAL MSP file
+  - DUAL_PORT_RTOS/Src/stm32f0xx_it.c              Interrupt handlers
+  - DUAL_PORT_RTOS/Src/usbpd_dpm_user.c            DPM layer implementation
+  - DUAL_PORT_RTOS/Src/usbpd_pwr_if.c              General power interface configuration
+  - DUAL_PORT_RTOS/Inc/main.h                      Main program header file
+  - DUAL_PORT_RTOS/Inc/stm32f0xx_it.h              Interrupt handlers header file
+  - DUAL_PORT_RTOS/Inc/stm32f0xx_hal_conf.h        HAL configuration file
+  - DUAL_PORT_RTOS/Inc/usbpd_dpm_conf.h            USB-C Power Delivery application Configuration file
+  - DUAL_PORT_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - DUAL_PORT_RTOS/Inc/usbpd_pdo_defs.h            PDO definition central header file
+  - DUAL_PORT_RTOS/Inc/usbpd_pdo_defs_Drp_2Ports.h 2 Ports DRP PDO definition file
+  - DUAL_PORT_RTOS/Inc/FreeRTOSConfig.h            FreeRTOS module configuration file
  
 
 @par Hardware and Software environment

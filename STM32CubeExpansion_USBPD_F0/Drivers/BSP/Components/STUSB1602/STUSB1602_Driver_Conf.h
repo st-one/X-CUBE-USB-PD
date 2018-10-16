@@ -2,23 +2,35 @@
   ******************************************************************************
   * @file    STUSB1602_Driver_Conf.h
   * @author  System Lab
-  * @brief   This file contains the headers of usbpd_hw_if.h.
+  * @brief   This file contains the headers of STUSB1602 component BSP driver.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2017 STMicroelectronics</center></h2>
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V.
+  * All rights reserved.</center></h2>
   *
-  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
-  * You may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at:
+  * Redistribution and use in source and binary forms, with or without
+  * modification, are permitted, provided that the following conditions are met:
   *
-  *        http://www.st.com/software_license_agreement_liberty_v2
+  * 1. Redistributions of source code must retain the above copyright notice,
+  *    this list of conditions and the following disclaimer.
+  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  *    this list of conditions and the following disclaimer in the documentation
+  *    and/or other materials provided with the distribution.
+  * 3. Neither the name of STMicroelectronics nor the names of its contributors
+  *    may be used to endorse or promote products derived from this software
+  *    without specific prior written permission.
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
+  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
   */
@@ -28,46 +40,58 @@
 
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx_hal.h"
-#include "usbpd_conf.h"
+
+/** @addtogroup STM32_USBPD_LIBRARY
+ * @{
+ */
+
+/** @addtogroup USBPD_DEVICE
+ * @{
+ */
+
+/** @addtogroup STUSB1602_LIBRARY
+ * @{
+ */
 
 /* Exported typedef ----------------------------------------------------------*/
-
 /* Exported define -----------------------------------------------------------*/
-//#define STUSB16xx_I2CxHandle    hi2c_driver
-//#define STUSB1602_I2C_Addn      2
-//#define STUSB1602_I2C_Add_0     0x28
-//#define STUSB1602_I2C_Add_1     0x29
-//#define TIMEOUT_MAX             2000 /*<! The value of the maximal timeout for BUS waiting loops */
-   
 /* Exported constants --------------------------------------------------------*/
 
+/** @addtogroup STUSB1602_LIBRARY_Exported_Macros USBPD DEVICE STUSB1602 LIBRARY Exported Macros
+ * @{
+ */   
+   
 /* Exported macro ------------------------------------------------------------*/
-#define STUSB1602_I2C_Add(__PORT__)		((__PORT__ == 0) ? STUSB1602_I2C_Add_0 : STUSB1602_I2C_Add_1 )
+#define STUSB1602_I2C_Add(__PORT__)		((__PORT__ == 0) ? STUSB1602_I2C_Add_0 : STUSB1602_I2C_Add_1 )	/*!< I2C Address of the STUSB1602 device */
+
+/**
+ * @}
+ */
 
    
 /* Exported variables --------------------------------------------------------*/
-//static I2C_HandleTypeDef STUSB16xx_I2CxHandle;
-
-
-
-/* to be filled
-#define WriteReg(...) HAL_I2C_Mem_Write(...)
-*/
-
 /* Exported functions --------------------------------------------------------*/
-//void STUSB1602_Driver_Init(I2C_HandleTypeDef I2CxHandle);
 
+/**
+ * @}
+ */
 
+/**
+ * @}
+ */
+
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* __STUSB1602_DRIVER_CONF_H_ */
-
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

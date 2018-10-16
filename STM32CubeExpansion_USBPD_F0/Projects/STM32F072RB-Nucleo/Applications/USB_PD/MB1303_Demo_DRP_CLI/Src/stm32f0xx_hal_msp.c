@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>Copyright (c) 2017 STMicroelectronics 
+  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics International N.V. 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -47,7 +47,7 @@
 #include "stm32f0xx_hal.h"
 #include "usbpd_hw_if.h"
 
-/** @addtogroup STM32F072xx_USBPD_applications
+/** @addtogroup STM32F0xx_HAL_Examples
   * @{
   */
 
@@ -76,20 +76,17 @@
 void HAL_MspInit(void)
 {
   __HAL_RCC_SYSCFG_CLK_ENABLE();
-  
-  /* System interrupt init*/
-  /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
-  
   /* Enable the RCC peripheral clock associated to all the selected GPIOs */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+#if defined(GPIOD)
   __HAL_RCC_GPIOD_CLK_ENABLE();
+#endif /* GPIOD */
+#if defined(GPIOF)
   __HAL_RCC_GPIOF_CLK_ENABLE();
-  
+#endif /* GPIOD */
 }
-
 /**
   * @brief ADC MSP Initialization
   * @param hadc: ADC handle pointer
@@ -123,7 +120,6 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
   PHY_HW_IF_ADCDMA_DeInit();
 }
 
-
 /**
   * @brief SPI MSP Initialization
   * @param hspi: SPI handle pointer
@@ -131,49 +127,47 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
   */
 void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 {
-
   GPIO_InitTypeDef GPIO_InitStruct;
   
-  uint8_t PortNum = GET_PORT_FROM_SPI(hspi);
+  uint8_t port_num = GET_PORT_FROM_SPI(hspi);
   
   /* Peripheral clock enable */
-  SPI_CLK_ENABLE(PortNum);
-
-    GPIO_InitStruct.Pin = SPI_MISO_PIN(PortNum);
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate = SPI_MISO_ALTERNATE(PortNum);
-    HAL_GPIO_Init(SPI_MISO_PORT(PortNum), &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = SPI_MOSI_PIN(PortNum);
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate = SPI_MOSI_ALTERNATE(PortNum);
-    HAL_GPIO_Init(SPI_MOSI_PORT(PortNum), &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = SPI_CLK_PIN(PortNum);
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate = SPI_CLK_ALTERNATE(PortNum);
-    HAL_GPIO_Init(SPI_CLK_PORT(PortNum), &GPIO_InitStruct);
-    
-    GPIO_InitStruct.Pin = SPI_NSS_PIN(PortNum);
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate = SPI_NSS_ALTERNATE(PortNum);
-    HAL_GPIO_Init(SPI_NSS_PORT(PortNum), &GPIO_InitStruct);
-        
-    /* TX DMA Initialization */
-    STUSB16xx_HW_IF_TX_DMA_Init(PortNum);
-
-    /* RX DMA Initialization */
-    STUSB16xx_HW_IF_RX_DMA_Init(PortNum);  
-}
+  SPI_CLK_ENABLE(port_num);
   
+  GPIO_InitStruct.Pin = SPI_MISO_PIN(port_num);
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Alternate = SPI_MISO_ALTERNATE(port_num);
+  HAL_GPIO_Init(SPI_MISO_PORT(port_num), &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = SPI_MOSI_PIN(port_num);
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Alternate = SPI_MOSI_ALTERNATE(port_num);
+  HAL_GPIO_Init(SPI_MOSI_PORT(port_num), &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = SPI_CLK_PIN(port_num);
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Alternate = SPI_CLK_ALTERNATE(port_num);
+  HAL_GPIO_Init(SPI_CLK_PORT(port_num), &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = SPI_NSS_PIN(port_num);
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Alternate = SPI_NSS_ALTERNATE(port_num);
+  HAL_GPIO_Init(SPI_NSS_PORT(port_num), &GPIO_InitStruct);
+
+  /* TX DMA Initialization */
+  STUSB16xx_HW_IF_TX_DMA_Init(port_num);
+
+  /* RX DMA Initialization */
+  STUSB16xx_HW_IF_RX_DMA_Init(port_num);  
+}
 
 /**
   * @brief SPI MSP De-initialization
@@ -182,20 +176,14 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
   */
 void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
 {
-  uint8_t PortNum = GET_PORT_FROM_SPI(hspi);
+  uint8_t port_num = GET_PORT_FROM_SPI(hspi);
   
-#ifndef MB1303
   /* TX SPI clock pin De-initialization */
-  HAL_GPIO_DeInit(TX_SCK_GPIOPORT(PortNum), TX_SCK_PIN(PortNum));
-#else
-  /* TX SPI clock pin De-initialization */
-  HAL_GPIO_DeInit(SPI_CLK_PORT(PortNum), SPI_CLK_PIN(PortNum));
-#endif
+  HAL_GPIO_DeInit(SPI_CLK_PORT(port_num), SPI_CLK_PIN(port_num));
   
   /* Peripheral DMA DeInit*/
   HAL_DMA_DeInit(hspi->hdmatx);
 }
-
 
 /**
 * @brief I2C MSP Initialization
@@ -205,18 +193,18 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
 void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 {
   GPIO_InitTypeDef GPIO_InitStruct;
-  
-  uint8_t PortNum = GET_PORT_FROM_I2C(hi2c);
- 
-  GPIO_InitStruct.Pin = I2C_SCL_PIN(PortNum)|I2C_SDA_PIN(PortNum);
-  GPIO_InitStruct.Mode = I2C_MODE(PortNum);
-  GPIO_InitStruct.Pull = I2C_PULL(PortNum);
-  GPIO_InitStruct.Speed = I2C_SPEED(PortNum);
-  GPIO_InitStruct.Alternate = I2C_ALTERNATE(PortNum);
-  HAL_GPIO_Init(I2C_PORT(PortNum), &GPIO_InitStruct);
-    
+
+  uint8_t port_num = GET_PORT_FROM_I2C(hi2c);
+
+  GPIO_InitStruct.Pin       = I2C_SCL_PIN(port_num)|I2C_SDA_PIN(port_num);
+  GPIO_InitStruct.Mode      = I2C_MODE(port_num);
+  GPIO_InitStruct.Pull      = I2C_PULL(port_num);
+  GPIO_InitStruct.Speed     = I2C_SPEED(port_num);
+  GPIO_InitStruct.Alternate = I2C_ALTERNATE(port_num);
+  HAL_GPIO_Init(I2C_PORT(port_num), &GPIO_InitStruct);
+
   /* Peripheral clock enable */
-  I2C_CLK_ENABLE(PortNum);    
+  I2C_CLK_ENABLE(port_num);
 }
 
 
@@ -227,14 +215,13 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 */
 void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
 {
-  uint8_t PortNum = GET_PORT_FROM_I2C(hi2c);
+  uint8_t port_num = GET_PORT_FROM_I2C(hi2c);
   
   /* Peripheral clock disable */
-  I2C_CLK_DISABLE(PortNum);
+  I2C_CLK_DISABLE(port_num);
 
-  HAL_GPIO_DeInit(I2C_PORT(PortNum), I2C_SCL_PIN(PortNum)|I2C_SDA_PIN(PortNum));
-} 
-
+  HAL_GPIO_DeInit(I2C_PORT(port_num), I2C_SCL_PIN(port_num)|I2C_SDA_PIN(port_num));
+}
 
 /**
   * @brief CRC MSP Initialization
@@ -265,62 +252,16 @@ void HAL_CRC_MspDeInit(CRC_HandleTypeDef *hcrc)
   */
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 {
-  uint8_t PortNum = GET_PORT_FROM_TIM(htim_base);
-  
-#ifndef MB1303
-  
-  GPIO_InitTypeDef GPIO_InitStruct;
-  
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  
-  if(IS_TX_TIM(htim_base)) /* TX TIMER IDENTIFIED */
+  uint8_t port_num = GET_PORT_FROM_TIM(htim_base);
+  if(IS_RX_COUNTTIM(htim_base))  /* RX COUNT TIMER IDENTIFIED */
   {
     /* Peripheral clock enable */
-    TX_TIM_CLK_ENABLE(PortNum);
-    
-    GPIO_InitStruct.Pin = TX_TIM_PIN(PortNum);
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.Alternate = TX_TIM_GPIOAF(PortNum);
-    /* TX Timer initialized */
-    HAL_GPIO_Init(TX_TIM_GPIOPORT(PortNum), &GPIO_InitStruct);
+    RX_COUNTTIM_CLK_ENABLE(port_num);
+
+    /* Peripheral interrupt init*/
+    HAL_NVIC_SetPriority(RX_COUNTTIM_IRQN(port_num), RX_COUNTTIMIRQ_PRIO(port_num), 0);
+    HAL_NVIC_EnableIRQ(RX_COUNTTIM_IRQN(port_num));
   }
-  else
-  {
-    if(IS_RX_TIM(htim_base)) /* RX TIMER IDENTIFIED */
-    {
-      /* Peripheral clock enable */
-      RX_TIM_CLK_ENABLE(PortNum);
-      
-      /* RX DMA Timer initialized */
-      //USBPDM1_RX_DMA_Init(PortNum);
-    }
-    else if(IS_RX_COUNTTIM(htim_base))  /* RX COUNT TIMER IDENTIFIED */
-    {
-      /* Peripheral clock enable */
-      RX_COUNTTIM_CLK_ENABLE(PortNum);
-      
-      /* Peripheral interrupt init*/
-      HAL_NVIC_SetPriority(RX_COUNTTIM_IRQN(PortNum), RX_COUNTTIMIRQ_PRIO(PortNum), 0);
-      HAL_NVIC_EnableIRQ(RX_COUNTTIM_IRQN(PortNum));
-    }
-  }
-  
-#else
- if(IS_RX_COUNTTIM(htim_base))  /* RX COUNT TIMER IDENTIFIED */
-    {
-      /* Peripheral clock enable */
-      RX_COUNTTIM_CLK_ENABLE(PortNum);
-      
-      /* Peripheral interrupt init*/
-      HAL_NVIC_SetPriority(RX_COUNTTIM_IRQN(PortNum), RX_COUNTTIMIRQ_PRIO(PortNum), 0);
-      HAL_NVIC_EnableIRQ(RX_COUNTTIM_IRQN(PortNum));
-    }
-#endif
-  
 }
 
 /**
@@ -330,35 +271,13 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
   */
 void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 {
-  uint8_t PortNum = GET_PORT_FROM_TIM(htim_base);
-  
-#ifndef MB1303
-  if(IS_TX_TIM(htim_base)) /* TX TIMER IDENTIFIED */
+  uint8_t port_num = GET_PORT_FROM_TIM(htim_base);
+
+  if ( IS_RX_COUNTTIM(htim_base) )  /* RX COUNT TIMER IDENTIFIED */
   {
     /* Peripheral clock enable */
-    TX_TIM_CLK_DISABLE(PortNum);
+     RX_COUNTTIM_CLK_DISABLE(port_num);
   }
-  else
-  {
-    if(IS_RX_TIM(htim_base)) /* RX TIMER IDENTIFIED */
-    {
-      /* Peripheral clock disable */
-      RX_TIM_CLK_DISABLE(PortNum);
-    }
-    else if(IS_RX_COUNTTIM(htim_base))  /* RX COUNT TIMER IDENTIFIED */
-    {
-      /* Peripheral clock enable */
-      RX_COUNTTIM_CLK_DISABLE(PortNum);
-    }
-  }
-  
-#else
-      if ( IS_RX_COUNTTIM(htim_base) )  /* RX COUNT TIMER IDENTIFIED */
-      {
-        /* Peripheral clock enable */
-        RX_COUNTTIM_CLK_DISABLE(PortNum);
-      }
-#endif
 }
 
 /**

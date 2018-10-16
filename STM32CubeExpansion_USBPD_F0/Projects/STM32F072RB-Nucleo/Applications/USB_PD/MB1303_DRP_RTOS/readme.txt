@@ -1,4 +1,4 @@
-﻿/**
+/**
   @page USB-C Power Delivery MB1303_DRP_RTOS application for STUSB1602 (P-NUCLEO-USB002 kit)
   
   @verbatim
@@ -45,9 +45,8 @@
   @endverbatim
   
 @par Application Description
-This application is a part of the USB Power Delivery package using STM32Cube 
-firmware. It describes how to use USB Power Delivery (USB-PD) DRP application
-based on the STM32F072+STUSB1602 devices.
+Use of the USB Power Delivery (USB-PD) Dual-Role Power (DRP) application running on STM32F072+STUSB1602 devices.
+Project configuration is based on USB Power Delivery Specification revision 2.0, with support of DRP application on Port 0.
 
 At startup:
  - Status LED (Blue LED D106) is on.
@@ -72,7 +71,7 @@ When a provider is connected:
  - The STM32 MCU behaves as a Consumer (Sink mode),it waits for Power Capabilities message 
    from the attached provider. When a Source Capabilities message is received, the STM32 
    starts the evaluation of the received capabilities and check if one of the received power 
-   objects can meet its power requirement.
+   objects can meet its power requirement. 
    While the communication is carried on, VBUS LED will blink.
    The STM32 shall send the Request message to request the new power level from the offered 
    Source Capabilities.
@@ -107,19 +106,22 @@ On the expansion board:
 
 @par Directory contents
 
-  - MB1303_DRP_RTOS/Src/main.c                  Main program
-  - MB1303_DRP_RTOS/Src/stm32f0xx_hal_msp.c     STM32F0xx hal msp
-  - MB1303_DRP_RTOS/Src/stm32f0xx_it.c          Interrupt handlers
-  - MB1303_DRP_RTOS/Src/system_stm32f0xx.c      STM32F0xx system clock configuration file
-  - MB1303_DRP_RTOS/Src/usbpd_dpm.c             DPM layer implementation
-  - MB1303_DRP_RTOS/Src/usbpd_pwr_if.c          General power interface configuration
-  - MB1303_DRP_RTOS/Inc/FreeRTOSConfig.h        FreeRTOS module configuration file
-  - MB1303_DRP_RTOS/Inc/main.h                  Main program header file
-  - MB1303_DRP_RTOS/Inc/stm32f0xx_hal_conf.h    HAL configuration file
-  - MB1303_DRP_RTOS/Inc/stm32f0xx_it.h          Interrupt handlers header file
-  - MB1303_DRP_RTOS/Inc/usbpd_conf.h            USB-C Power Delivery application Configuration file
-  - MB1303_DRP_RTOS/Inc/usbpd_dpm.h             DPM Layer header file
- 
+  - MB1303_DRP_RTOS/Src/main.c                      Main program
+  - MB1303_DRP_RTOS/Src/system_stm32f0xx.c          STM32F0xx system clock configuration file
+  - MB1303_DRP_RTOS/Src/stm32f0xx_hal_msp.c         HAL MSP file
+  - MB1303_DRP_RTOS/Src/stm32f0xx_it.c              Interrupt handlers
+  - MB1303_DRP_RTOS/Src/usbpd_dpm_user.c            DPM layer implementation
+  - MB1303_DRP_RTOS/Src/usbpd_pwr_if.c              General power interface configuration
+  - MB1303_DRP_RTOS/Inc/main.h                      Main program header file
+  - MB1303_DRP_RTOS/Inc/stm32f0xx_it.h              Interrupt handlers header file
+  - MB1303_DRP_RTOS/Inc/stm32f0xx_hal_conf.h        HAL configuration file
+  - MB1303_DRP_RTOS/Inc/usbpd_dpm_conf.h            USB-C Power Delivery application Configuration file
+  - MB1303_DRP_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - MB1303_DRP_RTOS/Inc/FreeRTOSConfig.h            FreeRTOS module configuration file
+  - MB1303_DRP_RTOS/Inc/usbpd_dpm_user.h            DPM Layer header file
+  - MB1303_DRP_RTOS/Inc/usbpd_pdo_defs.h            PDO definition central header file
+  - MB1303_DRP_RTOS/Inc/usbpd_pdo_defs_Drp_1Port.h  1 Port DRP PDO definition file
+
 
 @par Hardware and Software environment
 

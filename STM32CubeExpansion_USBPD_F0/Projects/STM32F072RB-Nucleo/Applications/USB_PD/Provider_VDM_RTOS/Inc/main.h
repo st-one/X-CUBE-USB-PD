@@ -1,12 +1,12 @@
 /**
   ******************************************************************************
-  * @file    main.h 
+  * @file    main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics International N.V. 
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -42,21 +42,23 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
 
 /* Includes ------------------------------------------------------------------*/
 #include "cmsis_os.h"
-#include "usbpd_conf.h"
 #include "usbpd_def.h"
+#include "usbpd_dpm_core.h"
 #include "usbpd_hw_if.h"
-#include "usbpd_dpm.h"
 #include "p-nucleo-usb001.h"
 #include "stm32f0xx_nucleo.h"
 
+#include <string.h>
+
 /* Exported types ------------------------------------------------------------*/
+/* Exported variables --------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */

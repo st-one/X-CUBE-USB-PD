@@ -13,7 +13,7 @@
 
     <h1>X-NUCLEO-USB-PD Examples for STM32F0xx Series</h1>
 
-    <p class="copyright">Copyright 2017 STMicroelectronics</p>
+    <p class="copyright">Copyright 2018 STMicroelectronics</p>
 
     <div class="picture">
       <img alt="" id="_x0000_i1025" src="../_htmresc/st_logo.png" style="border: 0px solid ; width: 104px; height: 77px;">
@@ -72,7 +72,7 @@ to any hardware by just implementing the low level routines.</p>
     <p id="STM32F0xxImportantLink">
       </p><div>Reference materials available on&nbsp;<a href="www.st.com/en/embedded-software/stm32cube-expansion-software.html" target="_blank">www.st.com/content/st_com/en/products/embedded-software/mcus-embedded-software/stm32-embedded-software/stm32cube-embedded-software-expansion.html</a></div>
       <ul><li><a href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00122015.pdf" target="_blank">UM1785</a>: Description of STM32F0xx HAL drivers.</li>
-        <li><a href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00105262.pdf" target="_blank">UM1722</a>: Developing Applications on STM32Cube with RTOS.</li><br></ul><table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2"><tbody><tr><td style="text-align: center; color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">Level</td><td style="text-align: center; color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">Module Name</td><td style="text-align: center; color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">Project Name</td><td style="text-align: center; color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">Description</td><td style="color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">STM32F072RB-Nucleo</td></tr><tr><td style="background-color: rgb(72, 171, 207); color: white; text-align: center;" colspan="1" rowspan="14">Applications</td><td style="color: white; text-align: center; background-color: rgb(72, 171, 207);" colspan="1" rowspan="13">USBPD<span lang="fr"><font face="Segoe UI" size="2"><br></font></span></td><td>Consumer_CLI_RTOS</td><td>This
+        <li><a href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00105262.pdf" target="_blank">UM1722</a>: Developing Applications on STM32Cube with RTOS.</li><br></ul><table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2"><tbody><tr><td style="text-align: center; color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">Level</td><td style="text-align: center; color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">Module Name</td><td style="text-align: center; color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">Project Name</td><td style="text-align: center; color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">Description</td><td style="color: rgb(253, 253, 253); background-color: rgb(72, 171, 207); font-weight: bold;">STM32F072RB-Nucleo</td></tr><tr><td style="background-color: rgb(72, 171, 207); color: white; text-align: center;" colspan="1" rowspan="17">Applications</td><td style="color: white; text-align: center; background-color: rgb(72, 171, 207);" colspan="1" rowspan="16">USBPD<span lang="fr"><font face="Segoe UI" size="2"><br></font></span></td><td>Consumer_CLI_RTOS</td><td>This
 application is a part of the USB Power Delivery package using STM32Cube
 firmware. It describes how to use USB Power Delivery (USBPD) consumer
 application, with the Command Line Interface (CLI) tool,
@@ -90,7 +90,10 @@ Dual Role Power and dual port application,&nbsp;for&nbsp;STM32F072+ Analog Front
 End shield (MB1257)</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>Provider_CLI_RTOS</td><td>This application is a part of the USB Power Delivery package using
 STM32Cube firmware. It describes how to use USB Power Delivery (USBPD)
 provider application, with the Command Line Interface (CLI) tool,
-for&nbsp;STM32F072+ Analog Front End shield (MB1257)</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>Provider_RTOS</td><td>This application is a part of the USB Power Delivery package using
+for&nbsp;STM32F072+ Analog Front End shield (MB1257)</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>Provider_LowFootprint</td><td>This application is a part of the USB Power Delivery package using
+STM32Cube firmware. It describes how to use USB Power Delivery (USBPD)
+provider application,
+for&nbsp;STM32F072+ Analog Front End shield (MB1257), without FreeRTOS, in order to reach lower Ram/Rom footprints</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>Provider_RTOS</td><td>This application is a part of the USB Power Delivery package using
 STM32Cube firmware. It describes how to use USB Power Delivery (USBPD)
 consumer application,&nbsp;for&nbsp;STM32F072+ Analog Front End shield (MB1257)</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>Provider_VDM_RTOS</td><td>This application is a part of the USB Power Delivery package using
 STM32Cube firmware. It describes how to use USB Power Delivery (USBPD) provider application, supporting Vendor Defined Messages
@@ -103,9 +106,17 @@ firmware. It describes how to use USB Power Delivery (USBPD) Dual DRP
 Ports application based on the STM32F072+STUSB1602 devices.</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>MB1303_DRP_RTOS</td><td>This
 application is a part of the USB Power Delivery package using STM32Cube
 firmware. It describes how to use USB Power Delivery (USB-PD) DRP
-application based on the STM32F072+STUSB1602 devices.</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td style="text-align: center; color: white; background-color: rgb(72, 171, 207);" colspan="3" rowspan="1"><b>Total number of applications: 13</b></td><td style="text-align: center; color: white; background-color: rgb(72, 171, 207);">13</td></tr><tr><td style="background-color: rgb(72, 171, 207); color: white;" colspan="1" rowspan="3">Demonstrations</td><td style="background-color: rgb(72, 171, 207); color: white;" colspan="1" rowspan="2">-</td><td>PNUCLEO-USB001-DEMO1</td><td>This
+application based on the STM32F072+STUSB1602 devices.</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>MB1303_Provider_PD30</td><td>This
+application is a part of the USB Power Delivery package using STM32Cube
+firmware. It describes how to use USB Power Delivery (USB-PD) provider
+application compliant to&nbsp;USB Power Delivery Specification revision
+3.0, running on STM32F072+STUSB1602 devices.</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>EVAL_FUSB307_DRP</td><td>This
+application is a part of the USB Power Delivery package using STM32Cube
+firmware. It describes how to use USB Power Delivery (USB-PD) Dual-Role Power (DRP)
+application compliant to&nbsp;USB Power Delivery Specification revision
+3.0, running on STM32F072 devices, in case of TCPM/TCPC architecture.</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td style="text-align: center; color: white; background-color: rgb(72, 171, 207);" colspan="3" rowspan="1"><b>Total number of applications: 16</b></td><td style="text-align: center; color: white; background-color: rgb(72, 171, 207);">16</td></tr><tr><td style="background-color: rgb(72, 171, 207); color: white;" colspan="1" rowspan="3">Demonstrations</td><td style="background-color: rgb(72, 171, 207); color: white; text-align: center;" colspan="1" rowspan="2">USBPD</td><td>PNUCLEO-USB001-DEMO1</td><td>This
 demonstration shows how to use the USB-C Power Delivery feature and
 implements a usage case with 2 ports, in case of use with&nbsp;
 P-NUCLEO-USB001 kit (STM32F072+discrete Analog Front End PHY MB1257).</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td>PNUCLEO-USB002-DEMO1</td><td>This demonstration shows how to use the USB-C Power Delivery feature
 and implements a usage case with 2 ports, in case of use with&nbsp;
-P-NUCLEO-USB002 kit (STM32F072+STUSB1602 devices on MB1303)</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td style="font-weight: bold; text-align: center; background-color: rgb(72, 171, 207); color: white;" colspan="3" rowspan="1">Total number of demonstrations:&nbsp;2</td><td style="font-weight: bold; text-align: center; color: white; background-color: rgb(72, 171, 207);">2</td></tr><tr><td style="text-align: center; color: white; background-color: rgb(72, 171, 207);" colspan="4" rowspan="1"><b>Total number of projects: 15</b></td><td style="text-align: center; color: white; background-color: rgb(72, 171, 207);">15</td></tr></tbody></table></body></html>
+P-NUCLEO-USB002 kit (STM32F072+STUSB1602 devices on MB1303)</td><td style="text-align: center;"><font color="green" size="5">X</font></td></tr><tr><td style="font-weight: bold; text-align: center; background-color: rgb(72, 171, 207); color: white;" colspan="3" rowspan="1">Total number of demonstrations:&nbsp;2</td><td style="font-weight: bold; text-align: center; color: white; background-color: rgb(72, 171, 207);">2</td></tr><tr><td style="text-align: center; color: white; background-color: rgb(72, 171, 207);" colspan="4" rowspan="1"><b>Total number of projects: 18</b></td><td style="text-align: center; color: white; background-color: rgb(72, 171, 207);">18</td></tr></tbody></table></body></html>
