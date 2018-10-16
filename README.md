@@ -1,5 +1,5 @@
 # X-CUBE-USB-PD
-Firmware X-Cube-USB-PD for STM32F0 Nucleo board  (support USB Type-C and USB PD)
+Firmware X-Cube-USB-PD for STM32F0 Nucleo board  (support USB Type-C and USB PD)  
 -> to be used with Evaluation Kit named : P-NUCLEO-USB002 (based on STUSB1602 controller), or P-NUCLEO-USB001 (Discrete)   
 
 &nbsp;&nbsp; (folder: STM32CubeExpansion_USBPD_F0)
