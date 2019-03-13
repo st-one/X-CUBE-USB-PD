@@ -1,12 +1,18 @@
 # X-CUBE-USB-PD
-Firmware X-Cube-USB-PD for STM32F0 Nucleo board  (support USB Type-C and USB PD)  
--> to be used with Evaluation Kit named : P-NUCLEO-USB002 (based on STUSB1602 controller), or P-NUCLEO-USB001 (Discrete)   
+"X-Cube-USB-PD" is the Firmware for STM32F0 Nucleo board.  It support USB Type-C and USB PD up to 100W <br>
 
-&nbsp;&nbsp; (folder: STM32CubeExpansion_USBPD_F0)
+* FW to be used with the following Evaluation Kit:
+  * P-NUCLEO-USB002 (based on STUSB1602 controller)
+  * or P-NUCLEO-USB001 (based on Discrete components)
+
+&nbsp;&nbsp; (The FW is located in the folder: STM32CubeExpansion_USBPD_F0)
 
 Purpose:
 --------
-USB type-C (USB-C) and USB Power Delivery (USB-PD) controller based on STM32
+USB type-C (USB-C) and USB Power Delivery (USB-PD) controller based on STM32.  <br>
+
+Work in any mode: DFP, UFP, and DRP (Dual Role Power) <br>
+Compliant with USB PD v2.0 & v3.0
 
 Description:
 --------
@@ -20,25 +26,24 @@ It only works on STM32 microcontroller (ARM Cortex-M based).
 
 Hardware:
 --------
-* Development board: P-NUCLEO-USB002 &nbsp; &nbsp; (contains NUCLEO-F072RB Board + MB1303 board)   
-Devices : 
+Provider: STMicroelectronics  
+
+* Development board: P-NUCLEO-USB002 &nbsp; &nbsp; (contains NUCLEO-F072RB Board + MB1303 expansion board)  <br>
+* Onboard Devices : 
   * Embedded Controller: STM32F072  (runs the USB-PD stack)
   * Analog Front End: STUSB1602 USB-PD controller (high voltage tolerant 28V)   
 
-Provider: STMicroelectronics   
-
-Note:  NUCLEO-F072RB is the Nucleo board.   
+    * Note:  NUCLEO-F072RB is the Nucleo board.   
 MB1303 is the Xpansion board containing STUSB1602, to connect on top of the Nucleo board.
 
 <br>
    
 * Development board: P-NUCLEO-USB001 &nbsp; &nbsp; (contains NUCLEO-F072RB Board + MB1257 board)   
-Devices : 
+* Onboard Devices : 
   * Embedded Controller: STM32F072  (runs the USB-PD stack)
   * Analog Front End: Discrete implementation with several external components   
 
-Provider: STMicroelectronics
 
 --------
 X Cube USB PD  
-Discrete or STUSB1602 solution
+STUSB1602 solution or Discrete solution
