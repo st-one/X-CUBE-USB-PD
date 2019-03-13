@@ -29,9 +29,9 @@ Hardware:
 Provider: STMicroelectronics  
 
 * Development board: P-NUCLEO-USB002 &nbsp; &nbsp; (contains NUCLEO-F072RB Board + MB1303 expansion board)  <br>
-* Onboard Devices : 
-  * Embedded Controller: STM32F072  (runs the USB-PD stack)
-  * Analog Front End: STUSB1602 USB-PD controller (high voltage tolerant 28V)   
+  * Onboard Devices : 
+    * Embedded Controller: STM32F072  (runs the USB-PD stack)
+    * Analog Front End: STUSB1602 USB-PD controller (high voltage tolerant 28V)   
 
     * Note:  NUCLEO-F072RB is the Nucleo board.   
 MB1303 is the Xpansion board containing STUSB1602, to connect on top of the Nucleo board.
@@ -39,9 +39,9 @@ MB1303 is the Xpansion board containing STUSB1602, to connect on top of the Nucl
 <br>
    
 * Development board: P-NUCLEO-USB001 &nbsp; &nbsp; (contains NUCLEO-F072RB Board + MB1257 board)   
-* Onboard Devices : 
-  * Embedded Controller: STM32F072  (runs the USB-PD stack)
-  * Analog Front End: Discrete implementation with several external components   
+  * Onboard Devices : 
+    * Embedded Controller: STM32F072  (runs the USB-PD stack)
+    * Analog Front End: Discrete implementation with several external components   
 
 
 --------
