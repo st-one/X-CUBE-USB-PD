@@ -3,11 +3,22 @@ The X-CUBE-USB-PD has been deprecated for STUSB1602. Do not use it.  <br>
 The latest version of X-CUBE-USB-PD doesn't support anymore the STUSB1602.  This repository contains the last version of X-CUBE-USB-PD which was still including some STUSB1602 code. <br>
 
 The new firmware for STUSB1602 is available in new software packages, with several fixes and enhancements:   <br>
-- https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb010.html
-- https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb012.html
-- https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb014.html
-- https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb015.html
+- STSW-STUSB010
+  - https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb010.html
+  - https://github.com/search?q=stsw-stusb010&type=code
 
+- STSW-STUSB012
+  - https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb012.html
+  - https://github.com/search?q=stsw-stusb012&type=code
+
+- STSW-STUSB014
+  - https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb014.html
+  - https://github.com/search?q=stsw-stusb014&type=code
+
+
+- STSW-STUSB015
+  - https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb015.html
+  - https://github.com/search?q=stsw-stusb015&type=code
 
 <hr /> 
 Below is the archived version
