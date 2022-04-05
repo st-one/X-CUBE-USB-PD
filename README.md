@@ -1,3 +1,14 @@
+## Warning !  DEPRECATED
+The X-CUBE-USB-PD has been deprecated for STUSB1602.  <br>
+The latest version of X-CUBE-USB-PD doesn't support anymore the STUSB1602.  This repository contains the last version of X-CUBE-USB-PD which was still including some STUSB1602 code. <br>
+
+The new firmware for STUSB1602 is available in a new software package:   <br>
+https://www.st.com/content/st_com/en/products/embedded-software/evaluation-tool-software/stsw-stusb010.html
+
+<hr /> 
+Below is the archived version
+<hr /> 
+
 # X-CUBE-USB-PD
 "X-Cube-USB-PD" is the open source Firmware for STM32Fx microcontrollers.  It support USB Type-C and USB PD up to 100W. <br>
 
